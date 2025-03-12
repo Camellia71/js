@@ -321,4 +321,45 @@ i++  //后置（先运算）
 
 <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250310224032998.png" alt="image-20250310224032998" style="zoom:50%;" />
 
-字符串比较是挨个比较，并且是比较
+字符串比较是挨个比较，并且是比较ASCII值
+
+##### 2.4 逻辑运算符
+
+逻辑与：&&
+
+逻辑或：||
+
+逻辑非：！
+
+```html
+console.log(true && true)
+console.log(true || false)
+console.log(!true)
+```
+
+##### 2.5 运算符优先级
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250311220907190.png" alt="image-20250311220907190" style="zoom:50%;" />
+
+##### 2.6 分支语句
+
+###### 1. if单分支
+
+```html
+if (条件-除了0，所有数字都为真；除了空字符串，所有字符串都为真) {
+	console.log('###')
+}
+```
+
+###### 2.if else 双分支
+
+```html
+if () {
+
+}
+else {
+
+}
+```
+
+###### 3.
