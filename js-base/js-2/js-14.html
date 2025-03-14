@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let num1 = +prompt('请输入数字：')
+        let num2 = +prompt('请输入数字：')
+        // switch (prompt('请输入符号：')) {
+        //     case '+':
+        //         console.log(num1 + num2)
+        //         break
+        //     case '-':
+        //         console.log(num1 - num2)
+        //         break
+        //     case '*':
+        //         console.log(num1 * num2)
+        //         break
+        //     case '/':
+        //         console.log(num1 / num2)
+        //         break
+        //     default:
+        //         console.log('no')
+
+        // }
+        let sp = prompt('请输入符号：')
+        switch (sp) {
+            case '+':
+                alert(`${num1} + ${num2} = ${num1 + num2}`)
+                break
+            case '-':
+                alert(`${num1} - ${num2} = ${num1 - num2}`)
+                break
+            case '*':
+                alert(`${num1} * ${num2} = ${num1 * num2}`)
+                break
+            case '/':
+                alert(`${num1} / ${num2} = ${num1 / num2}`)
+                break
+            default:
+                alert('gun')
+        }
+    </script>
+</body>
+
+</html>
