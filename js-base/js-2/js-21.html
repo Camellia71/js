@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        for (let i = 1; i <= 100; i++) {
+            document.write(`今年我${i}岁了 <br>`)
+        }
+        let sum = 0
+        let oushu = 0
+        for (let i = 1; i <= 100; i++) {
+            sum += i
+            if (i % 2 === 0) {
+                oushu += i
+            }
+        }
+        document.write(sum ,'<br>')
+        document.write(oushu)
+    </script>
+</body>
+
+</html>
