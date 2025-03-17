@@ -397,3 +397,21 @@ while(循环条件) {
 break和continue的区别：
 
 break是退出整个循环；continue是结束当前循环，继续下一次循环
+
+###### 6. for循环
+
+```html
+for（变量起始值；终止条件；变量变换量）{
+	document.write('')
+}
+```
+
+##### 2.7 数组
+
+```html
+let arr = ['111','222','333','444']
+for(let i = 0; i <= arr.length - 1; i++) {
+	console.log(arr[i])
+}
+```
+
