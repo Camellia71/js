@@ -8,7 +8,15 @@
 </head>
 
 <body>
-
+    <script>
+        let col = +prompt('请输入：')
+        for (let i = 1; i <= col; i++) {
+            for (let j = 1; j <= i; j++) {
+                document.write(` ${j}*${i}=${i * j} `)
+            }
+            document.write('<br>')
+        }
+    </script>
 </body>
 
 </html>
