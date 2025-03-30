@@ -156,13 +156,13 @@ string          字符串型（黑色）
 
 加引号，反引号都会是字符串；
 
-```html
+```js
 console.log('pink')
 ```
 
 加号可以用来拼接字符串；还有转化为数字类型的作用
 
-```html
+```js
 let age = 15
 document.write('pink老师' + 'age' + '岁了')
 console.log(+'123')//123就是数字类型了
@@ -170,7 +170,7 @@ console.log(+'123')//123就是数字类型了
 
 模板字符串
 
-```html
+```js
 let age = 18
 document.write(`我今年${age}岁了`)
 必须用反引号
@@ -178,7 +178,7 @@ document.write(`我今年${age}岁了`)
 
 boolean      布尔型（蓝色）
 
-```html
+```js
 let isColl = true
 console.log(isColl)
 ```
@@ -191,14 +191,14 @@ let num
 
 null              空类型(内容为空)
 
-```html
+```js
 let obg = null
 console.log(obg)
 ```
 
 **检测数据类型**
 
-```html
+```js
 let num = 'pink'
 console.log(typeof num)
 也可以写成
@@ -225,7 +225,7 @@ parselnt(数据)
 只保留整数
 ```
 
-```html
+```js
 parseFloat(数据)
 可以保留小数
 ```
@@ -300,7 +300,7 @@ parseFloat(数据)
 
 包括+=  -=  *=  /=  %=等
 
-```html
+```js
 let num = 1
 num +=3
 console.log(num)
@@ -331,7 +331,7 @@ i++  //后置（先运算）
 
 逻辑非：！
 
-```html
+```js
 console.log(true && true)
 console.log(true || false)
 console.log(!true)
@@ -347,7 +347,7 @@ console.log(!true)
 
 ###### 1. if单分支
 
-```html
+```js
 if (条件-除了0，所有数字都为真；除了空字符串，所有字符串都为真) {
 	console.log('###')
 }
@@ -373,7 +373,7 @@ let sum = 3 < 5 ? alert('yes') : alert('no')
 
 ###### 4. switch 分支语句
 
-```
+```js
 switch (数值) {
 	case 1:
 	代码1
@@ -387,7 +387,7 @@ switch (数值) {
 
 ###### 5. while循环
 
-```html
+```js
 while(循环条件) {
 	代码
 	自增或自减
@@ -406,12 +406,121 @@ for（变量起始值；终止条件；变量变换量）{
 }
 ```
 
-##### 2.7 数组
+![image-20250330195540099](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250330195540099.png)
+
+代码
 
 ```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        span {
+            display: inline-block;
+            width: 100px;
+            padding: 5px 10px;
+            border: 1px solid pink;
+            border-radius: 5px;
+            margin: 5px;
+            box-shadow: 2px 2px 2px rgba(255, 192, 203, .5);
+            background-color: rgba(255, 192, 203, .1);
+            text-align: center;
+            color: hotpink;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        for (let i = 1; i <= 9; i++) {
+            for (let j = 1; j <= i; j++) {
+                document.write(`<span>${j} × ${i} = ${i * j}</span>`)
+            }
+            document.write('<br>')
+        }
+    </script>
+</body>
+
+</html>
+```
+
+##### 2.7 数组
+
+###### 1.声明
+
+字面量声明数组
+
+```js
 let arr = ['111','222','333','444']
 for(let i = 0; i <= arr.length - 1; i++) {
 	console.log(arr[i])
 }
+```
+
+使用new Array构造函数声明数组
+
+```js
+let arr1 = new Array(1,2,3,4,'pink',true)
+```
+
+如果要**换行**，在打印的变量后加逗号；
+
+```js
+document.write(sum,'<br>')
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250330201348171.png" alt="image-20250330201348171" style="zoom: 50%;" />
+
+###### 2.修改
+
+```js
+let arr1 = ['pink', 'red', 'green']
+  arr1[0] = 'hotpink'
+  console.log(arr1)
+  for (let i = 0; i < arr1.length; i++) {
+  // arr1[i] = arr1[i] + '老师'
+  arr1[i]+='老师'
+        }
+```
+
+###### 3.增添
+
+添加到结尾
+
+```js
+ let arr = ['pink', 'red']
+ // console.log(arr.push('deeppink'))//返回数组新的长度
+ arr.push('deeppink')
+ console.log(arr)
+```
+
+添加到开头
+
+```js
+let arr = ['pink', 'red']
+ // console.log(arr.unshift('deeppink'))//返回数组新的长度
+ arr.unshift('deeppink')
+ console.log(arr)
+```
+
+###### 4.删除
+
+```js
+let arr = [1,2,3,4]
+arr.pop()//只能删除最后一个
+```
+
+```js
+let arr = [1,2,3,4]
+arr.shift()//只能删除第一个元素
+```
+
+```js
+let arr = [1,2,3,4,5,6]
+arr.splice(起始位置,删除几个元素)
 ```
 
