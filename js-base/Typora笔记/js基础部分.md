@@ -448,9 +448,9 @@ for（变量起始值；终止条件；变量变换量）{
 </html>
 ```
 
-##### 2.7 数组
+#### 3. 数组
 
-###### 1.声明
+##### 1.声明
 
 字面量声明数组
 
@@ -475,7 +475,7 @@ document.write(sum,'<br>')
 
 <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250330201348171.png" alt="image-20250330201348171" style="zoom: 50%;" />
 
-###### 2.修改
+##### 2.修改
 
 ```js
 let arr1 = ['pink', 'red', 'green']
@@ -487,7 +487,7 @@ let arr1 = ['pink', 'red', 'green']
         }
 ```
 
-###### 3.增添
+##### 3.增添
 
 添加到结尾
 
@@ -507,7 +507,7 @@ let arr = ['pink', 'red']
  console.log(arr)
 ```
 
-###### 4.删除
+##### 4.删除
 
 ```js
 let arr = [1,2,3,4]
@@ -522,5 +522,90 @@ arr.shift()//只能删除第一个元素
 ```js
 let arr = [1,2,3,4,5,6]
 arr.splice(起始位置,删除几个元素)
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250331200404580.png" alt="image-20250331200404580" style="zoom:50%;" />
+
+代码
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            display: flex;
+            width: 700px;
+            height: 300px;
+            border-left: 1px solid pink;
+            border-bottom: 1px solid pink;
+            margin: 50px auto;
+            justify-content: space-around;
+            align-items: flex-end;
+            text-align: center;
+        }
+
+        .box>div {
+            display: flex;
+            width: 50px;
+            background-color: pink;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .box div span {
+            margin-top: -20px;
+        }
+
+        .box div h4 {
+            margin-bottom: -35px;
+            width: 70px;
+            margin-left: -10px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        let arr = []
+        for (let i = 1; i <= 4; i++) {
+            arr.push(prompt(`请输入第${i}季度的数据：`))
+        }
+        document.write(`<div class="box">`)
+        for (let i = 0; i < arr.length; i++) {
+            document.write(`
+                <div style="height: ${arr[i]}px;">
+                <span>${arr[i]}</span>
+                <h4>第${i + 1}季度</h4>
+                </div> 
+                `)
+        }
+        document.write(`</div>`)
+    </script>
+</body>
+
+</html>
+```
+
+#### 4. 函数
+
+##### 1.声明与调用
+
+```js
+//声明
+fuction 函数名() {
+	函数内容
+}
+//调用
+函数名()
 ```
 
