@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width= , initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function add(num1, num2) {
+            let sum = num1 + num2
+            document.write(sum)
+        }
+        add(33, 44)
+        function getArrSum(arr = []) {
+            let sum = 0
+            for (let i = 0; i < arr.length; i++) {
+                sum += arr[i]
+            }
+            console.log(sum)
+        }
+        getArrSum([1, 2, 3, 4, 5])
+        getArrSum()
+    </script>
+</body>
+
+</html>

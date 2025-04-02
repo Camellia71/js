@@ -609,3 +609,15 @@ fuction 函数名() {
 函数名()
 ```
 
+##### 2.参数
+
+```js
+function add(end) {
+            let sum = 0
+            for (let i = 1; i <= end; i++) {
+                sum += i
+            }
+            console.log(sum)
+        })
+```
+

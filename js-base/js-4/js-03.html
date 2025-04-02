@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function add() {
+            let i = +prompt('请输入第一个数：')
+            let j = +prompt('请输入第二个数：')
+            sum = i + j
+            alert(`二者和是${sum}`)
+        }
+        function hund() {
+            let sum = 0
+            for (let i = 1; i <= 100; i++) {
+                sum += i
+            }
+            document.write(sum)
+        }
+        add()
+        hund()
+    </script>
+</body>
+
+</html>
