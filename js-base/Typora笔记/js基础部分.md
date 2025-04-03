@@ -598,6 +598,8 @@ arr.splice(起始位置,删除几个元素)
 
 #### 4. 函数
 
+执行特定任务的代码块
+
 ##### 1.声明与调用
 
 ```js
@@ -613,11 +615,64 @@ fuction 函数名() {
 
 ```js
 function add(end) {
-            let sum = 0
-            for (let i = 1; i <= end; i++) {
-                sum += i
-            }
-            console.log(sum)
-        })
+      let sum = 0
+      for (let i = 1; i <= end; i++) {
+      sum += i
+          }
+      console.log(sum)
+ })
 ```
 
+```js
+function getsum(start, end) {
+        let sum = 0
+        for (let i = start; i <= end; i++) {
+        sum += i
+          }
+        document.write(sum)
+   }
+getsum(100, 200)
+```
+
+实参可以是变量
+
+```js
+function getSum(m = 0, n = 0) {
+        let sum = 0
+        for (let i = m; i <= n; i++) {
+        sum += i
+         }
+        document.write(sum)
+      }
+   let num1 = +prompt('请输入第一个值：')
+   let num2 = +prompt('请输入第二个值：')
+   getSum(num1, num2)
+```
+
+返回值
+
+```js
+function fn() {
+	return 20
+}
+console.log(fn())
+```
+
+return后面的函数不会被执行
+
+```js
+function fn() {
+            return 20
+        }
+        console.log(fn())
+        let re = fn()
+        document.write(re)
+```
+
+##### 3.返回值
+
+如果要返回多个值，可以选择返回数组
+
+```js
+return [min,max]
+```
