@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function getSum(x = 0, y = 0) {
+            return x + y
+        }
+        let result = getSum(2, 3)
+        console.log(result)
+        //全局变量
+        let num = 10
+        //局部变量
+        function get(x) {
+            let num1 = 11
+        }
+    </script>
+</body>
+
+</html>
