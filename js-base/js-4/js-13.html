@@ -9,12 +9,15 @@
 
 <body>
     <script>
-        //1.函数表达式
-        let fn = function (x, y) {
-            // console.log('我是函数表达式')
+        // (function(){
+        //     console.log('pink')
+        // })()
+        (function (x, y) {
             console.log(x + y)
-        }
-        fn(1, 2)
+        })(1, 2);
+        (function (x, y) {
+            console.log(x * y)
+        }(2, 3))
     </script>
 </body>
 

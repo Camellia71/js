@@ -230,6 +230,14 @@ parseFloat(数据)
 可以保留小数
 ```
 
+转换为布尔型：
+
+```js
+console.log(Boolean('pink'))
+```
+
+只有空字符串，0，null，undefined，NaN，false是假，其余都为真
+
 ##### 1.6 案例展示
 
 <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250310220612481.png" alt="image-20250310220612481" style="zoom: 50%;" />
@@ -676,3 +684,103 @@ function fn() {
 ```js
 return [min,max]
 ```
+
+##### 4.细节解释
+
+相同函数名时，后者会覆盖前者被调用
+
+##### 5.作用域
+
+即限定名字的可用性的代码范围
+
+**注意**：如果函数内部变量没有声明，直接赋值，那可以当作全局变量来看
+
+函数内部的形参是局部变量
+
+##### 6.函数表达式
+
+```js
+let fn = function(x,y) {
+	console.log(x+y)
+}
+fn(1,2)
+```
+
+**注意**
+
+具名函数可以在任意位置使用；但函数表达式必须先声明再使用
+
+##### 7.立即执行函数
+
+```js
+(function(x,y){
+     console.log(x+y)
+})(1,2)
+```
+
+```js
+(function(x,y){
+	console.log(x+y)
+}(1,2))
+```
+
+多个立即执行函数之间必须加分号，不然会报错
+
+##### 8.逻辑中断
+
+```js
+function fn(x,y) {
+	x = x || 0
+	y = y || 0
+	console.log(x + y)
+}
+```
+
+关于逻辑与，逻辑或的逻辑中断；即
+
+```js
+console.log(11&&22) //输出22
+console.log(11||22) //输出11
+console.log(''&&11) //输出假
+console.log(''||22) //输出真
+```
+
+##### 9.案例
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250407153201340.png" alt="image-20250407153201340" style="zoom:67%;" />
+
+代码
+
+```js
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let second = +prompt('请输入总秒数：')
+        function time(x) {
+            let h = parseInt(x / 60 / 60 % 24)
+            let m = parseInt(x / 60 % 60)
+            let s = parseInt(x % 60)
+            h = h < 10 ? '0' + h : h
+            m = m < 10 ? '0' + m : m
+            s = s < 10 ? '0' + s : s
+            return `转换完毕之后是${h}时${m}分${s}秒`
+        }
+        let str = time(second)
+        document.write(str)
+    </script>
+</body>
+
+</html>
+```
+
+#### 5.对象
+
+##### 1.
