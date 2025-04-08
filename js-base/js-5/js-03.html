@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = {
+            name: 'pink',
+            age: 18,
+            address: '中国大陆',
+            weight: '0.66kg'
+        }
+        for (let k in arr) {
+            console.log(arr[k])
+        }
+        //这样写的原因是数组中表示为字符串模式，如果用console.log(arr.k),则是用
+        //console.log(arr.'name'),不符合使用要求
+    </script>
+</body>
+
+</html>

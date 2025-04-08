@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+    <script>
+        let pink = {
+            uname: 'pink老师',
+            age: 18,
+            gender: '女',
+        }
+        console.log(pink)
+        let goods = {
+            name: '小米',
+            num: '1001234567',
+            weight: '0.55kg',
+            address: '中国大陆',
+            'obj-type': 'phone'
+        }
+        console.log(goods)
+        console.log(goods.weight)
+        goods.weight = '1.66kg'
+        console.log(goods.weight)
+        goods.height = '1m'
+        console.log(goods)
+        delete goods.num
+        console.log(goods)
+        //查的另一种写法
+        console.log(goods['obj-type'])
+        console.log(goods['address'])
+    </script>
 </body>
+
 </html>
