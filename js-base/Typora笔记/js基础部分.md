@@ -783,4 +783,88 @@ console.log(''||22) //输出真
 
 #### 5.对象
 
-##### 1.
+##### 1.简单介绍
+
+对象是js中的一种数据类型，他是无序的
+
+##### 2.使用
+
+声明对象
+
+```js
+let 对象名 = {}
+或者
+let 对象名 = new Object{}
+```
+
+##### 3.增删改查
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250407170248215.png" alt="image-20250407170248215" style="zoom: 50%;" />
+
+```js
+//查的另一种格式
+let goods = {
+	name:'pink',
+	age:'18',
+	address:'中国大陆',
+	weight:'0.55kg',
+	'obj-type':'phone',
+} 
+console.log(goods['obj-type'])
+console.log(goods['age'])
+```
+
+##### 4.方法
+
+```js
+let goods = {
+	name:'pink',
+	song:function () {
+		console.log('fangfa')
+	}
+}
+goods.song()
+```
+
+##### 5.遍历对象
+
+```js
+let arr = {
+    name:'pink',
+    age:18,
+    address:'中国大陆',
+    weight:'0.66kg'
+ }
+for(let k in arr) {
+    console.log(arr[k])
+ }
+//这样写的原因是数组中表示为字符串模式，如果用console.log(arr.k),则是用
+//console.log(arr.'name'),不符合使用要求
+```
+
+遍历对象中，获得对象是k；获得对象的值是obj[k];
+
+##### 6.内置对象
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250409174519816.png" alt="image-20250409174519816" style="zoom:50%;" />
+
+```js
+<script>
+    console.log(Math.PI)
+	console.log(Math.ceil(3.2))
+	console.log(Math.floor(3.9))
+</script>
+```
+
+```js
+null 类似于let obj = {}
+```
+
+随机数：产生[0,1)之间的一个小数
+
+如果要取0-10之间的随机数，那么可以这样写
+
+```js
+console.log(Math.floor(Math.random()*(10+1)))
+```
+
