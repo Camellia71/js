@@ -868,3 +868,9 @@ null 类似于let obj = {}
 console.log(Math.floor(Math.random()*(10+1)))
 ```
 
+生成N-M之间的随机数
+
+```js
+console.log(Math.floor(Math.random() * (M - N + 1)) + N)
+```
+

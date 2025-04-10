@@ -9,14 +9,16 @@
 
 <body>
     <script>
-        console.log(Math.floor(Math.random() * 11))
-        let arr = ['pink', 'red', 'green']
-        let random = Math.floor(Math.random() * arr.length)
-        console.log(arr[random])
+        let arr = ['赵云', '黄忠', '关羽', '张飞', '马超', '刘备', '曹操']
         function GetRandom(N, M) {
             return Math.floor(Math.random() * (M - N + 1)) + N
         }
-        console.log(GetRandom(4, 9))
+        console.log(arr[GetRandom(0, 6)])
+        let random = Math.floor(Math.random() * arr.length)
+        document.write(arr[random])
+        arr.splice(random, 1)
+        document.write('<br>')
+        document.write(arr)
     </script>
 </body>
 
