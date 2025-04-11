@@ -874,3 +874,60 @@ console.log(Math.floor(Math.random()*(10+1)))
 console.log(Math.floor(Math.random() * (M - N + 1)) + N)
 ```
 
+##### 7.案例
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250411172411821.png" alt="image-20250411172411821" style="zoom: 33%;" />
+
+代码
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function GetColor(flag = true) {
+            if (flag) {
+                let str = '#'
+                let arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
+                for (let i = 1; i <= 6; i++) {
+                    let ran = arr[Math.floor(Math.random() * arr.length)]
+                    str += ran
+                }
+                return str
+            }
+            else {
+                let r = Math.floor(Math.random() * 256)
+                let g = Math.floor(Math.random() * 256)
+                let b = Math.floor(Math.random() * 256)
+                return `rgb(${r},${g},${b})`
+            }
+        }
+        console.log(GetColor(false))
+        console.log(GetColor(true))
+
+    </script>
+</body>
+
+</html>
+```
+
+#### 6.了解
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250411173422155.png" alt="image-20250411173422155" style="zoom: 50%;" />
+
+栈：由操作系统自动分配释放存放函数的参数值，局部变量的值等，其操作方式类似于数据结构中的栈
+
+​	简单数据类型存放到栈里面
+
+堆：储存复杂数据类型（对象），一般由程序员分配释放，若程序员不释放，由垃圾回收机制回收
+
+​	引用数据类型存放到堆里面
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250411173757650.png" alt="image-20250411173757650" style="zoom: 50%;" />
