@@ -489,10 +489,10 @@ document.write(sum,'<br>')
 let arr1 = ['pink', 'red', 'green']
   arr1[0] = 'hotpink'
   console.log(arr1)
-  for (let i = 0; i < arr1.length; i++) {
+for (let i = 0; i < arr1.length; i++) {
   // arr1[i] = arr1[i] + '老师'
   arr1[i]+='老师'
-        }
+}
 ```
 
 ##### 3.增添
