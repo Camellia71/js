@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="box">
+        我是文字
+    </div>
+    <div class="box1">
+        我是html
+    </div>
+    <script>
+        const box = document.querySelector('.box')
+        console.log(box.innerText)
+        box.innerText = '我是盒子'
+        console.log(box.innerText)
+        const box1 = document.querySelector('.box1')
+        console.log(box1.innerHTML)
+        box1.innerHTML = '<strong>我是innerHTML</strong>'
+        console.log(box1.innerHTML)
+    </script>
+</body>
+
+</html>

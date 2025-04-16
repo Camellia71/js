@@ -1,4 +1,4 @@
-# APIs
+## APIs-1
 
 在以后变量声明先用const，尤其是数组和对象
 
@@ -31,4 +31,89 @@
 DOM的**核心思想**是将网页内容当作对象来处理
 
 **document对象**是DOM里提供的一个对象，所以他提供的属性和方法都是用来访问和操作网页内容的，比如document.write()，而网页所有的内容都在document里面
+
+### 2.获取DOM对象
+
+##### 1.通过css选择器来获取DOM对象
+
+1.获取匹配的第一个元素
+
+​	css里面怎么写，引号里面就怎么写，可以写后代选择器等；
+
+返回值：
+
+​	返回css选择器匹配的第一个元素，即一个htmlElement对象
+
+​	如果没有匹配到的话，就会返回null
+
+```js
+document.querySelector('css选择器')
+//
+<div class="box"></div>
+    <p id="nav">xixixi</p>
+    <script>
+        const box = document.querySelector('.box')
+        console.log(box)
+        const nav =document.querySelector('#nav')
+        console.log(nav) 
+    </script>
+```
+
+2.选择匹配的多个元素
+
+返回值：
+
+​	返回匹配的NodeList对象合集，这其实是一个伪数组，它有长度和索引号，但是没有push()等数组方法，所以想要得到里面的每一个对象，则需要遍历(for)的方式
+
+```js
+const lis = document.querySelectorAll('.nav li')
+        for(let i = 0;i<lis.length;i++) {
+            console.log(lis[i])
+            lis[i].style.color= 'green'
+        }
+```
+
+##### 2.通过其他方式获取DOM对象
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250415161142393.png" alt="image-20250415161142393" style="zoom:50%;" />
+
+### 3.操作元素内容
+
+DOM对象都是根据标签生成的，所以操作标签本质上就是操作DOM对象；
+
+操作对象使用点语法：
+
+```js
+div.style.color = 'red'
+```
+
+如果想要修改标签元素里面的内容，可以使用以下几种方式：
+
+##### 1.对象.innerText属性
+
+将文本内容添加或更新到任意标签位置
+
+显示纯文本，不解析标签
+
+```js
+const box = document.querySelector('.box')
+console.log(box.innerText)
+box.innerText = '我是盒子'
+console.log(box.innerText)
+```
+
+##### 2.对象.innerHTML属性
+
+会解析标签，多标签建议使用模板字符
+
+```js
+const box1 = document.querySelector('.box1')
+console.log(box1.innerHTML)
+box1.innerHTML='<strong>我是innerHTML</strong>'
+console.log(box1.innerHTML)
+```
+
+### 4.操作元素属性
+
+#### 1.操作元素常用属性
 
