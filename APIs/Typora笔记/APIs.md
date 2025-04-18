@@ -117,3 +117,8 @@ console.log(box1.innerHTML)
 
 #### 1.操作元素常用属性
 
+常见的属性包括：href, title, src等
+
+```js
+对象.属性 = 值
+```
