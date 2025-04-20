@@ -5,17 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            background: url(../images/ao-1.jpg) no-repeat top center /cover;
+        }
+    </style>
 </head>
 
 <body>
-    <img src="../images/ao-1.jpg" alt="">
     <script>
         function getRandom(N, M) {
             return Math.floor(Math.random() * (M - N + 1)) + N
         }
-        const img = document.querySelector('img')
-        const random = getRandom(1, 6)
-        img.src = `../images/ao-${random}.jpg`
+        const random = getRandom(1, 9)
+        document.body.style.backgroundImage = `url(../images/ao-${random}.jpg)`
     </script>
 </body>
 
