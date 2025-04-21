@@ -155,7 +155,24 @@ console.log(box1.innerHTML)
 
 className是使用新值换旧值，如果需要添加一个类，需要保留之前的类名
 
-
+```js
+<div class="nav">
+    123
+</div>
+<script>
+    const div = document.querySelector('div')
+	div.className = 'nav box'
+</script>
+```
 
 **通过classList操作类控制css**
+
+为了解决className容易覆盖以前的类名，我们可以通过classList方式追加和删除类名
+
+```js
+const box = document.querySelector('.box')
+box.classList.add('active')//类名不加点
+box.classList.remove('box')//删除
+box.classList.toggle('active')//有就删掉，没有就加上
+```
 
