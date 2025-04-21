@@ -122,3 +122,40 @@ console.log(box1.innerHTML)
 ```js
 对象.属性 = 值
 ```
+
+#### 2.操作元素样式属性
+
+学习路径：
+
+**通过style属性操作css**
+
+```js
+对象.style.样式属性 = 值
+```
+
+```js
+<div class="box"></div>
+    <script>
+        const box = document.querySelector('.box')
+        box.style.width = '300px'//字符串加单位
+        box.style.backgroundColor='hotpink'//-用大写代替
+    </script>
+```
+
+多种情况用小驼峰命名法
+
+**操作类名（className）操作css**
+
+修改的样式比较多的话直接通过style属性修改就会很繁琐，这时候就要使用css类名的方式
+
+```js
+//active是一个css类名
+元素.className = 'active'
+```
+
+className是使用新值换旧值，如果需要添加一个类，需要保留之前的类名
+
+
+
+**通过classList操作类控制css**
+

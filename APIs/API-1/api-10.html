@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 300px;
+            height: 300px;
+            background-color: pink;
+        }
+
+        .nav {
+            color: red;
+        }
+
+        .box {
+            width: 350px;
+            height: 350px;
+            background-color: skyblue;
+            margin: 100px auto;
+            padding: 10px;
+            border: 2px solid blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+        123
+    </div>
+    <script>
+        //1.获取元素
+        const div = document.querySelector('div')
+        //2.换名字
+        div.className = 'nav box'
+    </script>
+</body>
+
+</html>

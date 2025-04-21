@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 300px;
+            color: #333;
+        }
+        .active {
+            background-color: pink;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        12345
+    </div>
+    <script>
+        const box = document.querySelector('.box')
+        box.classList.add('active')//类名不加点
+        //
+        box.classList.remove('box')
+        //有就删掉，没有就加上
+        box.classList.toggle('active')
+    </script>
+</body>
+</html>
