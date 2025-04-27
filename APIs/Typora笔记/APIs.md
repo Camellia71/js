@@ -176,3 +176,41 @@ box.classList.remove('box')//删除
 box.classList.toggle('active')//有就删掉，没有就加上
 ```
 
+#### 3.操作表单元素属性
+
+获取：DOM对象.属性名
+
+设置：DOM对象.属性名 = 新值
+
+```js
+表单.value = '用户名'
+表单.type = 'password'
+```
+
+表单属性中添加就有效果，移除就没有效果，一律使用布尔值表示，是true和false
+
+比如：disabled ,checked ,selected
+
+```js
+<input type="checkbox" name="" id="">
+<button>点击</button>
+<script>
+	const ipt = document.querySelector('input')
+	ipt.checked = true  //勾选
+	const button = document.querySelector('button')
+	button.disabled = true  //禁用点击
+</script>
+```
+
+#### 4.自定义属性
+
+标准属性是标签自带的属性，比如class id title等，可以直接使用点语法操作比如：disabled，checked，selected等
+
+自定义属性：
+
+​	在html5推出来了专门的data-自定义属性
+
+​	标签一律以data-开头
+
+​	在DOM对象上一律以dataset对象方式获取
+
