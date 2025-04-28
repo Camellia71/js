@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <textarea name="" id="" cols="30" rows="10">
+        用户注册协议
+        欢迎注册成为京东用户：在您注册过程中，您需要完成我们的注册流程并通过【请您注意】
+        如果您不同意以下协议全部或任何条款约定，请您停止注册。
+    </textarea>
+    <br>
+    <button class="btn" disabled>我已经阅读用户协议（60）</button>
+    <script>
+        const btn = document.querySelector('.btn')
+        let i = 5
+        let n = setInterval(function () {
+            i--
+            btn.innerHTML = `我已阅读用户协议（${i}）`
+            if (i === 0) {
+                clearInterval(n)
+                btn.disabled = false
+                btn.innerHTML = '同意'
+            }
+        }, 1000)
+    </script>
+</body>
+
+</html>

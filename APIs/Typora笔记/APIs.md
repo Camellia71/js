@@ -214,3 +214,43 @@ box.classList.toggle('active')//有就删掉，没有就加上
 
 ​	在DOM对象上一律以dataset对象方式获取
 
+```js
+<div data-id="5" data-spm='buzhi'>5</div>
+    <script>
+        const one = document.querySelector('div')
+        console.log(one.dataset)//set是集合的意思
+		console.log(one.dataset.spm)
+    </script>
+```
+
+#### 5.定时器-间歇函数
+
+网页中用到的一种功能：每隔一段时间需要自动执行一段代码，不需要我们手动触发
+
+**开启定时器**
+
+```js
+setInterval(函数,间隔时间)  //开启定时器，间隔时间的单位是毫秒
+```
+
+```js
+setInterval(function(){
+    console.log('一秒钟打印一次')
+},1000)
+有名函数
+function fn() {
+    console.log('2')
+}
+let n = setInterval(fn,100)或者         
+setInterval('fn()',100)
+```
+
+开启定时器时函数名字不需要加括号，返回的是一个id数据
+
+**关闭定时器**
+
+```js
+let n = setInterval(fn,1000)
+clearInterval(n)
+```
+
