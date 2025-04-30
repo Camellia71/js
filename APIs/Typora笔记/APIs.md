@@ -284,5 +284,6 @@ clearInterval(n)
 
 事件类型要加引号；函数是点击一次触发一次
 
+#### 2.案例
 
-
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250430213711820.png" alt="image-20250430213711820" style="zoom: 50%;" />
