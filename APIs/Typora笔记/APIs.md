@@ -287,3 +287,92 @@ clearInterval(n)
 #### 2.案例
 
 <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250430213711820.png" alt="image-20250430213711820" style="zoom: 50%;" />
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .box {
+            width: 600px;
+            margin: 50px auto;
+            display: flex;
+            font-size: 25px;
+            line-height: 40px;
+
+        }
+
+        .qs {
+            width: 450px;
+            height: 40px;
+            color: red;
+        }
+
+        .btns {
+            text-align: center;
+        }
+
+        .btns button {
+            width: 120px;
+            height: 35px;
+            margin: 0 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>随机点名</h2>
+    <div class="box">
+        <span>名字是：</span>
+        <div class="qs">这里显示姓名</div>
+    </div>
+    <div class="btns">
+        <button class="start">开始</button>
+        <button class="end">结束</button>
+    </div>
+    <script>
+        const arr = ['马超', '黄忠', '赵云', '关羽', '张飞']
+        //声明，便于关闭按钮
+        let timeID = 0
+        //随机号要全局变量
+        let random = 0
+        //1.开始按钮
+        const start = document.querySelector('.start')
+        const qs = document.querySelector('.qs')
+        start.addEventListener('click', function () {
+            timeID = setInterval(function () {
+                random = Math.floor(Math.random() * arr.length)
+                qs.innerHTML = arr[random]
+            }, 100)
+            //如果数组里面只有一个值了，那就不需要抽了
+            if (arr.length === 1) {
+                start.disabled = end.disabled = true
+            }
+        })
+
+        //2.关闭按钮
+        const end = document.querySelector('.end')
+        end.addEventListener('click', function () {
+            clearInterval(timeID)
+            //结束了之后就要删除
+            arr.splice(random, 1)
+        })
+    </script>
+</body>
+
+</html>
+```
+
