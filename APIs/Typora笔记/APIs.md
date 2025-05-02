@@ -376,3 +376,32 @@ clearInterval(n)
 </html>
 ```
 
+#### 3.事件监听版本
+
+1.第一个版本，缺点是会被覆盖；只能做冒泡，不能做捕获
+
+```js
+	<button>点击</button>
+    <script>
+        const btn = document.querySelector('button')
+        btn.onclick = function () {
+            alert('11')
+        }
+        btn.onclick = function () {
+            alert('22')
+        }
+        //显示22，说明上方的被覆盖
+    </script>
+```
+
+2.第二个版本，捕获和冒泡都能做
+
+```js
+btn.addEventListener('click',function() {
+            alert('33')
+        })
+btn.addEventListener('click',function() {
+            alert('44')
+        })
+```
+

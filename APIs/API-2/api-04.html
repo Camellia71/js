@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>点击</button>
+    <script>
+        const btn = document.querySelector('button')
+        // btn.onclick = function () {
+        //     alert('11')
+        // }
+        // btn.onclick = function () {
+        //     alert('22')
+        // }
+        //显示22，说明上方的被覆盖
+
+
+        //现在的写法
+        btn.addEventListener('click', function () {
+            alert('33')
+        })
+        btn.addEventListener('click', function () {
+            alert('44')
+        })
+    </script>
+</body>
+
+</html>
