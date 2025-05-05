@@ -108,8 +108,8 @@
                 <li></li>
             </ul>
             <div class="toggle">
-                <button class="prev"><</button>
-                <button class="next">></button>
+                <button class="prev">&lt;</button>
+                <button class="next">&gt;</button>
             </div>
         </div>
     </div>
@@ -156,13 +156,13 @@
                 i = data.length - 1
             }
             toggle()
-        //     img.src = data[i].url
-        //     p.innerHTML = data[i].title
-        //     footer.style.backgroundColor = data[i].color
-        //     document.querySelector('.slider-indicator .active').classList.remove('active')
-        //     document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
+            //     img.src = data[i].url
+            //     p.innerHTML = data[i].title
+            //     footer.style.backgroundColor = data[i].color
+            //     document.querySelector('.slider-indicator .active').classList.remove('active')
+            //     document.querySelector(`.slider-indicator li:nth-child(${i + 1})`).classList.add('active')
         })
-        function toggle () {
+        function toggle() {
             img.src = data[i].url
             p.innerHTML = data[i].title
             footer.style.backgroundColor = data[i].color
@@ -171,16 +171,28 @@
         }
 
         //自动播放
-        setInterval(function(){
+        let timeId = setInterval(function () {
             //利用js自动调用点击事件
             next.click()
-        },1000)
+        }, 1000)
 
         //鼠标经过大盒子停止定时器
         const slider = document.querySelector('.slider')
-        slider.addEventListener('mouseenter',function(){
-            clearInterval()
+        slider.addEventListener('mouseenter', function () {
+            clearInterval(timeId)
         })
+
+        //鼠标离开大盒子停止定时器
+        slider.addEventListener('mouseleave', function () {
+            //关闭定时器:先关后开
+            clearInterval(timeId)
+            //开启定时器
+            timeId = setInterval(function () {
+                //利用js自动调用点击事件
+                next.click()
+            }, 1000)
+        })
+
     </script>
 </body>
 
