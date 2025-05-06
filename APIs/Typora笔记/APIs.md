@@ -1,4 +1,4 @@
-## APIs-1
+APIs-1
 
 在以后变量声明先用const，尤其是数组和对象
 
@@ -128,6 +128,8 @@ console.log(box1.innerHTML)
 学习路径：
 
 **通过style属性操作css**
+
+生成的是行内样式表，权重比较高
 
 ```js
 对象.style.样式属性 = 值
@@ -403,5 +405,62 @@ btn.addEventListener('click',function() {
 btn.addEventListener('click',function() {
             alert('44')
         })
+```
+
+### 2.事件类型
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250502220159416.png" alt="image-20250502220159416" style="zoom: 50%;" />
+
+鼠标：
+
+```js
+		const div = document.querySelector('div')
+        div.addEventListener('mouseenter', function () {
+            console.log('轻轻的我来了')
+        })
+        div.addEventListener('mouseleave', function () {
+            console.log('轻轻的我走了')
+        })
+```
+
+焦点：
+
+```js
+        const input = document.querySelector('input')
+        input.addEventListener('focus', function () {
+            console.log('有焦点触发')
+        })
+        input.addEventListener('blur', function () {
+            console.log('失去焦点触发')
+        })
+```
+
+键盘：
+
+```js
+         input.addEventListener('keydown', function () {
+             console.log('键盘按下了')
+         })
+         input.addEventListener('keyup', function () {
+             console.log('键盘弹起了')
+         })
+```
+
+文本：
+
+```js
+        input.addEventListener('input',function(){
+            console.log(input.value)
+        })
+```
+
+#### 案例
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250506234421985.png" alt="image-20250506234421985" style="zoom: 50%;" />
+
+代码：
+
+```
+
 ```
 
