@@ -609,4 +609,22 @@ btn.addEventListener('click',function() {
 
 #### 1.获取事件对象
 
+这个对象里有事件触发的相关信息
+
+在事件绑定的回调函数的第一个参数就是事件对象，一般命名为event，ev，e
+
+```js
+元素.addEvevtListener('click',function(e){
+
+})
+```
+
 #### 2.事件对象常用属性
+
+type:获取当前的事件类型
+
+clientX/clientY：获取光标相对于浏览器可见窗口左上角的位置
+
+offsetX/offsetY：获取光标相对于当前DOM元素左上角的位置
+
+key：用户按下键盘的值，现在不提倡用keyCode
