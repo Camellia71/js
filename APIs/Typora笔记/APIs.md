@@ -628,3 +628,23 @@ clientX/clientY：获取光标相对于浏览器可见窗口左上角的位置
 offsetX/offsetY：获取光标相对于当前DOM元素左上角的位置
 
 key：用户按下键盘的值，现在不提倡用keyCode
+
+```js
+        const input = document.querySelector('input')
+        input.addEventListener('keyup', function (e) {
+            // console.log(e.key)
+            if(e.key==='Enter') {
+                console.log('回车键')
+            }
+        })
+```
+
+去除字符串两侧的空格：
+
+```js
+    <script>
+        const str = '       pink     '
+        console.log(str.trim())
+    </script>
+```
+
