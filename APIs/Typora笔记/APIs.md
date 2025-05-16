@@ -648,3 +648,50 @@ key：用户按下键盘的值，现在不提倡用keyCode
     </script>
 ```
 
+### 4.环境对象
+
+环境对象是指函数内部特殊的变量this，**它代表着当前函数运行时所处的环境**；弄清楚this的指向会让我们代码更简洁。
+
+```js
+        function fn() {
+            console.log(this)
+        }
+        window.fn()
+//每个函数都有this 环境对象，普通函数里面this指向的是window
+```
+
+函数调用方式不同的话，this指代的对象也不同
+
+```js
+<button>点击</button>
+<script>
+    const btn = document.querySelector('button')
+    btn.addEventListener('click', function () {
+        console.log(this)    // 指向btn
+    })
+</script>
+```
+
+**粗略规则：谁调用，this就指向谁。**
+
+直接调用函数就是调用window.函数，所以this指代window
+
+### 5.回调函数
+
+如果**将函数A作为参数传给函数B**，我们就称函数A为回调函数
+
+```js
+//定时器就很常见
+function fn() {
+    console.log('我是回调函数')
+}
+//fn传递给了setInterval, fn就是回调函数
+setInterval(fn,1000)//过了一秒钟，就回去再调用
+```
+
+定时器，事件监听都使用了回调函数
+
+### 6.案例
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250517003941329.png" alt="image-20250517003941329" style="zoom: 50%;" />
+
