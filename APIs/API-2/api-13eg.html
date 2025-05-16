@@ -142,13 +142,13 @@
         tx.addEventListener('keyup', function (e) {
             if (e.key === 'Enter') {
                 //保证不是空字符串才能写入
-                if(tx.valur.trim()!=='') {
+                if (tx.valur.trim() !== '') {
                     item.style.display = 'block'
                     //写入评论
                     text.innerHTML = tx.value
                 }
                 //按下回车结束要清空文本域
-                tx.value=''
+                tx.value = ''
             }
         })
     </script>
