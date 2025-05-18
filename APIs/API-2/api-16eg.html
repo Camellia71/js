@@ -1,11 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh - CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF - 8">
+    <meta name="viewport" content="width=device-width, initial - scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- 引入样式表，这里假设名为styles.css -->
+    <title>Tab栏切换案例</title>
 </head>
+
 <body>
-    
+    <div class="tab-container">
+        <div class="tab-header">
+            <span class="tab-item active" data - tab="daily - special">每日特价</span>
+            <span class="tab-item" data - tab="selected">精选</span>
+            <span class="tab-item" data - tab="food">美食</span>
+            <span class="tab-item" data - tab="general - goods">百货</span>
+            <span class="tab-item" data - tab="personal - care">个护</span>
+            <span class="tab-item" data - tab="fragrance">香薰</span>
+        </div>
+        <div class="tab-content">
+            <div class="tab-panel active" id="daily - special">
+                <div class="product">
+                    < img src="product1.jpg" alt="美白祛斑面膜">
+                        <p>【10片】美白祛斑面膜</p>
+                        <p>¥9.9</p>
+                        <p>已抢150件</p>
+                </div>
+                <!-- 可添加更多每日特价商品 -->
+            </div>
+            <div class="tab-panel" id="selected">
+                <div class="product">
+                    < img src="product2.jpg" alt="莫兰迪色荧光笔软头笔记">
+                        <p>莫兰迪色荧光笔软头笔记</p>
+                        <p>¥9.72</p>
+                        <p>297天最低价</p>
+                </div>
+                <!-- 可添加更多精选商品 -->
+            </div>
+            <div class="tab-panel" id="food">
+                <div class="product">
+                    < img src="product3.jpg" alt="活冻大白虾2kg">
+                        <p>活冻大白虾2kg</p>
+                        <p>¥79</p>
+                        <p>1年最低价 已抢207件</p>
+                </div>
+                <!-- 可添加更多美食商品 -->
+            </div>
+            <div class="tab-panel" id="general - goods">
+                <div class="product">
+                    < img src="product4.jpg" alt="衣柜推拉门轻奢风移门大">
+                        <p>衣柜推拉门轻奢风移门大</p>
+                        <p>¥1670</p>
+                        <p>337天最低价</p>
+                </div>
+                <!-- 可添加更多百货商品 -->
+            </div>
+            <div class="tab-panel" id="personal - care">
+                <div class="product">
+                    < img src="product5.jpg" alt="德力西光源镜 结12W冷白光">
+                        <p>德力西光源镜 结12W冷白光</p>
+                        <p>¥15.9</p>
+                        <p>313天最低价 已抢174件</p>
+                </div>
+                <!-- 可添加更多个护商品 -->
+            </div>
+            <div class="tab-panel" id="fragrance">
+                <!-- 可添加香薰相关商品 -->
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script> <!-- 引入JavaScript脚本，这里假设名为script.js -->
 </body>
+
 </html>
