@@ -38,7 +38,7 @@ DOM的**核心思想**是将网页内容当作对象来处理
 
 1.获取匹配的第一个元素
 
-​	css里面怎么写，引号里面就怎么写，可以写后代选择器等；
+​	**css里面怎么写，引号里面就怎么写**，简而言之，' '里面就是css选择器，可以写后代选择器等；
 
 返回值：
 
@@ -810,6 +810,126 @@ setInterval(fn,1000)//过了一秒钟，就回去再调用
             })
         }
 
+    </script>
+</body>
+
+</html>
+```
+
+## APIs-3
+
+### 1.案例
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250519235604259.png" alt="image-20250519235604259" style="zoom: 67%;" />
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+            width: 500px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        th {
+            background-color: #09c;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+            height: 24px;
+        }
+
+        td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+
+        .allCheck {
+            width: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th class="allCheck">
+                <input type="checkbox" name="" id="checkAll"><span class="all">全选</span>
+            </th>
+            <th>商品</th>
+            <th>商家</th>
+            <th>价格</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="check" class="ck">
+            </td>
+            <td>小米手机</td>
+            <td>小米</td>
+            <td>￥1999</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="check" class="ck">
+            </td>
+            <td>小米净水器</td>
+            <td>小米</td>
+            <td>￥4999</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="check" class="ck">
+            </td>
+            <td>小米电视</td>
+            <td>小米</td>
+            <td>￥5999</td>
+        </tr>
+    </table>
+    <script>
+        //1.获取大复选框 
+        const checkAll = document.querySelector('#checkAll')
+        //2.获取所有的小复选框
+        const cks = document.querySelectorAll('.ck')
+        //3.点击大复选框
+        checkAll.addEventListener('click', function () {
+            //得到当前大复选框的选中状态
+            // console.log(this.checked)//得到的是true或false
+            //4.遍历所有的小复选框，使其与大复选框保持一致
+            for (let i = 0; i < cks.length; i++) {
+                cks[i].checked = this.checked  //checkAll.checked也可以
+            }
+        })
+        //5.小复选框控制大复选框
+        //5.1 给所有的小复选框添加点击事件
+        for (let i = 0; i < cks.length; i++) {
+            cks[i].addEventListener('click', function () {
+                //判断选中的小复选框个数是否等于全部的小复选框个数
+                //一定要写到点击里面，因为每次要获得新的个数
+                // console.log(document.querySelectorAll('.ck:checked').length)//选中的小复选框的个数
+
+                //用if判断
+                // if (document.querySelectorAll('.ck:checked').length === cks.length) {
+                //     checkAll.checked = this.checked
+                // }
+                //右侧返回true或false，则可以直接等于checkAll.checked
+                checkAll.checked = (document.querySelectorAll('.ck:checked').length === cks.length)
+
+            })
+        }
     </script>
 </body>
 
