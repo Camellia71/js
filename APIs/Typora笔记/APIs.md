@@ -984,3 +984,25 @@ DOM.addEventListener(事件类型，事件处理函数，是否使用捕获机�
 
 #### 5.解绑事件
 
+（1）on事件
+
+直接使用null覆盖偶就能实现事件的解绑
+
+```js
+btn.onclick = function() {
+	alert('点击了')
+}
+//解绑事件
+btn.onclick = null
+```
+
+（2）addEventListener 事件
+
+这时就要使用removeEventListener(事件类型，事件处理函数，[获取捕获或冒泡阶段])
+
+**注意：匿名函数无法被解绑；**
+
+```js
+
+```
+
