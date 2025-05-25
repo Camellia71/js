@@ -1003,6 +1003,23 @@ btn.onclick = null
 **注意：匿名函数无法被解绑；**
 
 ```js
+        function fn() {
+            alert('点击了了')
+        }
+        btn.addEventListener('click', fn)
+        btn.removeEventListener('click', fn)
+```
 
+**鼠标经过事件**
+
+通过mouseover和mouseout来实现
+
+```js
+        dad.addEventListener('mouseover', function () {
+            console.log('鼠标经过')
+        })
+        dad.addEventListener('mouseout', function () {
+            console.log('鼠标离开')
+        })
 ```
 
