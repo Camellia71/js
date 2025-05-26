@@ -94,24 +94,30 @@
         </div>
     </div>
     <script>
-        //1.a 模块 要给5个链接绑定鼠标经过事件
-        //1.1 获取元素
-        const as = document.querySelectorAll('.tab-nav a')
-        for (let i = 0; i < as.length; i++) {
-            as[i].addEventListener('mouseenter', function () {
-                //清除一开始的active类
-                document.querySelector('.tab-nav .active').classList.remove('active')
-                //经过的添加active类
-                this.classList.add('active')
+        // //1.a 模块 要给5个链接绑定鼠标经过事件
+        // //1.1 获取元素
+        // const as = document.querySelectorAll('.tab-nav a')
+        // for (let i = 0; i < as.length; i++) {
+        //     as[i].addEventListener('mouseenter', function () {
+        //         //清除一开始的active类
+        //         document.querySelector('.tab-nav .active').classList.remove('active')
+        //         //经过的添加active类
+        //         this.classList.add('active')
 
-                //下面的五个盒子
-                //清除一开始的active
-                document.querySelector('.tab-content .active').classList.remove('active')
-                //对应序号的item添加active类
-                document.querySelector(`.tab-content .item:nth-child(${i + 1})`).classList.add('active')
-            })
-        }
+        //         //下面的五个盒子
+        //         //清除一开始的active
+        //         document.querySelector('.tab-content .active').classList.remove('active')
+        //         //对应序号的item添加active类
+        //         document.querySelector(`.tab-content .item:nth-child(${i + 1})`).classList.add('active')
+        //     })
+        // }
 
+        const ul = document.querySelector('.tab-nav ul')
+        ul.addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') {
+
+            }
+        })
     </script>
 </body>
 

@@ -1039,3 +1039,28 @@ btn.onclick = null
 **两种事件注册的区别**
 
 <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250526134139702.png" alt="image-20250526134139702" style="zoom:67%;" />
+
+### 3.事件委托
+
+#### 1.简介
+
+事件委托是利用事件流的特征解决一些开发需求的知识技巧；其实是利用事件冒泡的特点，即给父元素注册事件，当我们触发子元素时，会冒泡到父元素身上，从而触发父元素的事件。
+
+```js
+事件对象.target.tagName  //可以获得真正触发事件的元素
+```
+
+```js
+		//点击每个li 当前li变为红色
+        //按照事件委托的方式
+        const ul = document.querySelector('ul')
+        ul.addEventListener('click', function (e) {
+            //console.log(e.target)  就是我们点击的那个对象
+            // e.target.style.color = 'red'  点击p也变色
+            //我的需求：只有点击li才变色
+            if(e.target.tagName === 'LI') {
+                e.target.style.color='red'
+            }
+        })
+```
+
