@@ -1012,7 +1012,9 @@ btn.onclick = null
 
 **鼠标经过事件**
 
-通过mouseover和mouseout来实现
+通过mouseover和mouseout来实现；
+
+这种会冒泡，即传递给子元素：给父元素添加之后，经过父元素内部的子元素时也会打印鼠标经过和鼠标离开；
 
 ```js
         dad.addEventListener('mouseover', function () {
@@ -1023,3 +1025,17 @@ btn.onclick = null
         })
 ```
 
+或者mouseenter和mouseleave实现（推荐），不会冒泡
+
+```js
+        dad.addEventListener('mouseenter', function () {
+            console.log('鼠标经过')
+        })
+        dad.addEventListener('mouseleave', function () {
+            console.log('鼠标离开')
+        })
+```
+
+**两种事件注册的区别**
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250526134139702.png" alt="image-20250526134139702" style="zoom:67%;" />

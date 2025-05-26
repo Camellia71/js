@@ -17,12 +17,27 @@
             height: 200px;
             background-color: skyblue;
         }
+
+        .dad1 {
+            width: 400px;
+            height: 400px;
+            background-color: skyblue;
+        }
+
+        .baby1 {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
     </style>
 </head>
 
 <body>
     <div class="dad">
         <div class="baby"></div>
+    </div>
+    <div class="dad1">
+        <div class="baby1"></div>
     </div>
     <script>
         const dad = document.querySelector('.dad')
@@ -31,6 +46,15 @@
             console.log('鼠标经过')
         })
         dad.addEventListener('mouseout', function () {
+            console.log('鼠标离开')
+        })
+        //
+        const dad1 = document.querySelector('.dad1')
+        const baby1 = document.querySelector('.baby1')
+        dad1.addEventListener('mouseenter', function () {
+            console.log('鼠标经过')
+        })
+        dad1.addEventListener('mouseleave', function () {
             console.log('鼠标离开')
         })
     </script>
