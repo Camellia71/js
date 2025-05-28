@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 3000px;
+            background-color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // const n = document.documentElement.scrollTop  一直打印 0
+        document.documentElement.scrollTop = 800
+        window.addEventListener('scroll', function () {
+            //必须写到里面，因为页面一滑动就要获得新值 
+            //console.log(document.documentElement.scrollTop)
+            const n = document.documentElement.scrollTop
+            console.log(n)
+            // 得到的是数字型 不带单位
+        })
+    </script>
+</body>
+
+</html>

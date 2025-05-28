@@ -1064,3 +1064,63 @@ btn.onclick = null
         })
 ```
 
+#### 2.阻止默认行为
+
+```js
+        const a = document.querySelector('a')
+        a.addEventListener('click', function (e) {
+            //阻止默认行为
+            e.preventDefault()
+        })
+```
+
+### 4.其他事件
+
+#### 1.页面加载事件
+
+1. 加载外部资源（如图片，外联CSS，JavaScript等）加载完毕时触发的事件
+
+监听页面所有资源加载完毕：给window添加load事件
+
+```js
+window.addEventListener('load',function() {
+	//执行的操作
+})
+```
+
+注意：不仅仅可以监听整个页面资源加载完毕，也可以针对某个资源绑定load事件
+
+```js
+        const img = new Image()
+        img.addEventListener('load', function () {
+            //等待图片加载完毕再去执行里面的代码
+            alert('222')
+        })
+        img.src = '../images/ao-1.jpg'
+```
+
+2. 当初始的html文档被完全加载和解析完成之后，DOMContentLoaded 事件被触发，而无需等待样式表，图像等完全加载
+
+监听页面DOM加载完毕：给document添加DOMContentLoaded 事件
+
+```js
+document.addEventListener('DOMContentLoaded',function() {
+	//执行的操作
+})
+```
+
+#### 2.元素滚动事件
+
+滚动条在滚动的时候连续触发的事件
+
+1. 监听整个页面的滚动
+
+```js
+window.addEventListener('scroll',function() {
+	//执行的操作
+})
+```
+
+给 window 或者 document 添加 scroll 事件
+
+2. 监听某个元素的内部滚动直接给某个元素加即可
