@@ -1124,3 +1124,57 @@ window.addEventListener('scroll',function() {
 给 window 或者 document 添加 scroll 事件
 
 2. 监听某个元素的内部滚动直接给某个元素加即可
+
+**获取位置**
+
+scrollTop和scrollLeft
+
+这两个值是可读写的；要尽量在scroll事件里面获取被卷去的距离；
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250529002138547.png" alt="image-20250529002138547" style="zoom:50%;" />
+
+获取html元素的写法：
+
+```js
+document.documentElement
+```
+
+获取body：
+
+```js
+document.body
+```
+
+**实际应用**
+
+```js
+        const div = document.querySelector('div')       
+		window.addEventListener('scroll', function () {
+            // console.log(document.documentElement.scrollTop)
+            const n = document.documentElement.scrollTop
+            if (n >= 100) {
+                div.style.display = 'block'
+            }
+            else {
+                div.style.display = 'none'
+            }
+        })
+```
+
+需要注意的是：html文档返回的是html元素
+
+**注意**
+
+```js
+        // const n = document.documentElement.scrollTop  一直打印 0
+        //document.documentElement.scrollTop = 800
+        window.addEventListener('scroll', function () {
+            //必须写到里面，因为页面一滑动就要获得新值 
+            //console.log(document.documentElement.scrollTop)
+            const n = document.documentElement.scrollTop
+            console.log(n)
+            // 得到的是数字型 不带单位
+        })
+```
+
+侧边栏直接返回顶部就是将 document.documentElement.scrollTop 赋值为 0；
