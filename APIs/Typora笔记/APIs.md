@@ -1178,3 +1178,24 @@ document.body
 ```
 
 侧边栏直接返回顶部就是将 document.documentElement.scrollTop 赋值为 0；
+
+#### 3.页面尺寸事件
+
+1. 会在窗口改变的时候触发事件
+
+```js
+window.addEventListener('resize',function() {
+	//执行的代码
+})
+```
+
+2. 检测屏幕宽度
+
+```js
+        //检测屏幕宽度
+        window.addEventListener('resize', function () {
+            let w = document.documentElement.clientWidth
+            console.log(w)
+        })
+```
+
