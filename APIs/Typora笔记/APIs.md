@@ -1199,3 +1199,6 @@ window.addEventListener('resize',function() {
         })
 ```
 
+-获取宽高：获取元素的可见部分宽高（不包含边框，margin，滚动条等）；clientWidth和clientHeight
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250601234729132.png" alt="image-20250601234729132" style="zoom:67%;" />
