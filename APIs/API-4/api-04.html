@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>和03一样 只是方法不同</title>
+    <style>
+        div {
+            width: 300px;
+            height: 40px;
+            border: 1px solid pink;
+            text-align: center;
+            line-height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <script>
+        const div = document.querySelector('div')
+        //得到日期对象
+        //定时器外还要写是为了避免刚开始的空白 因为是回调函数
+        const date = new Date()
+        // div.innerHTML = date.toLocaleDateString() //2025/6/4
+        div.innerHTML = date.toLocaleString()  //2025/6/4 17:47:47
+        // div.innerHTML = date.toLocaleTimeString()  //17:47:47
+        setInterval(function () {
+            const date = new Date()
+            div.innerHTML = date.toLocaleString()
+        }, 1000)
+    </script>
+</body>
+
+</html>
