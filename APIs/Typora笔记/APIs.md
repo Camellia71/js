@@ -1,4 +1,4 @@
-APIs-1
+## APIs-1
 
 在以后变量声明先用const，尤其是数组和对象
 
@@ -1202,3 +1202,123 @@ window.addEventListener('resize',function() {
 -获取宽高：获取元素的可见部分宽高（不包含边框，margin，滚动条等）；clientWidth和clientHeight
 
 <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250601234729132.png" alt="image-20250601234729132" style="zoom:67%;" />
+
+#### 4.元素尺寸与位置
+
+1. 尺寸
+
+获取宽高：获取元素自身的宽高，包含元素自身设置的宽高，padding，border，margin
+
+offsetWidth 和 offsetHeight ，获取出来的是数值，方便计算
+
+**注意：**获取的是可视宽高，如果盒子是隐藏的，那获取的结果是0
+
+2. 位置
+
+（1）获取元素距离自己定位父级元素的左，上距离
+
+​	offsetLeft 和 offsetTop ，注意是**只读**属性
+
+（2）返回元素的大小以及其相对于视口的位置
+
+​	element.getBoundingClientRect()
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250604163004673.png" alt="image-20250604163004673" style="zoom:67%;" />
+
+**总结：**
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250604163504077.png" alt="image-20250604163504077" style="zoom: 67%;" />
+
+## APIs-4
+
+### 1.日期对象
+
+日期对象是用来表示时间的对象；可以通过它得到当前系统的时间
+
+#### 1.实例化
+
+在代码中发现了new关键字时，一般将这个操作叫做实例化
+
+创建一个日期对象并获取时间
+
+```js
+        //实例化 new
+        const date = new Date()
+        console.log(date)
+```
+
+获得指定时间
+
+```js
+        //指定时间
+        const date1 = new Date('2025-5-1 08:30:00')
+        console.log(date1)
+```
+
+#### 2.日期对象方法
+
+因为日期对象返回的数据我们不能直接使用（格式），所以需要转化为实际开发中常用的格式
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250604171623695.png" alt="image-20250604171623695" style="zoom: 50%;" />
+
+```js
+        //获得日期对象
+        const date = new Date()
+        //使用里面的方法
+        console.log(date.getFullYear())
+        console.log(date.getMonth() + 1)//月份是0~11 所以要加1
+        console.log(date.getDate())
+```
+
+#### 3.时间戳
+
+**时间戳是**指1970年01月01日00时00分00秒起至今的**毫秒数**，它是一种特殊的计量时间的方式；如果计算**倒计时**效果，前面方法无法直接计算，需要借助时间戳完成；
+
+**算法：**
+
+1.将来的时间戳 - 现在的时间戳 = 剩余时间毫秒数
+
+2.剩余时间毫秒数转化为剩余时间的年月日时分秒 就是倒计时时间
+
+3.比如：将来时间戳 2000ms - 现在时间戳 1000ms = 1000ms
+
+4.1000ms转化为就是 0小时0分1秒
+
+```js
+//在console.log里输入 +new Date 获取毫秒数
+```
+
+**获取时间戳**
+
+1.使用getTime() 方法
+
+```js
+        //1.getTime()
+        const date = new Date()
+        console.log(date.getTime())
+```
+
+**2.使用 +new Date()**
+
+```js
+        //2.+new Date() 无需实例化
+        console.log(new Date())
+```
+
+3.使用Date.now()
+
+这一种只能得到当前的时间戳，前面两种就可以返回指定的时间戳。
+
+```js
+        //3.Date.now  无需实例化
+        console.log(Date.now())
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250606011530760.png" alt="image-20250606011530760" style="zoom:67%;" />
+
+获得指定时间的时间戳
+
+```js
+        console.log(+new Date('2022-4-1 18:30:00'))
+```
+
