@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倒计时半成品</title>
+    <style>
+        .countdown {
+            width: 240px;
+            height: 305px;
+            text-align: center;
+            line-height: 1;
+            color: #fff;
+            background-color: brown;
+            /* background-size: 240px; */
+            /* float: left; */
+            overflow: hidden;
+        }
+
+        .countdown .next {
+            font-size: 16px;
+            margin: 25px 0 14px;
+        }
+
+        .countdown .title {
+            font-size: 33px;
+        }
+
+        .countdown .tips {
+            margin-top: 80px;
+            font-size: 23px;
+        }
+
+        .countdown small {
+            font-size: 17px;
+        }
+
+        .countdown .clock {
+            width: 142px;
+            margin: 18px auto 0;
+            overflow: hidden;
+        }
+
+        .countdown .clock span,
+        .countdown .clock i {
+            display: block;
+            text-align: center;
+            line-height: 34px;
+            font-size: 23px;
+            float: left;
+        }
+
+        .countdown .clock span {
+            width: 34px;
+            height: 34px;
+            border-radius: 2px;
+            background-color: #303430;
+        }
+
+        .countdown .clock i {
+            width: 20px;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="countdown">
+        <p class="next">今天是2025年6月6日</p>
+        <p class="title">下班倒计时</p>
+        <p class="clock">
+            <span id="hour">00</span>
+            <i>:</i>
+            <span id="minutes">25</span>
+            <i>:</i>
+            <span id="second">20</span>
+        </p>
+        <p class="tips">20:30:00去洗澡</p>
+    </div>
+    <script>
+        //1.得到当前的时间戳
+        const now = +new Date()
+        //2.得到将来的时间戳
+        const last = +new Date('2025-06-06 20:30:00')
+        // console.log(now,last)
+        //3.得到剩余的时间戳  记得转化成秒数
+        const count = (last - now) / 1000
+        console.log(count)
+
+        //4.转化为时分秒
+        //d = parseInt(总秒数 / 60 / 60 / 24) 计算天数
+        //h = parseInt(总秒数 / 60 / 60 % 24) 计算小时
+        //m = parseInt(总秒数 / 60 / %60)  计算分钟
+        //s = parseInt(总秒数 % 60) 计算秒数
+
+        let h = parseInt(count / 60 / 60 % 24)
+        h = h < 10 ? '0' + h : h
+        let m = parseInt(count / 60 % 60)
+        m = m < 10 ? '0' + m : m
+        let s = parseInt(count % 60)
+        s = s < 10 ? '0' + s : s
+        // console.log(h, m, s)
+
+        //5.把时分秒放到盒子里
+        const hour = document.querySelector('#hour')
+        const minutes = document.querySelector('#minutes')
+        const second = document.querySelector('#second')
+        hour.innerHTML = h
+        minutes.innerHTML = m
+        second.innerHTML = s
+
+        //6.定时器 要把所有的都包在定时器里，定时器每作用一下就要重新获取一次时间
+        // setInterval(function () {
+        //      //1.得到当前的时间戳
+        //     const now = +new Date()
+        //     //2.得到将来的时间戳
+        //     const last = +new Date('2025-06-06 20:30:00')
+        //     // console.log(now,last)
+        //     //3.得到剩余的时间戳  记得转化成秒数
+        //     const count = (last - now) / 1000
+        //     console.log(count)
+
+        //     //4.转化为时分秒
+        //     //d = parseInt(总秒数 / 60 / 60 / 24) 计算天数
+        //     //h = parseInt(总秒数 / 60 / 60 % 24) 计算小时
+        //     //m = parseInt(总秒数 / 60 / %60)  计算分钟
+        //     //s = parseInt(总秒数 % 60) 计算秒数
+
+        //     let h = parseInt(count / 60 / 60 % 24)
+        //     h = h < 10 ? '0' + h : h
+        //     let m = parseInt(count / 60 % 60)
+        //     m = m < 10 ? '0' + m : m
+        //     let s = parseInt(count % 60)
+        //     s = s < 10 ? '0' + s : s
+        //     // console.log(h, m, s)
+        //     let hour = document.querySelector('#hour')
+        //     let minutes = document.querySelector('#minutes')
+        //     let second = document.querySelector('#second')
+        //     hour.innerHTML = h
+        //     minutes.innerHTML = m
+        //     second.innerHTML = s
+        // },1000)
+    </script>
+</body>
+
+</html>
