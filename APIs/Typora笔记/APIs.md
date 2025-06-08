@@ -1501,3 +1501,40 @@ childNodes：获取所有子节点，包括文本节点（空格，换行）注�
 
 上一个兄弟节点：previousElementSibling
 
+```js
+        const li2 = document.querySelector('ul li:nth-child(2)')
+        console.log(li2.previousElementSibling) //上一个兄弟节点
+        console.log(li2.nextElementSibling) //下一个兄弟节点
+```
+
+#### 3.增加节点
+
+创建一个新的节点，然后把创建的新的节点放到指定元素内部
+
+1. 创造节点
+
+即创造出一个新的网页元素，再添加到网页内，一般先创建节点，然后插入节点
+
+```js
+//创造一个新的元素节点
+document.createElement('标签名')
+```
+
+2. 追加节点
+
+想要在页面中看到，还得插入某个父元素中
+
+插入到父元素的最后一个子元素：
+
+```js
+//插入到这个父元素的最后
+父元素.appendChild(要插入的元素)
+```
+
+插入到父元素的某个子元素的前面：
+
+```js
+//插入到某个子元素的前面
+父元素.insertBefore(要插入的元素，在哪个元素前面)
+```
+
