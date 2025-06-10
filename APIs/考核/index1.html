@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线HTML编辑器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .editor-container {
+            flex: 1;
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+
+        .preview-section {
+            flex: 3;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .tab {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tab-button {
+            padding: 8px 15px;
+            background-color: #f8f8f8;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tab-button.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .code-editor {
+            flex: 1;
+            height: 100%;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+            resize: none;
+            white-space: pre-wrap;
+        }
+
+        #preview {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            height: 100%;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .alert.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="editor-container">
+        <div class="code-section">
+            <div class="tab">
+                <button class="tab-button active" data-type="html">HTML</button>
+                <button class="tab-button" data-type="css">CSS</button>
+                <button class="tab-button" data-type="js">JS</button>
+            </div>
+            <textarea class="code-editor" id="code" placeholder="输入HTML/CSS/JS代码...">
+<!-- HTML代码 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>预览示例</title>
+    <style>
+        /* CSS代码 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>实时预览</h1>
+    <div class="box">Hello, Editor!</div>
+    <!-- JS代码 -->
+    <script>
+        const btn = document.createElement('button');
+        btn.textContent = '点击测试';
+        btn.addEventListener('click', () => alert('JS代码执行成功！'));
+        document.body.appendChild(btn);
+    </script>
+</body>
+</html>
+            </textarea>
+        </div>
+        <div class="preview-section">
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <div class="alert" id="errorAlert">代码存在错误！</div>
+
+    <script>
+        const codeEditor = document.getElementById('code');
+        const preview = document.getElementById('preview');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const errorAlert = document.getElementById('errorAlert');
+        let currentTab = 'html';
+
+        // 初始化选项卡
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentTab = button.dataset.type;
+            });
+        });
+
+        // 实时渲染函数
+        function renderCode() {
+            try {
+                const code = codeEditor.value;
+
+                // 解析HTML/CSS/JS
+                const htmlStart = code.indexOf('<!DOCTYPE html>');
+                let htmlCode, cssCode, jsCode;
+
+                if (htmlStart !== -1) {
+                    htmlCode = code.substring(htmlStart);
+                    // 提取CSS和JS（简化处理，实际需更严谨解析）
+                    const cssRegex = /<style>([\s\S]*?)<\/style>/;
+                    const jsRegex = /<script>([\s\S]*?)<\/script>/;
+
+                    const cssMatch = cssRegex.exec(htmlCode);
+                    cssCode = cssMatch ? cssMatch[1] : '';
+
+                    const jsMatch = jsRegex.exec(htmlCode);
+                    jsCode = jsMatch ? jsMatch[1] : '';
+
+                    // 清理HTML中的<style>和<script>标签
+                    htmlCode = htmlCode.replace(cssRegex, '').replace(jsRegex, '');
+                } else {
+                    htmlCode = code;
+                }
+
+                // 安全渲染（注意：实际项目需严格过滤XSS风险）
+                preview.innerHTML = htmlCode;
+
+                // 注入CSS
+                const styleTag = document.createElement('style');
+                styleTag.textContent = cssCode;
+                preview.appendChild(styleTag);
+
+                // 执行JS（需谨慎，此处仅用于演示）
+                const scriptTag = document.createElement('script');
+                scriptTag.textContent = jsCode;
+                preview.appendChild(scriptTag);
+
+                errorAlert.classList.remove('show');
+            } catch (error) {
+                errorAlert.textContent = `渲染错误：${error.message}`;
+                errorAlert.classList.add('show');
+                preview.innerHTML = '<div style="color: red;">代码渲染失败，请检查语法！</div>';
+            }
+        }
+
+        // 监听代码输入
+        codeEditor.addEventListener('input', debounce(renderCode, 300));
+
+        // 防抖函数
+        function debounce(func, delay) {
+            let timerId;
+            return function (...args) {
+                clearTimeout(timerId);
+                timerId = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+    </script>
+</body>
+
+</html>

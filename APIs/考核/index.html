@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颜色卡尺</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .color-picker-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .color-wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+            position: relative;
+            margin-bottom: 30px;
+            cursor: crosshair;
+        }
+
+        .color-wheel::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid #333;
+        }
+
+        .color-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .color-sample {
+            width: 150px;
+            height: 150px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-code {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .code-item {
+            background-color: #f8f8f8;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .code-item:hover {
+            background-color: #e8e8e8;
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .alert.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="color-picker-container">
+        <div class="color-wheel" id="colorWheel"></div>
+        <div class="color-info">
+            <div class="color-sample" id="colorSample"></div>
+            <div class="color-code">
+                <div class="code-item" id="hexCode">HEX: #FF0000</div>
+                <div class="code-item" id="rgbCode">RGB: rgb(255, 0, 0)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert" id="copyAlert">已复制颜色代码</div>
+
+    <script>
+        const colorWheel = document.getElementById('colorWheel');
+        const colorSample = document.getElementById('colorSample');
+        const hexCode = document.getElementById('hexCode');
+        const rgbCode = document.getElementById('rgbCode');
+        const copyAlert = document.getElementById('copyAlert');
+
+        // 初始化颜色（红色）
+        let currentHue = 0;
+        updateColor();
+
+        // 颜色轮盘点击事件
+        colorWheel.addEventListener('click', (e) => {
+            const wheelRect = colorWheel.getBoundingClientRect();
+            const x = e.clientX - wheelRect.left - wheelRect.width / 2;
+            const y = e.clientY - wheelRect.top - wheelRect.height / 2;
+            currentHue = (Math.atan2(y, x) * (180 / Math.PI) + 180).toFixed(1);
+            updateColor();
+        });
+
+        // 更新颜色显示
+        function updateColor() {
+            // 转换为HSLA颜色
+            const hslColor = `hsl(${currentHue}, 100%, 50%)`;
+            const rgb = hslToRgb(currentHue, 1, 0.5);
+
+            // 更新HEX代码
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+            hexCode.textContent = `HEX: ${hex}`;
+
+            // 更新RGB代码
+            rgbCode.textContent = `RGB: rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+
+            // 更新颜色样本
+            colorSample.style.backgroundColor = hslColor;
+        }
+
+        // HSL转RGB函数
+        function hslToRgb(h, s, l) {
+            h /= 360;
+            let r, g, b;
+
+            if (s === 0) {
+                r = g = b = l; // 灰色
+            } else {
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1 / 3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1 / 3);
+            }
+
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        function hue2rgb(p, q, t) {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        }
+
+        // RGB转HEX函数
+        function rgbToHex(r, g, b) {
+            return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
+        }
+
+        function componentToHex(c) {
+            const hex = c.toString(16);
+            return hex.length === 1 ? `0${hex}` : hex;
+        }
+
+        // 复制颜色代码事件
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('code-item')) {
+                const code = e.target.textContent.split(': ')[1];
+                navigator.clipboard.writeText(code)
+                    .then(() => {
+                        copyAlert.classList.add('show');
+                        setTimeout(() => {
+                            copyAlert.classList.remove('show');
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        alert('复制失败: ' + err);
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>
