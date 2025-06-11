@@ -1538,5 +1538,46 @@ document.createElement('标签名')
 父元素.insertBefore(要插入的元素，在哪个元素前面)
 ```
 
+3. 克隆节点
 
+cloneNode会克隆出一个跟原标签一样的元素，括号内传入布尔值
+
+若为true，则代表克隆时会包含后代节点一起克隆
+
+若为false，则代表克隆时不包括后代节点
+
+默认为false
+
+```js
+//克隆一个已有的元素节点
+元素.cloneNode(布尔值)
+```
+
+#### 4.删除节点
+
+在JavaScript原生DOM操作中，要删除元素必须通过父元素删除
+
+```js
+父元素.removeChild(要删除的元素)
+```
+
+注意：
+
+如果不存在父子关系则删除不成功；删除节点和隐藏节点（display:none)有区别；隐藏节点还是存在的，但是删除节点则是从html中删除节点
+
+比如
+
+```js
+        const ul = document.querySelector('ul')
+        //删除节点 父元素.removeChild(子元素)
+        ul.removeChild(ul.children[0])
+```
+
+### 3.M端事件
+
+M端事件其实就是移动端事件，移动端有自己独特的地方比如触屏事件 touch（也称触摸事件），Android和IOS都有；touch对象代表一个触摸点
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250611235328808.png" alt="image-20250611235328808" style="zoom: 50%;" />
+
+### 4.案例
 
