@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颜色卡尺</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        .color-picker {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0;
+        }
+
+        .color-wheel {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            position: relative;
+            cursor: crosshair;
+            margin-bottom: 10px;
+        }
+
+        .color-pointer {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+            transform: translate(-50%, -50%);
+        }
+
+        .color-value {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .color-display {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .color-box {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .color-code {
+            cursor: pointer;
+        }
+
+        .color-code:hover {
+            text-decoration: underline;
+        }
+
+        .copied {
+            background-color: #e6f7ed;
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>颜色卡尺 - 长方形颜色轮盘</h3>
+
+    <div class="color-picker">
+        <div class="color-wheel" id="colorWheel"></div>
+        <div class="color-pointer" id="colorPointer"></div>
+    </div>
+
+    <div class="color-value">
+        <div class="color-display">
+            <div class="color-box" id="colorBox"></div>
+            <div>
+                <div class="color-code" data-format="hex" id="hexCode">#ff0000</div>
+                <div class="color-code" data-format="rgb" id="rgbCode">rgb(255, 0, 0)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const colorWheel = document.getElementById('colorWheel');
+        const colorPointer = document.getElementById('colorPointer');
+        const colorBox = document.getElementById('colorBox');
+        const hexCode = document.getElementById('hexCode');
+        const rgbCode = document.getElementById('rgbCode');
+
+        // 初始化颜色值
+        let currentColor = '#ff0000';
+        let currentRgb = 'rgb(255, 0, 0)';
+
+        // 更新颜色显示
+        function updateColorDisplay(color, rgb) {
+            currentColor = color;
+            currentRgb = rgb;
+            colorBox.style.backgroundColor = color;
+            hexCode.textContent = color;
+            rgbCode.textContent = rgb;
+        }
+
+        // 计算长方形颜色轮盘的颜色（基于水平位置）
+        function getColorFromWheel(x) {
+            const wheelWidth = colorWheel.offsetWidth;
+            // 计算颜色轮盘上的位置比例（0-1）
+            const position = Math.min(Math.max(x / wheelWidth, 0), 1);
+
+            // 长方形颜色轮盘（水平渐变光谱）
+            let r, g, b;
+            if (position < 1 / 6) {
+                r = 255; g = Math.floor(255 * position * 6); b = 0;
+            } else if (position < 2 / 6) {
+                r = 255 - Math.floor(255 * (position - 1 / 6) * 6); g = 255; b = 0;
+            } else if (position < 3 / 6) {
+                r = 0; g = 255; b = Math.floor(255 * (position - 2 / 6) * 6);
+            } else if (position < 4 / 6) {
+                r = 0; g = 255 - Math.floor(255 * (position - 3 / 6) * 6); b = 255;
+            } else if (position < 5 / 6) {
+                r = Math.floor(255 * (position - 4 / 6) * 6); g = 0; b = 255;
+            } else {
+                r = 255; g = 0; b = 255 - Math.floor(255 * (position - 5 / 6) * 6);
+            }
+
+            // 转换为RGB和十六进制格式
+            const rgb = `rgb(${r}, ${g}, ${b})`;
+            const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).padStart(6, '0')}`;
+            return { hex, rgb };
+        }
+
+        // 监听颜色轮盘点击事件
+        colorWheel.addEventListener('click', function (e) {
+            const x = e.offsetX;
+            updatePointerPosition(x);
+            const color = getColorFromWheel(x);
+            updateColorDisplay(color.hex, color.rgb);
+        });
+
+        // 监听颜色轮盘鼠标移动事件（拖动选色）
+        let isDragging = false;
+        colorWheel.addEventListener('mousedown', function () {
+            isDragging = true;
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if (isDragging && colorWheel.contains(e.target)) {
+                const x = e.offsetX;
+                updatePointerPosition(x);
+                const color = getColorFromWheel(x);
+                updateColorDisplay(color.hex, color.rgb);
+            }
+        });
+
+        document.addEventListener('mouseup', function () {
+            isDragging = false;
+        });
+
+        // 更新指针位置
+        function updatePointerPosition(x) {
+            colorPointer.style.left = `${x}px`;
+        }
+
+        // 复制颜色代码功能
+        document.querySelectorAll('.color-code').forEach(code => {
+            code.addEventListener('click', function () {
+                const format = this.dataset.format;
+                const text = format === 'hex' ? currentColor : currentRgb;
+
+                // 复制到剪贴板
+                navigator.clipboard.writeText(text).then(() => {
+                    // 添加复制成功样式
+                    this.classList.add('copied');
+                    setTimeout(() => {
+                        this.classList.remove('copied');
+                    }, 2000);
+
+                    // 提示复制成功
+                    alert(`已复制${format.toUpperCase()}颜色代码: ${text}`);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
