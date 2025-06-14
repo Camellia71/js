@@ -11,14 +11,14 @@
             width: 50%;
             height: 300px;
             background: linear-gradient(to right,
-                    red,
-                    orange,
-                    yellow,
-                    green,
-                    cyan,
-                    blue,
-                    violet,
-                    red);
+                    rgb(255, 0, 0),
+                    rgb(255, 165, 0),
+                    rgb(255, 255, 0),
+                    rgb(0, 128, 0),
+                    rgb(0, 255, 255),
+                    rgb(0, 0, 255),
+                    rgb(238, 130, 238),
+                    rgb(255, 0, 0));
         }
 
         .write {
@@ -36,7 +36,27 @@
         <div class="hex">hex:</div>
     </div>
     <script>
-        const
+        const color = document.querySelector('.color')
+        const rgb = document.querySelector('.rgb')
+        const hex = document.querySelector('.hex')
+
+        const cover = document.createElement('cover')
+        
+        function coverStyle() {
+            const real = color.getBoundingClientRect()
+            cover.width = real.width
+            cover.height = real.height
+            
+        }
+        // color.addEventListener('click', function (e) {
+        //     const bgc = window.getComputedStyle(e.target).backgroundColor
+        //     console.log(bgc)
+        //  })
+        //  document.addEventListener('click', function (e) {
+        //  const style = window.getComputedStyle(e.target);
+        //     console.log('当前元素:', e.target); // 检查点击的是什么
+        //     console.log('backgroundColor:', style.backgroundImage); // 查看真实值
+        // });
     </script>
 </body>
 
