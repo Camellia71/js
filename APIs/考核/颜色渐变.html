@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>彩虹水平渐变条</title>
+    <title>颜色卡尺</title>
     <style>
         .color {
-            margin: 100px auto;
+            margin: 50px auto;
             width: 50%;
             height: 300px;
             background: linear-gradient(to right,
@@ -21,6 +21,49 @@
                     rgb(255, 0, 0));
         }
 
+        .often {
+            margin: 0 auto;
+            width: 50%;
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            /* background-color: pink; */
+        }
+
+        span {
+            width: 40px;
+            height: 40px;
+        }
+
+        span:nth-child(1) {
+            background-color: red;
+        }
+
+        span:nth-child(2) {
+            background-color: orange;
+        }
+
+        span:nth-child(3) {
+            background-color: yellow;
+        }
+
+        span:nth-child(4) {
+            background-color: green;
+        }
+
+        span:nth-child(5) {
+            background-color: blue;
+        }
+
+        span:nth-child(6) {
+            background-color: purple;
+        }
+
+        span:nth-child(7) {
+            background-color: black;
+        }
+
         .write {
             margin: 0 auto;
             width: 50%;
@@ -31,32 +74,103 @@
 
 <body>
     <div class="color"></div>
+    <div class="often">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <div class="write">
-        <div class="rgb">rgb:</div>
-        <div class="hex">hex:</div>
+        <div class="rgb">RGB:</div>
+        <div class="hex">HEX:</div>
     </div>
     <script>
         const color = document.querySelector('.color')
         const rgb = document.querySelector('.rgb')
         const hex = document.querySelector('.hex')
+        const often = document.querySelector('.often')
 
-        const cover = document.createElement('cover')
-        
+        //rgb 转 hex
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        often.addEventListener('click', function (e) {
+            if (e.target.tagName === 'SPAN') {
+                const bgc = window.getComputedStyle(e.target).backgroundColor
+                // console.log(bgc)
+                navigator.clipboard.writeText(bgc)
+                alert(`已复制颜色${bgc}`)
+                rgb.textContent = `RGB:${bgc}`
+                //bgc转化为hex
+                const rgbMatch = bgc.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+                if (rgbMatch) {
+                    const r = parseInt(rgbMatch[1]);
+                    const g = parseInt(rgbMatch[2]);
+                    const b = parseInt(rgbMatch[3]);
+                    hex.textContent = `HEX:${rgbToHex(r, g, b)}`
+                }
+            }
+        })
+        // const red = document.querySelector('.often nth-child(1)')
+        // const orange = document.querySelector('.often nth-child(2)')
+        // const yellow = document.querySelector('.often nth-child(3)')
+        // const green = document.querySelector('.often nth-child(4)')
+        // const blue = document.querySelector('.often nth-child(5)')
+        // const purple = document.querySelector('.often nth-child(6)')
+        // const black = document.querySelector('.often nth-child(7)')
+
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d');
+
         function coverStyle() {
             const real = color.getBoundingClientRect()
-            cover.width = real.width
-            cover.height = real.height
-            
+            canvas.width = real.width
+            canvas.height = real.height
+            //绘制渐变
+            //创建线性渐变对象
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0)
+            //
+            gradient.addColorStop(0, 'rgb(255, 0, 0)')
+            gradient.addColorStop(0.14, 'rgb(255, 165, 0)')
+            gradient.addColorStop(0.28, 'rgb(255, 255, 0)')
+            gradient.addColorStop(0.42, 'rgb(0, 128, 0)')
+            gradient.addColorStop(0.57, 'rgb(0, 255, 255)')
+            gradient.addColorStop(0.71, 'rgb(0, 0, 255)')
+            gradient.addColorStop(0.85, 'rgb(238, 130, 238)')
+            gradient.addColorStop(1, 'rgb(255, 0, 0)')
+
+            ctx.fillStyle = gradient
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
         }
-        // color.addEventListener('click', function (e) {
-        //     const bgc = window.getComputedStyle(e.target).backgroundColor
-        //     console.log(bgc)
-        //  })
-        //  document.addEventListener('click', function (e) {
-        //  const style = window.getComputedStyle(e.target);
-        //     console.log('当前元素:', e.target); // 检查点击的是什么
-        //     console.log('backgroundColor:', style.backgroundImage); // 查看真实值
-        // });
+
+        // 初始化时更新 canvas
+        coverStyle()
+        window.addEventListener('resize', coverStyle)
+
+        //鼠标在上方就会显示该点的rgb值
+
+        //点击获取颜色
+        color.addEventListener('click', function (e) {
+            const real = color.getBoundingClientRect()
+            const x = e.clientX - real.left
+            const y = e.clientY - real.top
+
+            //获取该点的rgba值
+            const rgbaData = ctx.getImageData(x, y, 1, 1).data
+            const r = rgbaData[0]
+            const g = rgbaData[1]
+            const b = rgbaData[2]
+
+            //值显示在下方
+            rgb.textContent = `RGB:(${r},${g},${b})`
+            hex.textContent = `HEX:${rgbToHex(r, g, b)}`
+            navigator.clipboard.writeText(`rgb:(${r},${g},${b})`)
+            alert(`已复制颜色RGB:(${r},${g},${b})`)
+        })
     </script>
 </body>
 

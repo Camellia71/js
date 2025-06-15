@@ -1581,3 +1581,259 @@ M端事件其实就是移动端事件，移动端有自己独特的地方比如�
 
 ### 4.案例
 
+
+
+## 考核-颜色卡尺
+
+题目1：颜色卡尺页面功能要求：
+a. 点击颜色块可复制对应颜色代码（如HEX、RGB等）；
+b. 集成颜色轮盘（如调色盘或取色器）实现动态选色。
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250615114902484.png" alt="image-20250615114902484" style="zoom:67%;" />
+
+#### 1.html和css
+
+用html和css搭建上方框架，css用渐变函数linear-gradient实现，html下方盒子用flex布局
+
+​	**下面介绍绘制渐变背景的几种方法**
+
+1. CSS 渐变函数是最直接的渐变实现方式，包含线性渐变和径向渐变两大类，下方代码展示：
+
+```css
+/*线性渐变*/
+.element {
+  background: linear-gradient(to right, red, yellow, blue); /* 从左到右红→黄→蓝 */
+  background: linear-gradient(45deg, #ff0000, #00ff00); /* 45度角红→绿 */
+  background: linear-gradient(90deg, purple 0%, orange 50%, green 100%); /* 自定义颜色位置 */
+}
+/*径向渐变*/
+.element {
+  background: radial-gradient(circle, red, yellow, blue); /* 圆形径向渐变 */
+  background: radial-gradient(ellipse at center, #f00, #00f); /* 椭圆渐变，圆心在中心 */
+  background: radial-gradient(circle closest-corner, green, transparent); /* 最近角落渐变 */
+}
+```
+
+本次颜色卡尺就使用线性渐变，这里需要注意的是，我们无法通过原生API获得渐变颜色css样式，原因有以下几点：
+
+（1）**CSS 渐变的本质**：`linear-gradient`/`radial-gradient`等函数生成的是**样式定义**，而非具体的像素颜色数据。浏览器渲染时会将其解析为渐变图案，但前端代码无法直接访问渐变中某一点的 RGB 值。
+
+（2）**DOM 与样式的隔离**：JavaScript 通过`getComputedStyle`只能获取样式字符串（如`linear-gradient(red, blue)`），无法解析为具体颜色值；`element.style.backgroundColor`也只能获取单一颜色，无法处理渐变。
+
+2. 通过 CSS 图像属性间接实现渐变背景
+
+```css
+.element {
+  background: url(linear-gradient(to bottom, red, blue)); /* 等价于linear-gradient */
+}
+```
+
+其余通过CSS 滤镜或元素混合效果间接实现渐变；多层元素叠加与混合，实现渐变效果等不再详细介绍。
+
+#### 2.js
+
+js部分需要实现监听到鼠标点击，点击后能获取该点颜色（rgb），将该点颜色复制到剪切板并显示在下方三步，本次将详细介绍2 3两步；而这三步在渐变和常用颜色两种要实现的方法不同；
+
+首先来介绍**常用颜色**这一部分：
+
+```js
+//获取DOM对象       
+const often = document.querySelector('.often')
+//事件监听		
+often.addEventListener('click', function (e) {
+    //获取该点颜色        
+    const bgc = window.getComputedStyle(e.target).backgroundColor
+    //console.log(bgc)
+    //复制到剪切板
+	navigator.clipboard.writeText(bgc)
+  	alert(`已复制颜色: ${bgc}`);
+        })
+```
+
+接下来是**渐变颜色**：
+
+> [!IMPORTANT]
+>
+> 在进入颜色渐变js部分之前，我们先来看一下使用 Canvas API 创建**彩虹渐变**效果
+>
+> ```js
+> // 创建Canvas元素
+> const canvas = document.createElement('canvas');
+> canvas.width = 500;
+> canvas.height = 100;
+> document.body.appendChild(canvas);
+> 
+> // 获取绘图上下文
+> const ctx = canvas.getContext('2d');
+> 
+> // 创建水平线性渐变（从左到右）
+> const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+> 
+> // 添加颜色断点（彩虹渐变）
+> gradient.addColorStop(0, 'rgb(255, 0, 0)');
+> gradient.addColorStop(0.14, 'rgb(255, 165, 0)');
+> gradient.addColorStop(0.28, 'rgb(255, 255, 0)');
+> gradient.addColorStop(0.42, 'rgb(0, 128, 0)');
+> gradient.addColorStop(0.57, 'rgb(0, 255, 255)');
+> gradient.addColorStop(0.71, 'rgb(0, 0, 255)');
+> gradient.addColorStop(0.85, 'rgb(238, 130, 238)');
+> gradient.addColorStop(1, 'rgb(255, 0, 0)');
+> 
+> // 应用渐变到矩形
+> ctx.fillStyle = gradient;
+> ctx.fillRect(0, 0, canvas.width, canvas.height);
+> ```
+>
+> 1. 首先是创建canvas和获取绘图上下文
+>
+> ```js
+> const ctx = canvas.getContext('2d');
+> //getContext('2d') 返回绘图 API 的核心对象，支持绘制路径、渐变、文本等
+> //若需 3D 渲染，可使用 getContext('webgl')
+> ```
+>
+> 2. 在这里要介绍一下canvas的参数对象及使用：
+>
+> ```js
+> createLinearGradient(x0, y0, x1, y1);
+> //x0, y0：渐变起始点的坐标（Canvas 画布的左上角为原点 (0,0)）
+> //x1, y1：渐变结束点的坐标接下来是添加颜色断点；可以通过添加颜色断点来实现颜色的平滑过渡
+> ```
+>
+> 3. 接下来是添加颜色断点
+>
+> ```js
+> gradient.addColorStop(position, color);
+> //position：颜色断点的位置，范围从 0（渐变起点）到 1（渐变终点）
+> //color：颜色值，可以是 CSS 颜色名称（如 'red'）、RGB、RGBA、HEX 等格式
+> ```
+>
+> 4. 应用渐变到矩形
+>
+> ```js
+> ctx.fillStyle = gradient;
+> ctx.fillRect(0, 0, canvas.width, canvas.height);
+> //fillStyle：设置填充样式为渐变对象
+> //fillRect(x, y, width, height)：绘制并填充矩形（从左上角开始，覆盖整个画布）
+> ```
+>
+> 
+
+1. 获取DOM对象
+
+```js
+        const color = document.querySelector('.color')
+        const canvas = document.createElement('canvas')//创建一个隐藏的canvas
+        const ctx = canvas.getContext('2d')//获取绘图上下文
+```
+
+2. 设置 canvas 尺寸和渐变条一致
+
+```js
+    	 //创建线性渐变对象
+         const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0)
+         //绘制渐变：Canvas API 创建一个彩虹渐变
+			gradient.addColorStop(0, 'rgb(255, 0, 0)')
+            gradient.addColorStop(0.14, 'rgb(255, 165, 0)')
+            gradient.addColorStop(0.28, 'rgb(255, 255, 0)')
+            gradient.addColorStop(0.42, 'rgb(0, 128, 0)')
+            gradient.addColorStop(0.57, 'rgb(0, 255, 255)')
+            gradient.addColorStop(0.71, 'rgb(0, 0, 255)')
+            gradient.addColorStop(0.85, 'rgb(238, 130, 238)')
+            gradient.addColorStop(1, 'rgb(255, 0, 0)')
+```
+
+3. 应用到矩形
+
+```js
+			ctx.fillStyle = gradient
+            ctx.fillRect(0,0,canvas.width,canvas.height)
+```
+
+> [!IMPORTANT]
+>
+> 现在开始获取该点的rgba值并复制到剪切板
+>
+> 1.计算该点在渐变位置的坐标
+>
+> ```js
+> const rect = colorBar.getBoundingClientRect();
+> const x = e.clientX - rect.left;
+> const y = e.clientY - rect.top;
+> //getBoundingClientRect()：获取元素在视口中的位置和尺寸（返回left, top, width, height等属性）
+> //e.clientX/e.clientY：鼠标点击位置的视口坐标（相对于浏览器窗口）
+> //作差是通过rect.left/top偏移量，将全局坐标转换为元素内的相对坐标（如渐变条左上角为(0, 0)）
+> ```
+>
+> 2.获取点击位置的rgba值
+>
+> ```js
+> const pixelData = ctx.getImageData(x, y, 1, 1).data;
+> //ctx.getImageData(x, y, width, height)：从 Canvas 上下文获取指定区域(大小为多少像素）的像素数据
+> //.data：返回像素数据数组，格式为 [R, G, B, A]（每个值范围 0-255）
+> const r = pixelData[0];
+> const g = pixelData[1];
+> const b = pixelData[2];
+> //所以获取数组中的数据
+> ```
+>
+> 3.获取元素并显示在下方
+>
+> ```js
+> rgbDisplay.textContent = `RGB: (${r}, ${g}, ${b})`;
+> hexDisplay.textContent = `HEX: ${rgbToHex(r, g, b)}`;
+> ```
+>
+> 转化函数
+>
+> ```js
+> function rgbToHex(r, g, b) {
+>   // 将RGB值转换为两位十六进制字符串
+>   const toHex = (n) => {
+>     const hex = n.toString(16);
+>     return hex.length === 1 ? `0${hex}` : hex;
+>   };
+>   
+>   // 拼接为#RRGGBB格式
+>   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+> }
+> ```
+>
+> 4.复制到剪切板
+>
+> ```js
+> navigator.clipboard.writeText(`rgb:(${r},${g},${b})`)
+> ```
+>
+> 
+
+接下来直接展示相关代码
+
+```js
+ 		// 初始化时更新 canvas
+		// 确保 Canvas 与容器尺寸一致；在 Canvas 上绘制与容器相同的渐变
+        coverStyle()
+        window.addEventListener('resize', coverStyle)
+
+        //鼠标在上方就会显示该点的rgb值
+
+        //点击获取颜色
+        color.addEventListener('click', function (e) {
+            const real = color.getBoundingClientRect()
+            const x = e.clientX - real.left
+            const y = e.clientY - real.top
+
+            //获取该点的rgba值
+            const rgbaData = ctx.getImageData(x, y, 1, 1).data
+            const r = rgbaData[0]
+            const g = rgbaData[1]
+            const b = rgbaData[2]
+
+            //值显示在下方并进行复制
+            rgb.textContent = `RGB:(${r},${g},${b})`
+            hex.textContent = `HEX:${rgbToHex(r, g, b)}`
+            navigator.clipboard.writeText(`rgb:(${r},${g},${b})`)
+            alert(`已复制颜色RGB:(${r},${g},${b})`)
+        })
+```
+

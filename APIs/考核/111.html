@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彩虹水平渐变条</title>
+    <style>
+        .color {
+            margin: 50px auto;
+            width: 50%;
+            height: 300px;
+            position: relative;
+            background: linear-gradient(to right,
+                    rgb(255, 0, 0),
+                    rgb(255, 165, 0),
+                    rgb(255, 255, 0),
+                    rgb(0, 128, 0),
+                    rgb(0, 255, 255),
+                    rgb(0, 0, 255),
+                    rgb(238, 130, 238),
+                    rgb(255, 0, 0));
+        }
+
+        .color-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .often {
+            margin: 0 auto;
+            width: 50%;
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        span {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        span:hover {
+            transform: scale(1.1);
+        }
+
+        span:nth-child(1) {
+            background-color: red;
+        }
+
+        span:nth-child(2) {
+            background-color: orange;
+        }
+
+        span:nth-child(3) {
+            background-color: yellow;
+        }
+
+        span:nth-child(4) {
+            background-color: green;
+        }
+
+        span:nth-child(5) {
+            background-color: blue;
+        }
+
+        span:nth-child(6) {
+            background-color: purple;
+        }
+
+        span:nth-child(7) {
+            background-color: black;
+        }
+
+        .write {
+            margin: 20px auto;
+            width: 50%;
+            height: 60px;
+            display: flex;
+            gap: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .rgb,
+        .hex {
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="color" id="color"></div>
+    <div class="often" id="often"></div>
+    <div class="write">
+        <div class="rgb" id="rgb">RGB:</div>
+        <div class="hex" id="hex">HEX:</div>
+    </div>
+
+    <!-- 提示框 -->
+    <div class="color-tooltip" id="tooltip"></div>
+
+    <script>
+        const color = document.querySelector('#color');
+        const rgb = document.querySelector('#rgb');
+        const hex = document.querySelector('#hex');
+        const often = document.querySelector('#often');
+        const tooltip = document.querySelector('#tooltip');
+
+        // 创建并配置Canvas
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none'; // 让鼠标事件穿透canvas
+        color.appendChild(canvas); // 将canvas添加到DOM中
+
+        const ctx = canvas.getContext('2d');
+
+        // RGB转HEX函数（提前定义）
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        // 绘制渐变到Canvas
+        function coverStyle() {
+            const rect = color.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            // 创建线性渐变对象
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+
+            // 添加颜色断点（彩虹渐变）
+            gradient.addColorStop(0, 'rgb(255, 0, 0)');
+            gradient.addColorStop(0.14, 'rgb(255, 165, 0)');
+            gradient.addColorStop(0.28, 'rgb(255, 255, 0)');
+            gradient.addColorStop(0.42, 'rgb(0, 128, 0)');
+            gradient.addColorStop(0.57, 'rgb(0, 255, 255)');
+            gradient.addColorStop(0.71, 'rgb(0, 0, 255)');
+            gradient.addColorStop(0.85, 'rgb(238, 130, 238)');
+            gradient.addColorStop(1, 'rgb(255, 0, 0)');
+
+            // 应用渐变并填充矩形
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // 初始化时绘制渐变
+        coverStyle();
+        window.addEventListener('resize', coverStyle);
+
+        // 处理颜色块点击事件
+        often.addEventListener('click', function (e) {
+            if (e.target.tagName === 'SPAN') {
+                const bgc = window.getComputedStyle(e.target).backgroundColor;
+
+                // 显示颜色信息
+                rgb.textContent = `RGB: ${bgc}`;
+
+                // 转换为HEX格式
+                const rgbMatch = bgc.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+                if (rgbMatch) {
+                    const r = parseInt(rgbMatch[1]);
+                    const g = parseInt(rgbMatch[2]);
+                    const b = parseInt(rgbMatch[3]);
+                    hex.textContent = `HEX: ${rgbToHex(r, g, b)}`; // 修复括号问题
+
+                    // 复制到剪贴板
+                    navigator.clipboard.writeText(`rgb(${r}, ${g}, ${b})`)
+                        .then(() => alert(`已复制颜色: rgb(${r}, ${g}, ${b})`))
+                        .catch(err => console.error('复制失败:', err));
+                }
+            }
+        });
+
+        // 鼠标在渐变上移动时显示RGB值
+        color.addEventListener('mousemove', function (e) {
+            const rect = color.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            try {
+                // 获取该点的RGBA值
+                const pixelData = ctx.getImageData(x, y, 1, 1).data;
+                const r = pixelData[0];
+                const g = pixelData[1];
+                const b = pixelData[2];
+
+                // 更新提示框内容和位置
+                tooltip.textContent = `RGB: (${r}, ${g}, ${b})\nHEX: ${rgbToHex(r, g, b)}`;
+                tooltip.style.opacity = '1';
+                tooltip.style.left = `${e.clientX + 10}px`;
+                tooltip.style.top = `${e.clientY + 10}px`;
+
+                // 同时更新底部显示
+                rgb.textContent = `RGB: (${r}, ${g}, ${b})`;
+                hex.textContent = `HEX: ${rgbToHex(r, g, b)}`;
+            } catch (err) {
+                console.error('无法获取像素数据:', err);
+                tooltip.textContent = '无法获取颜色';
+            }
+        });
+
+        // 鼠标离开时隐藏提示框
+        color.addEventListener('mouseleave', function () {
+            tooltip.style.opacity = '0';
+        });
+
+        // 点击渐变获取颜色
+        color.addEventListener('click', function (e) {
+            const rect = color.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            try {
+                // 获取该点的RGBA值
+                const pixelData = ctx.getImageData(x, y, 1, 1).data;
+                const r = pixelData[0];
+                const g = pixelData[1];
+                const b = pixelData[2];
+
+                // 显示颜色信息
+                rgb.textContent = `RGB: (${r}, ${g}, ${b})`;
+                hex.textContent = `HEX: ${rgbToHex(r, g, b)}`;
+
+                // 复制到剪贴板
+                navigator.clipboard.writeText(`rgb(${r}, ${g}, ${b})`)
+                    .then(() => alert(`已复制颜色: rgb(${r}, ${g}, ${b})`))
+                    .catch(err => console.error('复制失败:', err));
+            } catch (err) {
+                console.error('无法获取像素数据:', err);
+                alert('无法获取该点颜色');
+            }
+        });
+    </script>
+</body>
+
+</html>
