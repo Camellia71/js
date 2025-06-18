@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 定时器
+        // setInterval
+        // setTimeout(function () {
+        //     console.log('时间到了')
+        // }, 2000)
+        let timer = setTimeout(function () {
+            console.log('时间到了')
+        }, 2000)
+        clearTimeout(timer)
+        //
+        clearTimeout(setTimeout(function () {
+            console.log(22)
+        }, 3000))
+    </script>
+</body>
+
+</html>
