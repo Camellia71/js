@@ -1579,9 +1579,9 @@ M端事件其实就是移动端事件，移动端有自己独特的地方比如�
 
 <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250611235328808.png" alt="image-20250611235328808" style="zoom: 50%;" />
 
-### 4.案例
+### 4.swiper插件
 
-
+### 5.案例
 
 ## 考核-颜色卡尺
 
@@ -1837,7 +1837,7 @@ often.addEventListener('click', function (e) {
         })
 ```
 
-#### 3.代码。。。
+#### 3.代码。。
 
 ```html
 <!DOCTYPE html>
@@ -2019,3 +2019,71 @@ often.addEventListener('click', function (e) {
 </html>
 ```
 
+## APIs-5
+
+### 1.widow对象
+
+#### 1.BOM（浏览器对象类型）
+
+Browser Object Model 是浏览器对象模型
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250618231522779.png" alt="image-20250618231522779" style="zoom:67%;" />
+
+window对象是全局对象，也可以说是JavaScript中的顶级对象，基本BOM的属性和方法都是window的；
+
+所有通过var定义在全局作用域中的变量和函数都会变成window对象的属性和方法；
+
+window对象下的属性和方法调用的时候可以省略window；
+
+#### 2.定时器-延时函数
+
+js中内置的让代码延迟的函数，叫setTimeout
+
+```js
+setTimeout(回调函数, 等待的毫秒数)
+```
+
+setTimeout仅仅执行一次，所以可以理解为把一段代码延迟执行，平时省略window
+
+**清除延迟函数**
+
+```js
+let timer = setTimeout(function () {
+            console.log('时间到了')
+        }, 2000)
+clearTimeout(timer)
+```
+
+**注意**
+
+延时器需要等待，所以后面的代码先执行
+
+每一次调用延时器都会产生一个新的延时器
+
+**对比**  (setInterval 和 setTimeout)
+
+延时函数只执行一次；间歇函数每隔一段时间就执行一次，除非手动清除；
+
+#### 3.js执行机制
+
+JavaScript语言的一大特点就是单线程，也就是说同一时间只能做一个事；
+
+js是为处理页面之间的交互，以及操作DOM二诞生的（比如我们对某一个DOM元素进行添加和删除操作是不能同时进行的，应该先进行添加，再进行删除）；
+
+单线程就意味着所有任务都需要排队，可能导致：如果js执行时间过长，就会造成页面渲染不连贯，导致页面渲染加载阻塞的感觉。
+
+为了解决这个问题，利用多核CPU的计算能力，html5提出Web Worker 标准，允许js脚本创建多个线程，于是出现了**同步和异步**；
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250618235525950.png" alt="image-20250618235525950" style="zoom: 50%;" />
+
+**同步任务**：都在主线程上执行，形成一个执行栈
+
+**异步任务**：js 的异步是通过回调函数实现的
+
+​	一般而言分为三种类型：
+
+1. 普通事件：如 click， resize等
+2. 资源加载：如 load， error等
+3. 定时器：包括 setInterval, setTimeout等
+
+异步任务相关添加到任务队列中（任务队列也称消息队列）
