@@ -2087,3 +2087,13 @@ js是为处理页面之间的交互，以及操作DOM二诞生的（比如我们
 3. 定时器：包括 setInterval, setTimeout等
 
 异步任务相关添加到任务队列中（任务队列也称消息队列）
+
+**顺序**
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250625235311816.png" alt="image-20250625235311816" style="zoom:50%;" />
+
+1. 先执行执行栈中的同步任务
+2. 异步任务放到任务队列中
+3. 同步任务执行完毕后，系统就会按照任务队列中的顺序读取异步任务，于是异步任务结束等待状态，进入执行栈开始执行
+
+![image-20250625235341507](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250625235341507.png)
