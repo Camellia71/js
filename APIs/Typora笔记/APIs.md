@@ -2100,3 +2100,16 @@ js是为处理页面之间的交互，以及操作DOM二诞生的（比如我们
 
 由于主线程不断重复获得任务，执行任务，再获取任务，再执行，所以这种机制被称为事件循环（event loop）
 
+#### 4.location对象
+
+location的数据类型是对象，他拆分并保存了URL地址的各个组成部分
+
+href属性获取完整的URL地址，对其赋值时用于地址的跳转
+
+```js
+        //可以得到当前文件URL地址
+        console.log(location.href)
+        //可以通过js方式跳转到目标地址
+        location.href = 'http://www.itcast.cn'
+```
+
