@@ -2104,12 +2104,48 @@ js是为处理页面之间的交互，以及操作DOM二诞生的（比如我们
 
 location的数据类型是对象，他拆分并保存了URL地址的各个组成部分
 
-href属性获取完整的URL地址，对其赋值时用于地址的跳转
+——href属性获取完整的URL地址，对其赋值时用于地址的跳转
 
 ```js
         //可以得到当前文件URL地址
         console.log(location.href)
         //可以通过js方式跳转到目标地址
         location.href = 'http://www.itcast.cn'
+```
+
+——search属性获取地址中携带的参数，符号？后面的部分
+
+```js
+    <form action="">
+        <input type="text" name="username">
+        <input type="password" name="pwd">
+        <button>提交</button>
+    </form>
+    <script>
+        console.log(location.search)
+    </script>
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250629000542661.png" alt="image-20250629000542661"  />
+
+——hash属性获得地址中的哈希值，符号#后面的部分
+
+```js
+    <a href="#/my">我的</a>
+    <a href="#/friend">朋友</a>
+    <a href="#/download">下载</a>
+    <script>
+        console.log(location.hash)
+    </script>
+```
+
+——reload方法用来刷新当前页面，传入参数true时表示强制刷新
+
+```js
+        const reload =  document.querySelector('.reload')
+        reload.addEventListener('click',function() {
+            //相当于 f5 刷新页面
+            location.reload()
+        })
 ```
 
