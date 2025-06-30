@@ -2149,3 +2149,27 @@ location的数据类型是对象，他拆分并保存了URL地址的各个组成
         })
 ```
 
+#### 5.navigator对象
+
+navigator的数据类型是对象，该对象记录了浏览器自身的相关信息
+
+可以通过 userAgent 检测浏览器的版本及平台
+
+```js
+<head>
+    <script>
+        //检测 userAgent (浏览器信息)
+        !(function () {
+            const userAgent = navigator.userAgent
+            // 验证是否为Android 或 iPhone
+            const android = userAgent.match(/(Android);?[\s\/]+([\d.]+)?/)
+            const iphone = userAgent.match(/(iPhone\sOS)\s([\d_]+)/)
+            // 如果是Android 或 iPhone,则跳转至移动站点
+            if (android || iphone) {
+                location.href = 'http://m.itcast.cn'
+            }
+        })()
+    </script>
+</head>
+```
+
