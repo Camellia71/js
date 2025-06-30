@@ -2173,3 +2173,28 @@ navigator的数据类型是对象，该对象记录了浏览器自身的相关�
 </head>
 ```
 
+#### 6.history对象
+
+history的数据类型是对象，主要管理历史记录，该对象与浏览器地址栏的操作相对应，如前进，后退，历史记录等
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250701003901362.png" alt="image-20250701003901362" style="zoom:80%;" />
+
+```js
+	<button>前进</button>
+    <button>后退</button>
+    <script>
+        const back = document.querySelector('button:first-child')
+        const forward = back.nextElementSibling
+        back.addEventListener('click', function () {
+            history.back()
+            // history.go(1)
+        })
+        forward.addEventListener('click', function () {
+            history.forward()
+            // history.go(-1)
+        })
+    </script>
+```
+
+### 2.本地存储
+
