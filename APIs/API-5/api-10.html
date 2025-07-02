@@ -12,6 +12,19 @@
         // 存储一个名字 uname pink老师
         // localStorage.setItem(键,值)
         localStorage.setItem('uname', 'pink老师')
+        //获取
+        console.log(localStorage.getItem('uname'))
+        //修改
+        localStorage.setItem('uname', 'red老师')
+        //删除
+        localStorage.removeItem('uname')
+
+        //本地存储只能存储字符串型
+        localStorage.setItem('age', 18)
+        console.log(localStorage.getItem('age'))
+
+        //用法相同
+        sessionStorage.setItem('name', 'xixi')
     </script>
 </body>
 
