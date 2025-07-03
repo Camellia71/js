@@ -2198,6 +2198,8 @@ history的数据类型是对象，主要管理历史记录，该对象与浏览�
 
 ### 2.本地存储
 
+本地存储只能存储字符串
+
 #### 1.介绍
 
 数据储存在用户浏览器中；设置，读取方便，甚至页面刷新不丢失数据；容量较大，sessionStorage和localStorage约5M左右
@@ -2217,4 +2219,33 @@ history的数据类型是对象，主要管理历史记录，该对象与浏览�
 ```js
 localStorage.setItem(key,value)
 ```
+
+获取
+
+```js
+localStorage.getItem(key)
+```
+
+删除
+
+```js
+localStorage.removeItem(key)
+```
+
+**使用**
+
+```js
+        // 存储一个名字 uname pink老师
+        localStorage.setItem('uname', 'pink老师')
+        //获取
+        console.log(localStorage.getItem('uname'))
+        //修改
+        localStorage.setItem('uname', 'red老师')
+        //删除
+        localStorage.removeItem('uname')
+```
+
+#### 3.sessionStorage
+
+生命周期为关闭浏览器窗口；在同一个窗口（页面）下数据可以共享；以键值对形式存储使用；用法跟localStorage基本相同
 
