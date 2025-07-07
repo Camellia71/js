@@ -2249,3 +2249,30 @@ localStorage.removeItem(key)
 
 生命周期为关闭浏览器窗口；在同一个窗口（页面）下数据可以共享；以键值对形式存储使用；用法跟localStorage基本相同
 
+#### 4.存储复杂数据类型
+
+本地只能存储字符串，无法存储复杂数据类型
+
+```js
+        const obj = {
+            uname: 'pink老师',
+            age: 18,
+            gender: '女'
+        }
+        //存储复杂类型
+        localStorage.setItem('obj',obj)
+```
+
+解决方法：
+
+需要将复杂数据类型转换成JSON字符串，再存储到本地
+
+```js
+		//JSON.stringify(复杂数据类型)
+		localStorage.setItem('obj', JSON.stringify(obj))
+        //JSON对象  属性和值有引号，而且引号统一是双引号
+        //{"uname":"pink老师","age":18,"gender":"女"}
+        console.log(localStorage.getItem(obj))
+        console.log(typeof localStorage.getItem('obj'))
+```
+
