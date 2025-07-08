@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const arr = ['red', 'blue', 'yellow']
+        //1.map()
+        const NewArr = arr.map(function (ele, index) {
+            console.log(ele)  //数组元素
+            console.log(index) //索引号
+            return ele + '颜色'
+        })
+        console.log(NewArr)  //['red颜色', 'blue颜色', 'yellow颜色']
+
+        //2.join()
+        //以逗号分隔  
+        console.log(NewArr.join())  //red颜色,blue颜色,yellow颜色
+        //无分隔
+        console.log(NewArr.join(''))  //red颜色blue颜色yellow颜色
+        //以竖线分隔
+        console.log(NewArr.join('|'))  //red颜色|blue颜色|yellow颜色
+    </script>
+</body>
+
+</html>
