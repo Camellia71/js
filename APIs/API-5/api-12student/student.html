@@ -29,7 +29,11 @@
         </select>
         <button class="add">录入</button>
     </form>
-
+    <div class="title">
+        共有数据
+        <span></span>
+        条
+    </div>
     <h1>就业榜</h1>
     <table>
         <thead>
@@ -44,23 +48,12 @@
             </tr>
         </thead>
         <tbody>
-            <!-- 
-        <tr>
-          <td>1001</td>
-          <td>欧阳霸天</td>
-          <td>19</td>
-          <td>男</td>
-          <td>15000</td>
-          <td>上海</td>
-          <td>
-            <a href="javascript:">删除</a>
-          </td>
-        </tr> 
-        -->
+
         </tbody>
     </table>
     <script>
         // 参考数据
+        const tbody = document.querySelector('tbody')
         const initData = [
             {
                 stuId: 1001,
@@ -73,12 +66,40 @@
         ]
 
         localStorage.setItem('data', JSON.stringify(initData))
+        console.log('data')
         //渲染业务
         //1.先读取本地存储数据
-        //1.1 如果有数据就直接读取，要用JSON字符串
-        let arr = JSON.parse(localStorage.getItem(data)) || []
+        // 如果有数据就直接读取，要用JSON字符串
+        let arr = JSON.parse(localStorage.getItem('data')) || []
         //这里使用逻辑运算符‘或’
         console.log(arr)
+
+        //更新数据 使用map将其数据更新并返回新的数组，再使用join将其转化为字符串
+        function render () {
+            //map遍历数组
+            let trArr = arr.map(function(ele) {
+                return `
+                    <tr>
+                        <td>${ele.stuId}</td>
+                        <td>${ele.uname}</td>
+                        <td>${ele.age}</td>
+                        <td>${ele.gender}</td>
+                        <td>${ele.salary}</td>
+                        <td>${ele.city}</td>
+                        <td>
+                        <a href="javascript:">删除</a>
+                        </td>
+                    </tr>
+                `
+            })
+            console.log(trArr)
+        }
+        //使用join将其转化为字符串
+        //放入tbody中
+        tbody.innerHTML = trArr.join('')
+        render()
+        //显示数组长度在右上角
+
     </script>
 </body>
 
