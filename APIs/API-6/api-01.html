@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const str1 = '我要学前端'
+        const str2 = '我要学后端'
+        //正则表达式
+        //1.定义规则
+        const reg = /前端/
+        //2.是否匹配
+        reg.test(str1)
+        reg.test(str2)
+        //
+        console.log(reg.test(str1))
+        console.log(reg.test(str2))
+        //exec
+        reg.exec(str1)
+        reg.exec(str2)
+        //
+        console.log(reg.exec(str1))
+        console.log(reg.exec(str2))
+    </script>
+</body>
+
+</html>
