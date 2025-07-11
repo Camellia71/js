@@ -204,7 +204,7 @@
         const code = document.querySelector('.code')
         let flag = true //使用flag控制在读秒期间不能点击
         //1.1点击事件
-        code, addEventListener('click', function () {
+        code.addEventListener('click', function () {
             if (flag) {
                 flag = false
                 let i = 5
@@ -227,11 +227,122 @@
         //2.1先获取表单
         const username = document.querySelector('[name=username]')
         //2.2使用change事件  只检测值发生变化的时候
-        username.addEventListener('change',verifyName)
+        username.addEventListener('change', verifyName)
         //2.3封装函数
         function verifyName() {
-            
+            const span = username.nextElementSibling
+            //2.4判断是否符合规范
+            const reg = /^[a-zA-Z0-9-_]{6,10}$/
+            if (!reg.test(username.value)) {
+                span.innerText = '输入不合法，请输入6-10位'
+                return false
+            }
+            //2.5正确的话返回 true
+            span.innerText = ' '
+            return true
         }
+
+
+        //3.验证手机号吧
+        //3.1先获取表单
+        const phone = document.querySelector('[name=phone]')
+        //3.2使用change事件  只检测值发生变化的时候
+        phone.addEventListener('change', verifyPhone)
+        //3.3封装函数
+        function verifyPhone() {
+            const span = phone.nextElementSibling
+            //3.4判断是否符合规范
+            const reg = /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/
+            if (!reg.test(phone.value)) {
+                span.innerText = '输入不合法，请输入手机号'
+                return false
+            }
+            //3.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+        //4.验证码
+        //4.1先获取表单
+        const inputCode = document.querySelector('[name=code]')
+        //4.2使用change事件  只检测值发生变化的时候
+        inputCode.addEventListener('change', verifyCode)
+        //4.3封装函数
+        function verifyCode() {
+            const span = inputCode.nextElementSibling
+            //4.4判断是否符合规范
+            const reg = /^\d{6}$/
+            if (!reg.test(inputCode.value)) {
+                span.innerText = '输入不合法，请输入6位数字'
+                return false
+            }
+            //4.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+        //5.密码
+        //5.1先获取表单
+        const password = document.querySelector('[name=password]')
+        //5.2使用change事件  只检测值发生变化的时候
+        password.addEventListener('change', verifyPwd)
+        //5.3封装函数
+        function verifyPwd() {
+            const span = password.nextElementSibling
+            //5.4判断是否符合规范
+            const reg = /^[a-zA-Z0-9-_]{6,20}$/
+            if (!reg.test(password.value)) {
+                span.innerText = '输入不合法，6-20位字母数字组成'
+                return false
+            }
+            //5.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+
+        //5.密码的再次验证
+        //5.1先获取表单
+        const confirm = document.querySelector('[name=confirm]')
+        //5.2使用change事件  只检测值发生变化的时候
+        confirm.addEventListener('change', verifyConfirm)
+        //5.3封装函数
+        function verifyConfirm() {
+            const span = confirm.nextElementSibling
+            //5.4判断是否符合规范
+            if (confirm.value !== password.value) {
+                span.innerText = '两次密码输入不一致'
+                return false
+            }
+            //5.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+        //6.我同意模块
+        const queren = document.querySelector('.icon-queren')
+        queren.addEventListener('click', function () {
+            //切换类
+            this.classList.toggle('icon-queren2')
+        })
+
+        //7.提交
+        const form = document.querySelector('form')
+        form.addEventListener('submit', function (e) {
+            //判断是否能提交（有没有勾选同意）
+            if (!queren.classList.contains('icon-queren2')) {
+                //弹出提示框
+                alert("请勾选同意")
+                //阻止提交
+                e.preventDefault()
+                //判断是不是所有的都符合规范
+                if (verifyName()) e.preventDefault()
+                if (verifyPhone()) e.preventDefault()
+                if (verifyCode()) e.preventDefault()
+                if (verifyPwd()) e.preventDefault()
+                if (verifyConfirm()) e.preventDefault()
+            }
+        })
     </script>
 </body>
 

@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" style="display: none;">
-                        <img class="code" src="./images/code.png" alt="">
+                        <img class="code" src="images/code.png" alt="">
                     </div>
                 </div>
             </form>
@@ -77,7 +77,43 @@
         </div>
     </div>
     <script>
+        //1.tab栏切换 用事件委托
+        const tab_nav = document.querySelector('.tab-nav')
+        const pane = document.querySelectorAll('.tab-pane')
+        //1.1添加事件监听
+        tab_nav.addEventListener('click', function (e) {
+            //确定点击的是 a
+            if (e.target.tagName === 'A') {
+                //给原来的类去掉 .active
+                tab_nav.querySelector('.active').classList.remove('active')
+                //给新的添加 .active
+                e.target.classList.add('active')
+            }
+            //先使用for循环 将所有的pane盒子隐藏
+            for (let i = 0; i < pane.length; i++) {
+                pane[i].style.display = 'none'
+            }
+            //将目前点击的 'block'
+            pane[e.target.dataset.id].style.display = 'block'
+        })
 
+        //提交模块
+        const form = document.querySelector('form')
+        const agree = document.querySelector('[name=agree]')
+        const username = document.querySelector('[name=username]')
+        form.addEventListener('submit', function (e) {
+            //阻止提交
+            e.preventDefault()
+            //判断复选框
+            if (!agree.checked) {
+                return alert("请勾选同意协议")
+            }
+
+            //本地存储名字
+            localStorage.setItem('xtx-name', username.value)
+            //跳转页面
+            location.href = '../index.html'
+        })
     </script>
 </body>
 

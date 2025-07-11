@@ -2214,7 +2214,7 @@ history的数据类型是对象，主要管理历史记录，该对象与浏览�
 
 可以多窗口（页面）共享（同一浏览器可以共享）
 
-以键值对的形式存储使用
+以键值对的形式存储使用；因为键是字符串，所以需要加引号（不加引号的话JavaScript 会认为 `data` 是一个变量，如果 `data` 未定义，会抛出 `ReferenceError`）
 
 ```js
 localStorage.setItem(key,value)
@@ -2265,14 +2265,619 @@ localStorage.removeItem(key)
 
 解决方法：
 
-需要将复杂数据类型转换成JSON字符串，再存储到本地
+需要将复杂数据类型转换成JSON字符串，再存储到本地;取出时再转化为对象
 
 ```js
 		//JSON.stringify(复杂数据类型)
 		localStorage.setItem('obj', JSON.stringify(obj))
         //JSON对象  属性和值有引号，而且引号统一是双引号
         //{"uname":"pink老师","age":18,"gender":"女"}
-        console.log(localStorage.getItem(obj))
-        console.log(typeof localStorage.getItem('obj'))
+        //console.log(localStorage.getItem(obj))
+        //console.log(typeof localStorage.getItem('obj'))
+		//取出来时再转化为对象
+        console.log(JSON.parse(localStorage.getItem('obj')))
+```
+
+### 3.案例
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250708123722522.png" alt="image-20250708123722522" style="zoom: 67%;" />
+
+字符串拼接新思路：
+
+使用数组的map( )和join( )方法来实现拼接
+
+**下面讲一下相关的字符串拼接函数**
+
+`forEach` 是数组的方法，可以用来遍历数组元素并拼接字符串：没有返回值
+
+```js
+const words = ['Hello', 'World', 'JavaScript'];
+let result = '';
+
+words.forEach(word => {
+  result += word + ' ';
+});
+
+console.log(result); // "Hello World JavaScript "
+```
+
+这里补充*箭头函数*
+
+```js
+word => {
+  result += word + ' ';
+}
+//等价于
+function(word) {
+  result += word + ' ';
+}
+```
+
+`map()`可以遍历并处理数组，并且**返回新的数组  迭代数组** 所以map的使用是基于要处理数组并返回数组，而不是遍历
+
+`map`也称为映射，指两个元素的集之间的元素存在相互对应的关系
+
+```js
+		const arr = ['red', 'blue', 'yellow']
+        //1.map()
+        const NewArr = arr.map(function (ele, index) {
+            console.log(ele)  //数组元素
+            console.log(index) //索引号
+            return ele + '颜色'
+        })
+        console.log(NewArr)
+```
+
+`join`方法可以将数组转换为字符串
+
+数组元素是通过参数里面指定的分隔符进行分割的，如果是‘ ’的话，则字符串的字符之间没有任何分隔
+
+```js
+        //以逗号分隔  
+        console.log(NewArr.join())  //red颜色,blue颜色,yellow颜色
+        //无分隔
+        console.log(NewArr.join(''))  //red颜色blue颜色yellow颜色
+        //以竖线分隔
+        console.log(NewArr.join('|'))  //red颜色|blue颜色|yellow颜色
+```
+
+通过事件委托来实现删除操作，因为如果给每个删除按钮绑定事件的话，新添加的不会有该功能
+
+​	事件委托（Event Delegation），利用事件冒泡机制来优化事件处理（不在每个子元素上单独绑定事件，而是在父元素上绑定一个事件监听器，通过判断事件的目标（`e.target`）来执行对应操作。）
+
+**关于自定义属性**
+
+- HTML中的`data-id` → JavaScript中的`dataset.id`
+- HTML中的`data-user-name` → JavaScript中的`dataset.userName`（驼峰命名）
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>学生信息管理</title>
+    <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+    <h1>新增学员</h1>
+    <form class="info" autocomplete="off">
+        姓名：<input type="text" class="uname" name="uname" />
+        年龄：<input type="text" class="age" name="age" />
+        性别:
+        <select name="gender" class="gender">
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+        薪资：<input type="text" class="salary" name="salary" />
+        就业城市：<select name="city" class="city">
+            <option value="北京">北京</option>
+            <option value="上海">上海</option>
+            <option value="广州">广州</option>
+            <option value="深圳">深圳</option>
+            <option value="曹县">曹县</option>
+        </select>
+        <button class="add">录入</button>
+    </form>
+    <h1>就业榜</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+                <th>薪资</th>
+                <th>就业城市</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script>
+        // 参考数据
+        // const initData = [
+        //     {
+        //         stuId: 1,
+        //         uname: '欧阳霸天',
+        //         age: 19,
+        //         gender: '男',
+        //         salary: '20000',
+        //         city: '上海',
+        //     }
+        // ]
+
+        // localStorage.setItem('data', JSON.stringify(initData))
+        // console.log('data')
+        //1. 渲染业务
+        //1.1先读取本地存储数据
+        // 如果有数据就直接读取，要用JSON字符串
+        const tbody = document.querySelector('tbody')
+        const arr = JSON.parse(localStorage.getItem('data')) || []
+        //这里使用逻辑运算符‘或’
+        console.log(arr)
+
+        //1.2更新数据 使用map将其数据更新并返回新的数组，再使用join将其转化为字符串
+        function render() {
+            //map遍历数组
+            const trArr = arr.map(function (ele, index) {
+                return `
+                    <tr>
+                        <td>${ele.stuId}</td>
+                        <td>${ele.uname}</td>
+                        <td>${ele.age}</td>
+                        <td>${ele.gender}</td>
+                        <td>${ele.salary}</td>
+                        <td>${ele.city}</td>
+                        <td>
+                        <a href="javascript:" data-id = ${index}>删除</a>
+                        </td>
+                    </tr>
+                `
+            })
+            console.log(trArr)
+            //使用join将其转化为字符串
+            //放入tbody中
+            tbody.innerHTML = trArr.join('')
+        }
+        render()
+
+        //2.新增业务
+        const info = document.querySelector('.info')
+        const uname = document.querySelector('.uname')
+        const age = document.querySelector('.age')
+        const salary = document.querySelector('.salary')
+        const gender = document.querySelector('.gender')
+        const city = document.querySelector('.city')
+        //2.1form表单注册提交事件，阻止默认行为
+        info.addEventListener('submit', function (e) {
+            e.preventDefault()
+            //2.2非空条件判断
+            if (!uname.value || !age.value || !salary.value) {
+                return alert('不能为空')
+            }
+            //2.3给arr数组追加对象，里面存储从表单获取的数据
+            arr.push(
+                {
+                    stuId: arr.length ? arr[arr.length - 1].stuId + 1 : 1,
+                    uname: uname.value,
+                    age: age.value,
+                    gender: gender.value,
+                    salary: salary.value,
+                    city: city.value,
+                }
+            )
+            //2.4渲染页面，表单重置(reset方法)
+            render()
+            this.reset()
+            //2.5把新增的存到本地存储里面，用JSON字符串
+            localStorage.setItem('data', JSON.stringify(arr))
+        })
+        //3.删除业务
+        //3.1使用事件委托，给tbody添加事件
+        tbody.addEventListener('click', function (e) {
+            //判断是否是a链接
+            if (e.target.tagName === 'A') {
+                //3.2得到当前点击链接的索引号，在前边加上自定义属性
+                //data-id   =>   dataset.id
+                console.log(e.target.dataset.id)
+            }
+            //确认框
+            if (confirm("确定删除？")) {
+                //3.3根据索引号，用splice删除
+                arr.splice(e.target.dataset.id, 1)
+                //3.4重新渲染页面
+                render()
+                //3.5将新的数组本地存储
+                localStorage.setItem('data', JSON.stringify(arr))
+            }
+        })
+    </script>
+</body>
+
+</html>
+```
+
+## APIs-6
+
+### 1.正则表达式
+
+正则表达式是用来匹配字符串中字符组合的模式，可以用于在字符串中查找、替换或验证特定模式的文本。
+
+主要用处：
+
+表单验证——匹配
+
+过滤敏感词——替换
+
+字符串中提取我们想要的部分——提取 
+
+#### 1.语法
+
+```js
+regObj.test(被检查的字符串)  //返回的是true 或 false
+```
+
+```js
+regObj.exec(被检测的字符串)  //返回的是数组 或 null
+```
+
+**示例**
+
+```js
+		const str1 = '我要学前端'
+        const str2 = '我要学后端'
+        //正则表达式
+        //1.定义规则
+        const reg = /前端/
+        //2.是否匹配
+        reg.test(str1)
+        reg.test(str2)
+        //
+        console.log(reg.test(str1))
+        console.log(reg.test(str2))
+        //exec()
+        reg.exec(str1)
+        reg.exec(str2)
+        //
+		console.log(reg.exec(str1))
+        console.log(reg.exec(str2))
+```
+
+![image-20250710153209160](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250710153209160.png)
+
+#### 2.元字符
+
+元字符是一些具有特殊含义的字符，比如 [a-z] 表示 a到z的26个字母
+
+1. 边界符（位置符），用来提示字符所处的位置
+
+![image-20250710154104893](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250710154104893.png)
+
+```js
+        //位置符——精确匹配
+        console.log(/^哈/.test('哈')) //true 
+        console.log(/^哈/.test('哈哈')) //true 
+        console.log(/^哈/.test('二哈')) //false
+        console.log(/^哈$/.test('哈哈')) //false
+        console.log(/^哈$/.test('哈'))  //true
+```
+
+2. 量词，设定某个模式出现的次数
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250710155202210.png" alt="image-20250710155202210" style="zoom:67%;" />
+
+```js
+   //量词
+        console.log(/^哈*$/.test('哈'))  //true
+        console.log(/^哈*$/.test(''))  //true
+        console.log(/^哈*$/.test('二哈'))  //false
+
+        console.log(/^哈+$/.test('哈'))  //true
+        console.log(/^哈+$/.test(''))  //false
+        console.log(/^哈+$/.test('二哈'))  //false
+
+        console.log(/^哈?$/.test('哈'))  //true
+        console.log(/^哈?$/.test(''))  //true
+        console.log(/^哈?$/.test('二哈'))  //false
+        console.log(/^哈?$/.test('哈哈'))  //false
+
+        //{n}等于n次
+        console.log(/^哈{4}$/.test('哈哈哈哈')) //true
+        //{n,}大于等于n    逗号两侧一定不能出现空格
+        console.log(/^哈{4,}$/.test('哈哈哈哈')) //true
+        //{n,m}大于等于 n小于等于 m  逗号两侧一定不能出现空格
+        console.log(/^哈{4,6}$/.test('哈哈哈哈')) //true
+```
+
+**逗号两侧一定不能出现空格**
+
+3. 字符类
+
+（1）匹配字符集合  []                                   中括号里面加^表示取反 
+
+```js
+//只要被检测的字符串中出现任意一个，就返回true
+        console.log(/[abc]/.test('asadfghj'))
+```
+
+> [!TIP]
+>
+> [a-z]  ——  所有的小写字母
+>
+> [A-Z]  ——所有大写字母
+>
+> [a-zA-Z]  ——所有字母
+>
+> [0-9]  ——所有数字
+>
+> [a-zA-Z0-9]  ——数字加字母
+>
+> [^a-z]  ——表示除小写字母之外的
+
+（2）.   ——表示除了换行符以外的所有字符
+
+（3）预定义：某些常见模式的简写模式
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250710165333579.png" alt="image-20250710165333579" style="zoom:67%;" />
+
+#### 3.修饰符
+
+约束正则执行时的某些细节行为，如是否区分大小写，是否支持多行匹配等
+
+```js
+/表达式/修饰符
+```
+
+i 是 ignore 的缩写。正则匹配时字母不区分大小写
+
+g 是 global 的缩写，匹配所有满足正则表达式的结果
+
+```js
+        console.log(/java/i.test('JAVA'))  //true
+```
+
+替换replace
+
+```js
+字符串.replace(/正则表达式/,'被替换的文本')
+//
+        const str = '我喜欢学java,我会一直学java'
+        console.log(str.replace(/java/ig, '前端'))
+```
+
+#### 4.案例
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250710203858778.png" alt="image-20250710203858778" style="zoom:67%;" />
+
+只展示js部分代码
+
+```js
+    <script>
+        //1.短信验证码
+        const code = document.querySelector('.code')
+        let flag = true //使用flag控制在读秒期间不能点击
+        //1.1点击事件
+        code.addEventListener('click', function () {
+            if (flag) {
+                flag = false
+                let i = 5
+                //点击之后立刻变换数字
+                code.innerHTML = `0${i}秒后重新获取`
+                let timeID = setInterval(function () {
+                    i--
+                    code.innerHTML = `0${i}秒后重新获取`
+                    if (i === 0) {
+                        clearInterval(timeID)
+                        //重新获取
+                        code.innerHTML = '重新获取'
+                        flag = true
+                    }
+                }, 1000)
+            }
+        })
+
+        //2.验证用户名
+        //2.1先获取表单
+        const username = document.querySelector('[name=username]')
+        //2.2使用change事件  只检测值发生变化的时候
+        username.addEventListener('change', verifyName)
+        //2.3封装函数
+        function verifyName() {
+            const span = username.nextElementSibling
+            //2.4判断是否符合规范
+            const reg = /^[a-zA-Z0-9-_]{6,10}$/
+            if (!reg.test(username.value)) {
+                span.innerText = '输入不合法，请输入6-10位'
+                return false
+            }
+            //2.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+
+        //3.验证手机号吧
+        //3.1先获取表单
+        const phone = document.querySelector('[name=phone]')
+        //3.2使用change事件  只检测值发生变化的时候
+        phone.addEventListener('change', verifyPhone)
+        //3.3封装函数
+        function verifyPhone() {
+            const span = phone.nextElementSibling
+            //3.4判断是否符合规范
+            const reg = /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/
+            if (!reg.test(phone.value)) {
+                span.innerText = '输入不合法，请输入手机号'
+                return false
+            }
+            //3.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+        //4.验证码
+        //4.1先获取表单
+        const inputCode = document.querySelector('[name=code]')
+        //4.2使用change事件  只检测值发生变化的时候
+        inputCode.addEventListener('change', verifyCode)
+        //4.3封装函数
+        function verifyCode() {
+            const span = inputCode.nextElementSibling
+            //4.4判断是否符合规范
+            const reg = /^\d{6}$/
+            if (!reg.test(inputCode.value)) {
+                span.innerText = '输入不合法，请输入6位数字'
+                return false
+            }
+            //4.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+        //5.密码
+        //5.1先获取表单
+        const password = document.querySelector('[name=password]')
+        //5.2使用change事件  只检测值发生变化的时候
+        password.addEventListener('change', verifyPwd)
+        //5.3封装函数
+        function verifyPwd() {
+            const span = password.nextElementSibling
+            //5.4判断是否符合规范
+            const reg = /^[a-zA-Z0-9-_]{6,20}$/
+            if (!reg.test(password.value)) {
+                span.innerText = '输入不合法，6-20位字母数字组成'
+                return false
+            }
+            //5.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+
+        //5.密码的再次验证
+        //5.1先获取表单
+        const confirm = document.querySelector('[name=confirm]')
+        //5.2使用change事件  只检测值发生变化的时候
+        confirm.addEventListener('change', verifyConfirm)
+        //5.3封装函数
+        function verifyConfirm() {
+            const span = confirm.nextElementSibling
+            //5.4判断是否符合规范
+            if (confirm.value !== password.value) {
+                span.innerText = '两次密码输入不一致'
+                return false
+            }
+            //5.5正确的话返回 true
+            span.innerText = ' '
+            return true
+        }
+
+        //6.我同意模块
+        const queren = document.querySelector('.icon-queren')
+        queren.addEventListener('click', function () {
+            //切换类
+            this.classList.toggle('icon-queren2')
+        })
+
+        //7.提交
+        const form = document.querySelector('form')
+        form.addEventListener('submit', function (e) {
+            //判断是否能提交（有没有勾选同意）
+            if (!queren.classList.contains('icon-queren2')) {
+                //弹出提示框
+                alert("请勾选同意")
+                //阻止提交
+                e.preventDefault()
+                //判断是不是所有的都符合规范
+                if (verifyName()) e.preventDefault()
+                if (verifyPhone()) e.preventDefault()
+                if (verifyCode()) e.preventDefault()
+                if (verifyPwd()) e.preventDefault()
+                if (verifyConfirm()) e.preventDefault()
+            }
+        })
+    </script>
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250711182905080.png" alt="image-20250711182905080" style="zoom:80%;" />
+
+```js
+    <script>
+        const li1 = document.querySelector('.xtx-navs li:first-child')
+        const li2 = li1.nextElementSibling
+        //最好做个渲染函数，因为退出登录会重新渲染
+        function render() {
+            //获取本地数据
+            const uname = localStorage.getItem('xtx-uname')
+            // console.log(uname)
+            if (uname) {
+                li1.innerHTML = `<a href="javascript:;"><i class="iconfont icon-user">${uname
+                    }</i></a>
+        `
+                li2.innerHTML = '<a href="javascript:;">退出登录</a>'
+            } else {
+                li1.innerHTML = '<a href="./login.html">请先登录</a>'
+                li2.innerHTML = '<a href="./register.html">免费注册</a>'
+            }
+        }
+        render()
+        // 2. 点击退出登录模块
+        li2.addEventListener('click', function () {
+            // 删除本地存储的数据
+            localStorage.removeItem('xtx-uname')
+            // 重新渲染
+            render()
+        })
+    </script>
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250711182948916.png" alt="image-20250711182948916" style="zoom:67%;" />
+
+```js
+    <script>
+        //1.tab栏切换 用事件委托
+        const tab_nav = document.querySelector('.tab-nav')
+        const pane = document.querySelectorAll('.tab-pane')
+        //1.1添加事件监听
+        tab_nav.addEventListener('click', function (e) {
+            //确定点击的是 a
+            if (e.target.tagName === 'A') {
+                //给原来的类去掉 .active
+                tab_nav.querySelector('.active').classList.remove('active')
+                //给新的添加 .active
+                e.target.classList.add('active')
+            }
+            //先使用for循环 将所有的pane盒子隐藏
+            for (let i = 0; i < pane.length; i++) {
+                pane[i].style.display = 'none'
+            }
+            //将目前点击的 'block'
+            pane[e.target.dataset.id].style.display = 'block'
+        })
+
+        //提交模块
+        const form = document.querySelector('form')
+        const agree = document.querySelector('[name=agree]')
+        const username = document.querySelector('[name=username]')
+        form.addEventListener('submit', function (e) {
+            //阻止提交
+            e.preventDefault()
+            //判断复选框
+            if (!agree.checked) {
+                return alert("请勾选同意协议")
+            }
+
+            //本地存储名字
+            localStorage.setItem('xtx-name', username.value)
+            //跳转页面
+            location.href = '../index.html'
+        })
+    </script>
 ```
 
