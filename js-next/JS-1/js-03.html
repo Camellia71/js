@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function outer() {
+            const a = 1
+            function fn() {
+                console.log(a)
+            }
+            fn()
+        }
+        outer()
+
+        //常见的闭包形式  外部访问函数内部的变量
+        function outer() {
+            let a = 10
+            function fn() {
+                console.log(a)
+            }
+            //外部要使用这个a
+            return fn
+        }
+        //outer() === fn === function fn () {}
+        //所以可以
+        // const fun = function fn () {}
+        const fun = outer()
+        fun()  //调用函数
+
+        //统计函数调用次数
+        //普通形式  i容易被修改
+        // let i = 0
+        // function fn () {
+        //     i++
+        //     console.log(i)
+        // }
+
+        //闭包形式 实现了数据私有  但是有内存泄露的风险
+        function count() {
+            let i = 0
+            function fn1() {
+                i++
+                console.log(i)
+            }
+            return fn1
+        }
+        const counter = count()
+    </script>
+</body>
+
+</html>

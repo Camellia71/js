@@ -121,3 +121,58 @@ JS中垃圾的分配和回收都是自动完成的，内存在不使用的时候
 >
 > <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250713230514655.png" alt="image-20250713230514655" style="zoom:50%;" />
 
+#### 5.闭包
+
+闭包：一个函数对周围状态的引用捆绑在一起，内层函数中访问到其外层函数的作用域
+
+**闭包 = 内层函数 + 外层函数的变量**
+
+```js
+        function outer() {
+            const a = 1
+            function fn() {
+                console.log(a)
+            }
+            fn()
+        }
+        outer()
+```
+
+应用：实现数据的私有
+
+可能会有内存泄漏
+
+#### 6.变量提升
+
+变量提升就是把所有`var`声明的变量 提升到 当前作用域的最前面；但是只提升声明，不提升赋值
+
+```js
+        console.log(num + '件')  //undefined 件
+        var num = 10
+
+        //相当于
+        var num
+        console.log(num + '件')
+        num = 10
+```
+
+### 2.函数进阶
+
+#### 1.函数提升
+
+会把所有函数声明提升到当前作用域的最前面；只提升声明，不提升调用
+
+```js
+        fn()
+        function fn() {
+            console.log('函数提升')
+        }
+        //相当于
+        function fn() {
+            console.log('函数提升')
+        }
+        fn()
+```
+
+#### 2.函数参数
+

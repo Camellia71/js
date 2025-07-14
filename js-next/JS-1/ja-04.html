@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.变量提升 把所有`var`声明的变量 提升到 当前作用域的最前面
+        //只提升声明，不提升赋值
+        console.log(num + '件')  //undefined 件
+        var num = 10
+
+        //相当于
+        var num
+        console.log(num + '件')
+        num = 10
+
+        //当前作用域
+        function fn() {
+            console.log(num)
+            var num = 10
+        }
+    </script>
+</body>
+
+</html>
