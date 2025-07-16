@@ -176,3 +176,81 @@ JS中垃圾的分配和回收都是自动完成的，内存在不使用的时候
 
 #### 2.函数参数
 
+1. 动态参数
+
+   动态参数arguments是一个伪数组，只存在于函数中；作用是动态获取函数的实参；可以通过for循环依次获取传递过来的实参
+
+   ```js
+           function getSum() {
+               //arguments是动态参数，是伪数组
+               // consoel.log(arguments)  [2,3,4]
+               let sum = 0
+               for (let i = 0; i < arguments.length; i++) {
+                   sum += arguments[i]
+               }
+               console.log(sum)
+           }
+           getSum(2, 3, 4)
+           getSum(1, 2, 3, 4, 5)
+   ```
+
+2. 剩余参数
+
+   `...`是语法符号，置于最末的函数形参之前，用于获取多余的实参；借助`...`获取的实参是个真数组；并且在`...`之前的形参与实参是一一对应的，剩余的实参才放到数组中。
+
+   ```js
+           //剩余参数
+           function sum(...arr) {
+               // console.log(arr)
+               let sum = 0
+               for (let i = 0; i < arguments.length; i++) {
+                   sum += arguments[i]
+               }
+               console.log(sum)
+           }
+           sum(2, 3, 4)
+           sum(1, 2, 3, 4, 5)
+   ```
+
+   **实际开发中推荐使用剩余数组**
+
+### 3.展开运算符
+
+展开运算符`...`是将一个数组进行展开
+
+主要应用是求数组最大值和合并数组
+
+```js
+        //展开运算符
+        // const arr = [1, 2, 3]
+        // console.log(...arr)  // 1 2 3
+
+        //1.求最大值
+        const arr1 = [1, 2, 3, 4, 5]
+        console.log(Math.max(...arr1))
+        console.log(Math.min(...arr1))
+
+        //2.合并数组
+        const arr2 = [6, 7, 8, 9]
+        const arr = [...arr1, ...arr2]
+        console.log(arr)
+        console.log(...arr1, ...arr2)
+```
+
+![image-20250716210352002](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250716210352002.png)
+
+### 4.箭头函数
+
+箭头函数主要用来替代匿名函数
+
+```js
+        const fn = function() {
+            console.log(111)
+        }
+        //箭头函数
+        const fn = () => {
+            console.log(111)
+        }
+        fn()
+```
+
