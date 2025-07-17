@@ -17,6 +17,37 @@
             console.log(111)
         }
         fn()
+        // const fn1 = (x) => {
+        //     console.log(x)
+        // }
+        // fn1(1)
+        //1.只有一个形参的时候 可以省略小括号
+        const fn1 = x => {
+            console.log(x)
+        }
+        fn1(1)
+
+        // const fn2 = x => {
+        //     console.log(x)
+        // }
+        // fn2(2)
+        //2.只有一行代码的时候 可以省略大括号
+        const fn2 = x => console.log(x)
+        fn2(2)
+
+        // const fn3 = x => {
+        //     return x + x
+        // }
+        // console.log(fn3(3))
+        //3.箭头函数可以省略return
+        const fn3 = x => x + x
+        console.log(fn3(3))
+
+        //4.箭头函数可以直接返回一个对象
+        //本来箭头函数的=>后面要跟大括号的，因为箭头函数大括号和对象的大括号冲突 
+        // 所以用小括号包住 这样就是返回对象
+        const fn4 = uname => ({ name: uname })
+        console.log(fn4('刘德华'))
     </script>
 </body>
 

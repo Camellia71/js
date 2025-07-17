@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //
+        //1.环境对象this
+        console.log(this)   ///window
+        //2.函数中的this
+        function fn1() {
+            console.log(this)   //window
+        }
+        fn1()
+        //相当于 window.fn()
+        //3.对象中的this
+        const obj = {
+            name: 'Camellia',
+            sayBye: function () {
+                console.log(this)   //Object
+            }
+        }
+        obj.sayBye()
+
+        //4.箭头函数中的this
+        const fn = () => {
+            console.log(this)   //window
+        }
+        fn()  //这里打印出来是window是因为 函数的上一级作用域的this指向window
+        //5.对象+箭头函数
+        const obj1 = {
+            name: 'pink老师',
+            SayHi: () => {
+                console.log(this)  //window  是因为要找上一级 也就是obj1的this 而obj1的this是window
+            }
+        }
+        obj1.SayHi()
+
+        //6.
+        const obj2 = {
+            name: 'zhangqiyi',
+            say: function () {
+                console.log(this)   //obj2
+                let i = 0
+                const count = () => {
+                    console.log(this)  //obj2
+                }
+                count()
+            }
+        }
+        obj2.say()
+    </script>
+</body>
+
+</html>

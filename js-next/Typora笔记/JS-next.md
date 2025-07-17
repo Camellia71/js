@@ -254,3 +254,117 @@ JS中垃圾的分配和回收都是自动完成的，内存在不使用的时候
         fn()
 ```
 
+#### 1.相关语法
+
+1. 省略小括号（只有一个形参）
+
+```js
+        // const fn1 = (x) => {
+        //     console.log(x)
+        // }
+        // fn1(1)
+        //1.只有一个形参的时候 可以省略小括号
+        const fn1 = x => {
+            console.log(x)
+        }
+        fn1(1)
+```
+
+2. 省略大括号 (只有一行代码)
+
+```js
+        // const fn2 = x => {
+        //     console.log(x)
+        // }
+        // fn2(2)
+        //2.只有一行代码的时候 可以省略大括号
+        const fn2 = x => console.log(x)
+        fn2(2)
+```
+
+3. 省略return
+
+```js
+        // const fn3 = x => {
+        //     return x + x
+        // }
+        // console.log(fn3(3))
+        //3.箭头函数可以省略return
+        const fn3 = x => x + x
+        console.log(fn3(3))
+```
+
+4. 返回对象 加小括号的函数体返回对象字面量表达式
+
+```js
+        //4.箭头函数可以直接返回一个对象
+        //本来箭头函数的=>后面要跟大括号的，因为箭头函数大括号和对象的大括号冲突 
+        // 所以用小括号包住 这样就是返回对象
+        const fn4 = uname => ({ name: uname })
+        console.log(fn4('刘德华'))
+```
+
+![image-20250717162109107](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250717162109107.png)
+
+#### 2.箭头函数参数
+
+箭头函数没有`arguments`动态参数，但是有剩余参数`...args`
+
+```js
+        //1.利用箭头函数求和
+        const getSum = (...arr) => {
+            let sum = 0
+            for (let i = 0; i < arr.length; i++) {
+                sum += arr[i]
+            }
+            return sum
+        }
+        const result = getSum(2, 3)
+        console.log(result)
+```
+
+#### 3.箭头函数this
+
+箭头函数不会创建`this`，只会从自己作用域链的上一层沿用`this`；谁调用谁就是`this`
+
+```js
+window.fn()  //window
+obj.fn()  //obj
+```
+
+```js
+        //1.环境对象this
+        console.log(this)   ///window
+        //2.函数中的this
+        function fn1() {
+            console.log(this)   //window
+        }
+        fn1()
+        //相当于 window.fn()
+        //3.对象中的this
+        const obj = {
+            name: 'Camellia',
+            sayBye: function () {
+                console.log(this)   //Object
+            }
+        }
+        obj.sayBye()
+
+        //4.箭头函数中的this
+        const fn = () => {
+            console.log(this)   //window
+        }
+        fn()  //这里打印出来是window是因为 函数的上一级作用域的this指向window
+        //5.对象+箭头函数
+        const obj1 = {
+            name: 'pink老师',
+            SayHi: () => {
+                console.log(this)  //window  是因为要找上一级 也就是obj1的this 而obj1的this是window
+            }
+        }
+        obj1.SayHi()
+```
+
+![image-20250717231237214](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250717231237214.png)
+
+DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现）
