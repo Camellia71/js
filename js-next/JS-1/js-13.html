@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const [hr, lx, mi, fz] = ['海尔', '联想', '小米', '方正']
+        console.log(hr, lx, mi, fz)
+
+        function getValue() {
+            return [100, 60]
+        }
+        const [max, min] = getValue()
+        console.log(max, min)
+
+        //1.变量少 单元值多
+        const [a, b, c, d] = [1, 2, 3]
+        console.log(a, b, c, d)  //undefined
+        //2.变量多 单元值少
+        const [e, f, g] = [4, 5, 6, 7]
+        console.log(e, f, g)  //不管
+        //3.剩余参数 变量多
+        const [h, i, ...j] = [9, 10, 11, 12]
+        console.log(j)  //[11,12]  真数组
+        //4.防止undefined传递
+        const [k = 0, l = 0, m = 0, n = 0] = [1, 2, 3]
+        console.log(k, l, m, n)  //1,2,3,0
+        //5.按需导入赋值
+        const [o, p, , q] = [1, 2, 3, 4]
+        console.log(o, p, q)  //1,2,4
+
+        //
+        const arr = [1, 2, [3, 4]]
+        console.log(arr[2][0])  //3
+
+        const [x, [y, z]] = [1, [2, 3]]
+        console.log(x, y, z)
+    </script>
+</body>
+
+</html>

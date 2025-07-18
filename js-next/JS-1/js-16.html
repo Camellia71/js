@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const pig = {
+            name: '佩奇',
+            family: {
+                mother: '猪妈妈',
+                father: '猪爸爸',
+                bro: '乔治'
+            },
+            age: 6
+        }
+        //多级对象解构
+        const { name, family: { mother, father, bro }, age } = pig
+        console.log(name, mother, father, bro, age)
+    </script>
+</body>
+
+</html>

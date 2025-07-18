@@ -368,3 +368,165 @@ obj.fn()  //obj
 ![image-20250717231237214](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250717231237214.png)
 
 DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现）
+
+### 5.解构赋值
+
+解构赋值其实是一种快速为变量赋值的简洁语法，本质上仍旧是为变量赋值
+
+#### 1.数组解构
+
+数组解构是将数组的单元值（数组元素）快速批量赋值给一系列变量的简洁语法
+
+```js
+        const arr = [100, 60, 80]
+        const [max, min, avg] = arr
+//
+        const [max, min, avg] = [100, 60, 80]
+        console.log(max)
+```
+
+典型应用：交换变量
+
+```js
+        //交换变量
+        let a = 1
+        let b = 2;
+        [a, b] = [b, a]
+        console.log(a, b)
+```
+
+> [!NOTE]
+>
+> JS中必须加分号的两种情况：
+>
+> 1. 立即执行函数
+>
+>    ```js
+>            //1.立即执行函数
+>            (function () { })();
+>    ```
+>
+> 2. 数组解构
+>
+>    ```js
+>            //2.数组解构
+>            // const arr = [1, 2, 3]
+>            // arr.map(function (item) {
+>            //     console.log(item)
+>            // })
+>            const arr = [1, 2, 3];      //必须加分号 不然js不会认为是换行
+>            [1, 2, 3].map(function (item) {
+>                console.log(item)
+>            })
+>    ```
+
+**特殊情况**
+
+1.变量多，单元值少
+
+```js
+        //1.变量少 单元值多
+        const [a, b, c, d] = [1, 2, 3]
+        console.log(a, b, c, d)  //undefined
+```
+
+2.变量少，单元值多
+
+```js
+        //2.变量多 单元值少
+        const [e, f, g] = [4, 5, 6, 7]
+        console.log(e, f, g)  //不管
+```
+
+3.剩余参数 变量多，单元值少
+
+```js
+        //3.剩余参数 变量多
+        const [h, i, ...j] = [9, 10, 11, 12]
+        console.log(j)  //[11,12]  真数组
+```
+
+4.防止undefined传递
+
+```js
+        //4.防止undefined传递
+        const [k = 0, l = 0, m = 0, n = 0] = [1, 2, 3]
+        console.log(k, l, m, n)  //1,2,3,0
+```
+
+5.按需导入赋值
+
+```js
+        //5.按需导入赋值
+        const [o, p, , q] = [1, 2, 3, 4]
+        console.log(o, p, q)  //1,2,4
+```
+
+#### 2.对象解构
+
+对象的属性必须与变量名一致；不一致时变量名为`undefined`
+
+```js
+        //对象解构
+        // const obj = {
+        //     uname: 'pink',
+        //     age: 18
+        // }
+        const { uname, age } = { uname: 'pink', age: 18 }
+        // 等价于 const uname = obj.uname
+        console.log(uname)
+```
+
+更名： `旧变量名：新变量名`
+
+```js
+        //更名
+        const { uname: username, age } = { uname: 'pink', age: 18 }
+        console.log(username)
+```
+
+#### 3.数组对象解构
+
+```js
+        //数组对象解构
+        const pig = [
+            {
+                uname: 'pink',
+                age: 19
+            }
+        ]
+        const [{ uname, age }] = pig
+```
+
+多级对象解构：
+
+```js
+        const pig = {
+            name: '佩奇',
+            family: {
+                mother: '猪妈妈',
+                father: '猪爸爸',
+                bro: '乔治'
+            },
+            age: 6
+        }
+        //多级对象解构
+        const { name, family: { mother, father, bro }, age } = pig
+        console.log(name, mother, father, bro, age)
+```
+
+遍历数组方法（`foreach`）适合于遍历数组对象
+
+遍历数组的每个元素，并将元素传递给回调函数；参数当前数组元素必须要写（`item`）
+
+```js
+        const arr = ['red', 'green', 'pink']
+        arr.forEach(function (item, index) {
+            console.log(item)    //数组元素
+            console.log(index)   //索引号
+        })
+```
+
+## js-2
+
+### 1.
