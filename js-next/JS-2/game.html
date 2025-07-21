@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciallo Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        #gameCanvas {
+            background-color: #f9f9f9;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .game-over-text {
+            display: none;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #000;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Press Space to Ciallo ~(∠・ω<)~★</h1>
+            <canvas id="gameCanvas" width="800" height="300"></canvas>
+            <div class="game-over-text" id="gameOverText">HI 00000 00000<br>GAME OVER<br>Press Space to Restart</div>
+            <script>
+                // 获取画布和上下文
+                const canvas = document.getElementById('gameCanvas');
+                const ctx = canvas.getContext('2d');
+                const gameOverText = document.getElementById('gameOverText');
+
+                // 角色相关变量
+                const character = {
+                    x: 50,
+                    y: canvas.height - 50,
+                    width: 30,
+                    height: 30,
+                    yVelocity: 0,
+                    jumpStrength: -15,
+                    gravity: 1
+                };
+
+                // 障碍物（仙人掌）相关变量
+                let obstacles = [];
+                const obstacleWidth = 20;
+                const obstacleHeight = 40;
+                const obstacleGap = 200;
+                let obstacleTimer = 0;
+
+                // 游戏状态
+                let gameOver = false;
+                let score = 0;
+
+                // 绘制角色函数
+                function drawCharacter() {
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(character.x, character.y, character.width, character.height);
+                    // 简单绘制角色头像
+                    ctx.beginPath();
+                    ctx.arc(character.x + 15, character.y - 10, 10, 0, Math.PI * 2);
+                    ctx.fillStyle = '#f9c';
+                    ctx.fill();
+                }
+
+                // 绘制障碍物函数
+                function drawObstacles() {
+                    ctx.fillStyle = '#228B22';
+                    obstacles.forEach(obstacle => {
+                        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                    });
+                }
+
+                // 更新游戏逻辑函数
+                function update() {
+                    if (gameOver) return;
+
+                    // 更新角色逻辑（重力、跳跃等）
+                    character.yVelocity += character.gravity;
+                    character.y += character.yVelocity;
+
+                    // 角色落地检测
+                    if (character.y > canvas.height - character.height) {
+                        character.y = canvas.height - character.height;
+                        character.yVelocity = 0;
+                    }
+
+                    // 生成障碍物逻辑
+                    obstacleTimer++;
+                    if (obstacleTimer % obstacleGap === 0) {
+                        const obstacle = {
+                            x: canvas.width,
+                            y: canvas.height - obstacleHeight,
+                            width: obstacleWidth,
+                            height: obstacleHeight
+                        };
+                        obstacles.push(obstacle);
+                    }
+
+                    // 更新障碍物位置
+                    obstacles.forEach(obstacle => {
+                        obstacle.x -= 5;
+                        // 碰撞检测
+                        if (
+                            character.x + character.width > obstacle.x &&
+                            character.x < obstacle.x + obstacle.width &&
+                            character.y + character.height > obstacle.y
+                        ) {
+                            gameOver = true;
+                            gameOverText.textContent = `HI ${score} ${score}\nGAME OVER\nPress Space to Restart`;
+                            gameOverText.style.display = 'block';
+                        }
+                    });
+
+                    // 移除超出画布的障碍物
+                    obstacles = obstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
+
+                    // 更新分数
+                    score++;
+                    document.title = `Score: ${score}`;
+                }
+
+                // 绘制函数
+                function draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    drawCharacter();
+                    drawObstacles();
+                }
+
+                // 游戏循环
+                function gameLoop() {
+                    update();
+                    draw();
+                    requestAnimationFrame(gameLoop);
+                }
+
+                // 监听空格键跳跃和重新开始
+                document.addEventListener('keydown', function (event) {
+                    if (event.code === 'Space') {
+                        if (gameOver) {
+                            // 重置游戏
+                            obstacles = [];
+                            character.y = canvas.height - character.height;
+                            character.yVelocity = 0;
+                            score = 0;
+                            gameOver = false;
+                            gameOverText.style.display = 'none';
+                        } else if (character.y === canvas.height - character.height) {
+                            character.yVelocity = character.jumpStrength;
+                        }
+                    }
+                });
+
+                // 启动游戏循环
+                gameLoop();
+            </script>
+</body>
+
+</html>

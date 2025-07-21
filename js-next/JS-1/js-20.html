@@ -167,6 +167,25 @@
             document.querySelector('.list').innerHTML = str
         }
         render(goodsList)
+
+        //过滤筛选
+        document.querySelector('.filter').addEventListener('click', e => {
+            //e.target.tagName   e.target.dataset.index
+            const { tagName, dataset } = e.target
+            if (tagName === 'A') {
+                // console.log(11)
+                let arr = goodsList
+                if (dataset.index === '1') {
+                    arr = goodsList.filter(item => item.price > 0 && item.price <= 100)
+                } else if (dataset.index === '2') {
+                    arr = goodsList.filter(item => item.price >= 100 && item.price <= 300)
+                } else if (dataset.index === '3') {
+                    arr = goodsList.filter(item => item.price >= 300)
+                }
+                //渲染函数
+                render(arr)
+            }
+        })
     </script>
 </body>
 
