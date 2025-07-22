@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.实例对象：实例对象上的属性和方法叫做 实例成员
+        function Pig(name) {
+            this.name = name
+        }
+        const pei = new Pig('佩奇')
+        const qiao = new Pig('乔治')
+
+        pei.name = '小猪佩奇'  //实例属性
+        pei.sayHi = () => {  //实例方法
+            console.log('e')
+        }
+        console.log(pei)
+        console.log(qiao)
+        console.log(pei === qiao)
+
+        //2.静态成员：构造函数上的属性和方法
+        function Dog(name) {
+            this.name = name
+        }
+        Dog.eyes = 2
+        Dog.sayHi = function () {
+            console.log(this)  //指向Dog
+        }
+        Dog.sayHi()
+        console.log(Dog.eyes)
+        const dog = new Dog('猫猫', 3)
+        console.log(dog)  //eyes没有添加到后来实例化的对象上
+    </script>
+</body>
+
+</html>

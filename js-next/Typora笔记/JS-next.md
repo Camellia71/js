@@ -583,6 +583,7 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
         }
         new Pig('佩奇', 18)
         console.log(new Pig('佩奇', 18))
+		const peiqi = new Pig('佩奇',18)
 ```
 
 > [!NOTE]
@@ -595,3 +596,59 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 >
 > 4.`new Object()  new Data()`也是实例化构造函数
 
+**实例化执行过程：**
+
+1. 创建新的空对象
+2. 构造函数的`this`指向新对象
+3. 执行构造函数的代码，修改`this`，添加新的属性（其实相当于赋值操作）
+4. 返回新对象
+
+#### 3.实例成员
+
+通过构造函数创建的对象称为实例对象，实例对象中的属性和方法叫做实例成员（实例属性和实例方法）
+
+```js
+        //1.实例对象：实例对象上的属性和方法叫做 实例成员
+        function Pig(name) {
+            this.name = name
+        }
+        const pei = new Pig('佩奇')
+        const qiao = new Pig('乔治')
+
+        pei.name = '小猪佩奇'  //实例属性
+        pei.sayHi = () => {  //实例方法
+            console.log('e')
+        }
+        console.log(pei)
+        console.log(qiao)
+        console.log(pei === qiao)
+```
+
+1.为构造函数传入参数，创建结构相同但是值不同的对象
+
+2.构造函数创建的实例对象彼此独立互不影响
+
+#### 4.静态成员
+
+构造函数的属性和方法称为静态成员（静态属性和静态方法）
+
+```js
+        //2.静态成员：构造函数上的属性和方法
+        function Dog(name) {
+            this.name = name
+        }
+        Dog.eyes = 2   //静态成员
+        Dog.sayHi = function () {  //静态方法
+            console.log(this)  //指向Dog
+        }
+        Dog.sayHi()
+        console.log(Dog.eyes)
+        const dog = new Dog('猫猫', 3)
+        console.log(dog)  //eyes没有添加到后来实例化的对象上
+```
+
+1.静态成员只能构造函数来访问
+
+2.静态方法中的`this`指向构造函数
+
+**比如：**`Date.now()  Math.PI()  Math.random()`
