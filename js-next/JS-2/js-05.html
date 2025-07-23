@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //Object静态方法
+        //1.属性名
+        const o = { name: 'pink', age: 18 }
+        console.log(Object.keys(o))    //['name', 'age']
+        //2.属性值
+        console.log(Object.values(o))    //['pink', 18]
+        //3.拷贝
+        const oo = {}
+        Object.assign(oo, o)
+        console.log(oo)    //{name: 'pink', age: 18}
+
+        //拷贝主要用于对象添加属性
+        const p = { name: 'red', age: 19 }
+        // const pp = Object.assign(p, { gender: '女' })
+        // console.log(pp)  
+        Object.assign(p, { gender: '女' })
+        console.log(p)
+    </script>
+</body>
+
+</html>

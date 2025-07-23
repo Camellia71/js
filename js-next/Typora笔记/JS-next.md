@@ -652,3 +652,97 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 2.静态方法中的`this`指向构造函数
 
 **比如：**`Date.now()  Math.PI()  Math.random()`
+
+### 2.内置构造函数
+
+#### 1.基本包装类型
+
+`JS`中的主要数据类型有6种：字符串，数值，布尔值，`undefined`，`null`，对象（引用数据类型）
+
+```js
+        const str = 'pink'
+        console.log(str.length)  //4
+        //为什么简单数据类型也能使用方法？
+        //因为js底层把简单数据类型包装成引用数据类型了
+        const str = new String('pink')
+```
+
+其实字符串，数值，布尔值等也有专门的构造函数，这些我们称为包装类型
+
+`js`中几乎所有数据类型都可以基于数据类型创建
+
+> [!NOTE]
+>
+> 引用类型：
+>
+> `Object ,Array ,RegExp ,Date`等
+>
+> 包装类型：
+>
+> `String ,Number ,Boolean`等
+
+#### 2.`Object`
+
+`Object` 静态方法获取对象中所有属性（值）；返回的是数组
+
+```js
+        //Object静态方法
+        //1.属性名
+        const o = { name: 'pink', age: 18 }
+        console.log(Object.keys(o))    //['name', 'age']
+        //2.属性值
+        console.log(Object.values(o))    //['pink', 18]
+        //3.拷贝
+        const oo = {}
+        Object.assign(oo, o)
+        console.log(oo)        //{name: 'pink', age: 18}
+```
+
+拷贝主要用于给对象添加属性
+
+```js
+        //拷贝主要用于对象添加属性
+        const p = { name: 'red', age: 19 }
+        // const pp = Object.assign(p, { gender: '女' })
+        // console.log(pp)  
+        Object.assign(p, { gender: '女' })
+        console.log(p)
+```
+
+#### 3.`Array`
+
+实际开发中还是建议使用字面量创建，而不用`Array`构造函数
+
+```js
+        const arr = new Array([1, 2, 3])
+        console.log(arr)
+		//
+		const arr = [1,2,3]
+```
+
+> [!NOTE]
+>
+> ![image-20250723213424714](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250723213424714.png)
+>
+> ```js
+>         arr.reduce(function(上一次值，当前值){},初始值)
+> ```
+>
+> ```js
+>         // 1.无初始值
+>         const total = arr.reduce(function (prev, current) {
+>             return prev + current
+>         })
+>         console.log(total)  //10
+> 
+>         //2.有初始值
+>         const total = arr.reduce(function (prev, current) {
+>             return prev + current
+>         }, 10)
+>         console.log(total)  //20
+>         
+>         //3.箭头函数
+>         const total = arr.reduce((prev, current) => prev + current, 10)
+>         console.log(total)  //20
+> ```
+
