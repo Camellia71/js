@@ -734,6 +734,11 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 >             return prev + current
 >         })
 >         console.log(total)  //10
+> ```
+>
+> <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250723215639228.png" alt="image-20250723215639228" style="zoom:67%;" />
+>
+> ```js
 > 
 >         //2.有初始值
 >         const total = arr.reduce(function (prev, current) {
@@ -745,4 +750,61 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 >         const total = arr.reduce((prev, current) => prev + current, 10)
 >         console.log(total)  //20
 > ```
+>
+> <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250723215734036.png" alt="image-20250723215734036" style="zoom:67%;" />
+
+案例：（对象数组的初始值）
+
+```js
+        const arr = [{
+            name: '张三',
+            salary: 10000
+        }, {
+            name: '李四',
+            salary: 10000
+        }, {
+            name: '王五',
+            salary: 20000
+        },
+        ]
+        //计算薪资
+        const total = arr.reduce((prev, current) => {
+            return prev + current.salary
+        }, 0)
+        //初始值必须是0，不然返回的第一个是对象（prev）
+        console.log(total)
+```
+
+数组的其他方法：
+
+![image-20250723223936008](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250723223936008.png)
+
+`find`方法：
+
+```js
+        const phone = [
+            {
+                name: '小米',
+                price: 1000
+            },
+            {
+                name: '华为',
+                price: 2000
+            },
+        ]
+        // const mi = phone.find(function (item) {
+        //     return item.name === '小米'
+        // })
+        const mi = phone.find(item => item.name === '小米')
+        console.log(mi)
+```
+
+`every`方法：
+
+```js
+        //2.every 每一个都符合条件就返回true 否则false
+        const arr1 = [10, 20, 30]
+        const flag = arr1.every(item => item >= 20)
+        console.log(flag)
+```
 

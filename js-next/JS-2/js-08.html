@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.find
+        // const arr = ['pink','blue','red']
+        // const re = arr.find(function(item) {
+        //     return item === 'blue'
+        // })
+        // console.log(re)
+
+        const phone = [
+            {
+                name: '小米',
+                price: 1000
+            },
+            {
+                name: '华为',
+                price: 2000
+            },
+        ]
+        // const mi = phone.find(function (item) {
+        //     return item.name === '小米'
+        // })
+        const mi = phone.find(item => item.name === '小米')
+        console.log(mi)
+
+        //2.every 每一个都符合条件就返回true 否则false
+        const arr1 = [10, 20, 30]
+        const flag = arr1.every(item => item >= 20)
+        console.log(flag)
+    </script>
+</body>
+
+</html>
