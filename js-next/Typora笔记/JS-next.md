@@ -808,3 +808,85 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
         console.log(flag)
 ```
 
+伪数组转化为真数组
+
+> [!CAUTION]
+>
+> 区别伪数组和真数组：
+>
+> ```js
+>         //区别伪数组和真数组
+>         //使用pop方法，能用就是真数组
+>         const lis = document.querySelectorAll('li')
+>         // console.log(lis)
+>         lis.pop()
+> ```
+>
+> ![image-20250724235829448](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250724235829448.png)
+>
+> 这就证明是伪数组。
+
+```js
+        const lis = document.querySelectorAll('li')
+        // console.log(lis)
+        // lis.pop() 报错
+        let liss = Array.from(lis)   //伪数组转化为真数组
+        liss.pop()
+        console.log(liss)
+```
+
+#### 4.`String`
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250725161951848.png" alt="image-20250725161951848" style="zoom:80%;" />
+
+1.`split()`
+
+```js
+        //1.把字符串转化为数组  str.split()
+        const str = 'pink,red'
+        const arr = str.split(',')
+        console.log(arr)
+
+        const str1 = '2025-07-25'
+        const arr1 = str1.split('-')
+        console.log(arr1)
+```
+
+2.`substring()`
+
+```js
+        //2.字符串截取   str.substring(开始的索引号[，结束的索引号])   结束的索引号不包括所指的那个
+        const str2 = '今天要开会了'
+        console.log(str2.substring(3, 5))   //开会
+```
+
+3.`startWith`
+
+```js
+        //3.判断是否以某个字符开头
+        const str3 = 'pink老师上课中'
+        console.log(str3.startsWith('pink'))
+        console.log(str3.startsWith('老师', 4))  //true
+```
+
+4.`includes`
+
+```js
+        //4.判断字符串是否被包含
+        const str4 = 'pink老师嘻嘻嘻'
+        console.log(str4.includes('pink'))
+        console.log(str4.includes('pink', 2))  //false
+```
+
+#### 5.`Number`
+
+`toFixed()`
+
+```js
+        // 指定保留的小数位数
+        const num = 10.923
+        console.log(num.toFixed(1))  //10.9
+        const num1 = 10
+        console.log(num1.toFixed(2))  //10.00
+```
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <script>
+        //区别伪数组和真数组
+        //使用pop方法，能用就是真数组
+        const lis = document.querySelectorAll('li')
+        // console.log(lis)
+        // lis.pop() 报错
+        let liss = Array.from(lis)
+        liss.pop()
+        console.log(liss)
+    </script>
+</body>
+
+</html>

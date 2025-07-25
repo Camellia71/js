@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+    <div></div>
+    <script>
+        const spec = { size: '40cm*40cm', color: 'black' }
+        //1.把所有的值取出来
+        // console.log(Object.values(spec))
+        //2.添加到 div 盒子里 并添加/
+        document.querySelector('div').innerHTML = Object.values(spec).join('/')
+    </script>
 </body>
+
 </html>

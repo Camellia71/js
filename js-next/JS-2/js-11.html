@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.把字符串转化为数组  str.split()
+        const str = 'pink,red'
+        const arr = str.split(',')
+        console.log(arr)
+
+        const str1 = '2025-07-25'
+        const arr1 = str1.split('-')
+        console.log(arr1)
+
+
+        //2.字符串截取   str.substring(开始的索引号[，结束的索引号])   结束的索引号不包括所指的那个
+        const str2 = '今天要开会了'
+        console.log(str2.substring(3, 5))   //开会
+
+
+        //3.判断是否以某个字符开头
+        const str3 = 'pink老师上课中'
+        console.log(str3.startsWith('pink'))
+        console.log(str3.startsWith('老师', 4))  //true
+
+
+        //4.判断字符串是否被包含
+        const str4 = 'pink老师嘻嘻嘻'
+        console.log(str4.includes('pink'))
+        console.log(str4.includes('pink', 2))  //false
+    </script>
+</body>
+
+</html>
