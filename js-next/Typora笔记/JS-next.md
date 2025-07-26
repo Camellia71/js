@@ -880,7 +880,7 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 
 #### 5.`Number`
 
-`toFixed()`
+`toFixed()`指定保留的小数位数
 
 ```js
         // 指定保留的小数位数
@@ -889,4 +889,69 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
         const num1 = 10
         console.log(num1.toFixed(2))  //10.00
 ```
+
+## js-3
+
+### 1.编程思想
+
+![image-20250725174256824](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250725174256824.png)
+
+#### 1.面向过程
+
+面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候再一个一个依次调用就可以了。
+
+#### 2.面向对象（`oop`）
+
+面向对象是把事务分解成一个一个对象，然后对象之间分工合作
+
+面向对象是以对象功能来划分问题，而不是步骤
+
+> [!NOTE]
+>
+> 封装性
+>
+> 继承性
+>
+> 多态性
+
+### 2.构造函数
+
+1.`js`面向对象可以通过构造函数实现封装，即构造函数体现了面向对象的封装特性
+
+2.构造函数实例创建的对象彼此相互独立，互不影响
+
+​	但是存在浪费内存的问题：
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250726113833811.png" alt="image-20250726113833811" style="zoom:67%;" />
+
+### 3.原型
+
+`JavaScript`规定：每一个构造函数都有一个`prototype`属性，指向另一个对象，所以我们也称为原型对象
+
+1. 构造函数通过原型分配的函数是所有对象所共享的
+2. 这个对象可以挂载函数，对象实例化不会多次创建原型上函数，可以节约内存
+3. 我们把不变的方法直接定义在`prototype`对象上，这样所有对象的实例就可以共享这些方法
+4. 构造函数和原型对象中的`this`都指向实例化的对象
+
+```js
+        // 构造函数
+        //1.属性挂载在构造函数内
+        function Star(uname, age) {
+            this.uname = uname
+            this.age = age
+        }
+        //2.方法挂载在原型对象上
+        Star.prototype.sing = function () {
+            console.log('唱歌')
+        }
+        const ldh = new Star('刘德华', 55)
+        const zxy = new Star('张学友', 58)
+        console.log(ldh.sing === zxy.sing)
+```
+
+> [!NOTE]
+>
+> 构造函数和实例对象的`this`都指向实例化的对象
+>
+> 上方代码就是指向`ldh`和`zxy` ；因为调用的时候是`ldh.sing()`
 
