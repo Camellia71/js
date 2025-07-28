@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //自己定义数组求最大值和求和
+        //1.我们定义的这个方法 任何一个实例对象都可以使用
+        //2.自定义方法写到  数组.prototype 身上
+        const arr = [1, 2, 3, 4]
+        Array.prototype.max = function (arr) {
+            return Math.max(...this)   //this指向实例对象
+        }
+        Array.prototype.min = function (arr) {
+            return Math.min(...this)   //this指向实例对象
+        }
+        console.log(arr.max())
+        console.log(arr.min())
+
+        Array.prototype.sum = function () {
+            return this.reduce((prev, item) => prev + item, 0)
+        }
+        console.log(arr.sum())
+    </script>
+</body>
+
+</html>
