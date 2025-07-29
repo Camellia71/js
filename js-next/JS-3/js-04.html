@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+    <script>
+        //constructor 
+        function Star(name) {
+            this.name = name
+        }
+        // console.log(Star.prototype.constructor === Star)
+        Star.prototype = {
+            //这个时候本来的 constructor 被覆盖，所以需要重新添加
+            constructor: Star,
+            sing: function () {
+                console.log('唱歌')
+            },
+            dance: function () {
+                console.log('跳舞')
+            }
+        }
+        console.log(Star.prototype)
+    </script>
 </body>
+
 </html>

@@ -955,3 +955,34 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 >
 > 上方代码就是指向`ldh`和`zxy` ；因为调用的时候是`ldh.sing()`
 
+#### 1.`constructor`属性
+
+每个原型对象里面都有一个`constructor`属性，（`constructor`构造函数）
+
+该属性指向该原型对象的构造函数
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250728232228240.png" alt="image-20250728232228240" style="zoom:67%;" />
+
+```js
+        function Star(name) {
+            this.name = name
+        }
+        console.log(Star.prototype.constructor === Star)  //true
+```
+
+应用：
+
+```js
+        Star.prototype = {
+            //这个时候本来的 constructor 被覆盖，所以需要重新添加
+            constructor: Star,
+            sing: function () {
+                console.log('唱歌')
+            },
+            dance: function () {
+                console.log('跳舞')
+            }
+        }
+        console.log(Star.prototype)
+```
+
