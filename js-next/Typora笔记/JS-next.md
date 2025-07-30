@@ -986,3 +986,24 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
         console.log(Star.prototype)
 ```
 
+#### 2.对象原型
+
+为什么实例对象可以访问原型对象里面的属性和方法呢？
+
+——因为我们有对象原型。
+
+对象都会有一个属性`__proto__`指向构造函数的原型对象`prototype`，所以我们的实例对象可以使用构造函数原型对象`prototype`的属性和方法。
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250730213731664.png" alt="image-20250730213731664" style="zoom: 50%;" />
+
+```js
+        function Star() { }
+        const ldh = new Star()
+        //实例对象的 __proto__ 指向构造函数的原型对象 prototype
+        console.log(ldh.__proto__ === Star.prototype)  //true
+        //实例对象也有属性constructor  指向构造函数
+        console.log(ldh.__proto__.constructor === Star)  //true
+```
+
+#### 3.原型继承
+
