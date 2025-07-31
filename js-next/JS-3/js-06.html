@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //继承 继承公共的部分
+        // const Person = {
+        //     eyes: 2,
+        //     head: 1
+        // }
+        //因为现在单独给Women添加一个方法的话 Men中也会出现 
+        //这个时候就将Person改为构造函数
+        function Person() {
+            eyes: 2
+            head: 1
+        }
+        //构造函数 继承Person 
+        function Women() {
+            // eyes: 2
+            // head: 1
+        }
+
+        //Women 通过原型来继承Person  
+        // Women.prototype = Person
+        Women.prototype = new Person()
+        //指回构造函数
+        Women.prototype.constructor = Women
+        //现在单独给Women添加一个方法 但是Men中也会出现 
+        // 这个时候就从Person入手，将其改为构造函数，然后使用的时候new一个就可以了
+        Women.prototype.baby = function () {
+            console.log('baby')
+        }
+        const red = new Women()
+        console.log(red)
+        console.log(Women.prototype)
+        console.log(red.__proto__)
+
+        //构造函数
+        function Men() {
+            // eyes: 2
+            // head: 1
+        }
+        // Men.prototype = Person
+        Men.prototype = new Person()
+        Men.prototype.constructor = Men
+        const pink = new Men()
+        console.log(pink)
+    </script>
+</body>
+
+</html>
