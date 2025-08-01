@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // function Object() { }    Object本来就有
+        function Star() { }
+        const ldh = new Star()
+
+        //ldh 这一层
+        console.log(ldh.__proto__ === Star.prototype)
+
+        //Star
+        console.log(Star.prototype.__proto__ === Object.prototype)
+        console.log(Star.prototype.constructor === Star)
+
+        //Object
+        console.log(Object.prototype.__proto__ === null)
+        console.log(Object.prototype.constructor === Object)
+
+        //instanceof
+        console.log(ldh instanceof Star)  //true
+        console.log([1, 2, 3] instanceof Array)  //true
+    </script>
+</body>
+
+</html>

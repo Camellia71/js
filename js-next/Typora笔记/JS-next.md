@@ -1007,3 +1007,299 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 
 #### 3.原型继承
 
+继承是面向对象编程的另一个特征，通过继承进一步提高代码封装的程度，JS中大多是借助原型对象实现继承的特征
+
+```js
+        //继承 继承公共的部分
+        // const Person = {
+        //     eyes: 2,
+        //     head: 1
+        // }
+        //因为现在单独给Women添加一个方法的话 Men中也会出现 
+        //这个时候就将Person改为构造函数
+        function Person() {
+            eyes: 2
+            head: 1
+        }
+        //构造函数 继承Person 
+        function Women() {
+            // eyes: 2
+            // head: 1
+        }
+
+        //Women 通过原型来继承Person  
+        // Women.prototype = Person
+        Women.prototype = new Person()
+        //指回构造函数
+        Women.prototype.constructor = Women
+        //现在单独给Women添加一个方法 但是Men中也会出现 
+        // 这个时候就从Person入手，将其改为构造函数，然后使用的时候new一个就可以了
+        Women.prototype.baby = function () {
+            console.log('baby')
+        }
+        const red = new Women()
+        console.log(red)
+        console.log(Women.prototype)
+        console.log(red.__proto__)
+```
+
+​	对于含有共同属性的构造函数，我们可以创建他们的父构造函数来存放子构造函数的共同属性和方法，使用时只需要`子构造函数.原型对象 = new 父构造函数()`，`new`完之后记得指回子构造函数。
+
+#### 4.原型链
+
+![image-20250801160254837](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801160254837.png)
+
+原型对象的继承使得不同构造函数的对象关联在一起，并且这种关联的对象是一种链状的结构；我们将原型对象的链状结构关系称为原型链。
+
+![image-20250801160815595](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801160815595.png)
+
+```js
+        function Star() { }
+        const ldh = new Star()
+
+        //ldh 这一层
+        console.log(ldh.__proto__ === Star.prototype)
+
+        //Star
+        console.log(Star.prototype.__proto__ === Object.prototype)
+        console.log(Star.prototype.constructor === Star)
+
+        //Object
+        console.log(Object.prototype.__proto__ === null)
+        console.log(Object.prototype.constructor === Object)
+```
+
+​	原型链其实就是一种查找规则，（查找规则：当访问一个对象的属性或者方法时，先查找它本身是否有该属性或方法，如果没有就查找它的原型，也就是`__proto__`指向的`prototype`原型对象，如果还没有就继续查找原型对象的原型，以此类推直到`null`为止）`__proto__`对象原型存在的意义就是为对象成员查找机制提供一个方向
+
+​	可以使用`instanceof`运算符用于检测构造函数的`prototype`属性是否出现在某个实例对象的原型链上。
+
+```js
+        //instanceof
+        console.log(ldh instanceof Star)  //true
+        console.log([1, 2, 3] instanceof Array)  //true
+```
+
+### 4.综合案例
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>面向对象封装消息提示</title>
+    <style>
+        .modal {
+            width: 300px;
+            min-height: 100px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            position: fixed;
+            z-index: 999;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            background-color: #fff;
+        }
+
+        .modal .header {
+            line-height: 40px;
+            padding: 0 10px;
+            position: relative;
+            font-size: 20px;
+        }
+
+        .modal .header i {
+            font-style: normal;
+            color: #999;
+            position: absolute;
+            right: 15px;
+            top: -2px;
+            cursor: pointer;
+        }
+
+        .modal .body {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .modal .footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+        }
+
+        .modal .footer a {
+            padding: 3px 8px;
+            background: #ccc;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 2px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .modal .footer a.submit {
+            background-color: #369;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="delete">删除</button>
+    <button id="login">登录</button>
+    <button id="add">新增</button>
+
+    <!-- <div class="modal">
+    <div class="header">温馨提示 <i>x</i></div>
+    <div class="body">您没有删除权限操作</div>
+  </div> -->
+
+
+    <script>
+        //Modal 构造函数封装
+        function Modal(title = '', message = '') {
+            //1.创建 div 盒子
+            this.ModalBox = document.createElement('div')
+            //2.添加类名
+            this.ModalBox.className = 'modal'
+            //3.写入内容
+            this.ModalBox.innerHTML = `
+            <div class="header">${title}<i>x</i></div>
+            <div class="body">${message}</div>
+            `
+            console.log(this.ModalBox)
+        }
+        new Modal('温馨提示', '您没有权限删除操作')
+        new Modal('友情提示', '您还没登陆呢')
+
+        //给构造函数原型对象挂载open 方法
+        Modal.prototype.open = function () {
+            //需要先判断是否有这个盒子Modal 有的话就移除，不然会一直创建
+            const box = document.querySelector('.modal')
+            box && box.remove()  //逻辑中断 前面为假（box不存在）就不执行了
+            //不能用箭头函数
+            //把Modal 显示到页面中
+            document.body.append(this.ModalBox)
+
+            //等盒子显示出来再绑定 × 按钮 点击事件
+            this.ModalBox.querySelector('i').addEventListener('click', () => {
+                //这里就要用this 因为this 指向实例对象 我们关闭他的父级
+                this.close()
+            })
+        }
+
+        //给构造函数原型挂载 close 方法
+        Modal.prototype.close = function () {
+            this.ModalBox.remove()
+        }
+
+        //测试 open
+        document.querySelector('#delete').addEventListener('click', () => {
+            //先调用 Modal 函数
+            const del = new Modal('温馨提示', '您没有权限删除')
+            //实例对象调用 open 方法
+            del.open()
+        })
+
+        document.querySelector('#login').addEventListener('click', () => {
+            //先调用
+            const log = new Modal('友情提示', '您还没有登录')
+            //使用 open
+            log.open()
+        })
+
+        document.querySelector('#add').addEventListener('click', () => {
+            //先调用
+            const add = new Modal('礼貌提示', '您不能新增')
+            //使用 open
+            add.open()
+        })
+    </script>
+</body>
+
+</html>
+```
+
+## js-4
+
+### 1.深浅拷贝
+
+深浅拷贝都只针对引用类型；
+
+为了解决以下问题：
+
+```js
+        const obj = {
+            uname: 'pink',
+            age: 18
+        }
+        const o = obj
+        o.age = 20
+        console.log(o)
+        console.log(obj)   //也发生变化
+        //因为直接赋值是复制栈里的地址 指向堆中的同一个空间 所以都改变
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801192008937.png" alt="image-20250801192008937" style="zoom:50%;" />
+
+#### 1.浅拷贝
+
+简单数据类型拷贝的是值，引用数据类型拷贝地址（单层对象没问题，多层对象就会出现问题，原本的对象还是被改变）
+
+> [!NOTE]
+>
+> 1. 拷贝对象：`Object.assgin()`  / `展开运算符 {...obj} 拷贝对象`
+> 2. 拷贝数组：`Array.protottype.concat()` 或者 `[...arr]`
+
+```js
+        //浅拷贝
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            family: {
+                baby: '小pink'
+            }
+        }
+        const o = { ...obj }
+        o.age = 20
+        o.family.baby = '老pink'
+        console.log(o)
+        console.log(obj)   //baby 被改变了 所以叫浅拷贝
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801193153498.png" alt="image-20250801193153498" style="zoom:33%;" />
+
+```js
+        //另一种写法
+        const o = {}
+        Object.assign(o, obj)
+        o.age = 20
+        console.log(o)
+        console.log(obj)
+```
+
+#### 2.深拷贝
+
+深拷贝拷贝的是对象，不是地址
+
+> [!NOTE]
+>
+> 常见方法：
+>
+> 1. 通过递归实现深拷贝
+> 2. `lodash`/`cloneDeep`
+> 3. 通过`JSON.stringify`实现
+
+
+
+
+
+### 2.异常处理
+
+### 3.`this`指向
+
+### 4.性能优化
+
