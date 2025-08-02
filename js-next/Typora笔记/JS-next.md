@@ -1293,9 +1293,11 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 > 2. `lodash`/`cloneDeep`
 > 3. 通过`JSON.stringify`实现
 
+1. 递归
 
+一个函数在内部可以调用其本身，那就是递归函数；由于递归很容易发生栈溢出（`stark overflow`）错误，所以必须要加退出条件（`return`）
 
-
+​	可以利用递归函数实现`setTimeout`模拟`setinterval`效果
 
 ### 2.异常处理
 
