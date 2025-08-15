@@ -1283,7 +1283,7 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 
 #### 2.深拷贝
 
-深拷贝拷贝的是对象，不是地址
+深拷贝拷贝的是对象，不是地址；深拷贝的新旧内容互不影响
 
 > [!NOTE]
 >
@@ -1299,7 +1299,106 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 
 ​	可以利用递归函数实现`setTimeout`模拟`setinterval`效果
 
+```js
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            hobby: ['乒乓球', '足球'],
+            family: {
+                baby: '小pink'
+            }
+        }
+        const o = {}
+
+        //拷贝函数
+        function deepCopy(newObj, oldObj) {
+            for (let k in oldObj) {
+                //处理数组的问题
+                if (oldObj[k] instanceof Array) {
+                    newObj[k] = []
+                    //newObj[k]  接收[]
+                    //oldObj[k]  是['乒乓球','足球']
+                    //再调用一遍函数
+                    deepCopy(newObj[k], oldObj[k])
+                } if (oldObj[k] instanceof Object) {
+                    newObj[k] = {}
+                    //再调用一遍函数
+                    deepCopy(newObj[k], oldObj[k])
+                } else {
+                    //o.uname = newOld[k]    给新对象添加属性
+                    newObj[k] = oldObj[k]
+                }
+            }
+        }
+        deepCopy(o, obj)
+        o.age = 20
+        o.hobby[0] = '篮球'
+        o.family.baby = '老pink'
+        console.log(o)
+        console.log(obj)
+```
+
+**一定先写数组再写对象，因为数组也是一种对象，相当于在数组和对象内部在应用一遍**
+
+2. `lodash`库里的`_.cloneDeep()`
+
+`lodash`是一个`js`工具库，安装
+
+```js
+<script scr = "lodash.js"></script>
+```
+
+还可以通过`npm`安装
+
+```js
+$ npm i -g npm
+$ npm i --save lodash
+```
+
+示例：
+
+```js
+    <script src="lodash.min.js"></script>
+    <script>
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            hobby: ['乒乓球', '足球'],
+            family: {
+                baby: '小pink'
+            }
+        }
+        const o = _.cloneDeep(obj)
+        console.log(o)
+        o.family.baby = '老pink'
+        console.log(obj)
+    </script>
+```
+
+3. `JSON`实现
+
+```js
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            hobby: ['乒乓球', '足球'],
+            family: {
+                baby: '小pink'
+            }
+        }
+        //把对象转化为JSON字符串，再转化为对象，这样是新创建了一个对象
+        console.log(JSON.stringify(obj))
+        const o = JSON.parse(JSON.stringify(obj))
+        console.log(o)
+```
+
 ### 2.异常处理
+
+#### 1.`throw`抛异常
+
+#### 2.`try/catch`捕获异常
+
+#### 3.`debugger`
 
 ### 3.`this`指向
 
