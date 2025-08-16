@@ -1394,9 +1394,50 @@ $ npm i --save lodash
 
 ### 2.异常处理
 
+了解异常处理，便于提升代码健壮性；异常处理是指代码运行过程中可能产生的错误，然后最大程度地避免错误的发生而导致整个程序无法运行。
+
 #### 1.`throw`抛异常
 
+```js
+        function fn(x, y) {
+            if (!x || !y) {
+                //throw 会终止运行
+                throw '没有参数传递进来'
+            }
+            return x + y
+        }
+        console.log(fn())
+```
+
+![image-20250815160636000](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250815160636000.png)
+
+```js
+        function fn(x, y) {
+            if (!x || !y) {
+                throw new Error('没有参数传递进来')
+            }
+            return x + y
+        }
+        console.log(fn())
+```
+
+![image-20250815160838252](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250815160838252.png)
+
+> [!NOTE]
+>
+> 1.`throw`抛出异常信息，程序会终止执行
+>
+> 2.`throw`后面紧跟错误提示信息
+>
+> 3.`Error`对象配合`throw`使用，能够设置更详细的错误信息
+
 #### 2.`try/catch`捕获异常
+
+我们可以通过`try/catch`捕获错误信息（浏览器提供的错误信息）
+
+关键字：`try catch finally`
+
+
 
 #### 3.`debugger`
 
