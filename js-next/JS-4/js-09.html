@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <p>123</p>
     <script>
         function fn() {
+            debugger
             try {
+                //可能发送错误的代码，要写到try
                 const p = document.querySelector('.p')
+                p.style.color = 'red'
                 console.log(p)
+            } catch (err) {
+                //catch 拦截错误，提示浏览器提供的错误信息，但是不中断程序的执行
+                console.log(err.message)
+                //中断程序 需要加return
+                return
+            } finally {
+                //不管有没有错误，都会执行
+                alert('111')
             }
+            console.log(11)  //加return 之后就不会执行了
         }
+        fn()
     </script>
 </body>
+
 </html>

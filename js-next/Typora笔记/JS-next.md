@@ -1437,11 +1437,68 @@ $ npm i --save lodash
 
 关键字：`try catch finally`
 
+```js
+    <p>123</p>
+    <script>
+        function fn() {
+            try {
+                //可能发送错误的代码，要写到try
+                const p = document.querySelector('.p')
+                p.style.color = 'red'
+                console.log(p)
+            } catch (err) {
+                //catch 拦截错误，提示浏览器提供的错误信息，但是不中断程序的执行
+                console.log(err.message)
+                //中断程序 需要加return
+                return
+            } finally {
+                //不管有没有错误，都会执行
+                alert('111')
+            }
+            console.log(11)  //加return 之后就不会执行了
+        }
+        fn()
+    </script>
+```
 
+> [!NOTE]
+>
+> 1.`try/catch`用于捕获错误信息
+>
+> 2.将预估可能错误的信息写在`try`里面
+>
+> 3.如果`try`代码段中出现错误后，会执行`catch`代码段，并截获到错误信息
+>
+> 4.不管有没有错误，`finally`中的代码段都会执行
 
 #### 3.`debugger`
 
+测试`bug`的，打断点
+
+```js
+function problematicFunction() {
+    let a = 1;
+    let b = 2;
+    debugger; // 执行到这里会暂停
+    return a + b;
+}
+```
+
+> [!NOTE]
+>
+> 1.只有在开发者工具打开时 `debugger`才会生效
+>
+> 2.生产环境中应该移除或禁用 `debugger`语句
+>
+> 3.现代浏览器可能会阻止页面中的频繁 `debugger`语句（防调试）
+
+![image-20250818230417176](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250818230417176.png)
+
 ### 3.`this`指向
+
+#### 1.`this`指向
+
+
 
 ### 4.性能优化
 
