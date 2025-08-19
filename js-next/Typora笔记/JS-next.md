@@ -1498,6 +1498,32 @@ function problematicFunction() {
 
 #### 1.`this`指向
 
+普通函数的调用方式决定了`this`的值，即【谁调用， `this`的值指向谁】
+
+```js
+        // 'use strict'  //严格模式 开启后fn() 的this 是undefined
+		console.log(this)  //window
+
+        function fn() {
+            console.log(this)  //window
+        }
+        fn()
+
+        setTimeout(function () {
+            console.log(this)  //window
+        }, 1000)
+        document.querySelector('button').addEventListener('click', function () {
+            console.log(this)  //button
+        })
+
+        const obj = {
+            sayHi: function () {
+                console.log(this)  //obj
+            }
+        }
+        obj.sayHi()
+```
+
 
 
 ### 4.性能优化
