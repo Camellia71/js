@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>点击</button>
+    <script>
+        const obj = {
+            age: 18
+        }
+        function fn() {
+            console.log(this)
+        }
+
+        // bind(this指向,其他参数,,,)
+        //不会调用函数，会改变this指向，返回值是一个函数 需要接一下
+        const fun = fn.bind(obj)
+        //调用
+        fun()
+
+        //需求：有一个按钮，点击之后禁用，2秒钟之后开启
+        const btn = document.querySelector('button')
+        btn.addEventListener('click', function () {
+            //禁用
+            this.disabled = true
+            //2秒之后解开
+            window.setTimeout(function () {
+                //在这个普通函数里将this指向由window 改为 btn
+                this.disabled = false
+            }.bind(this), 2000)  //这一步就是将function里面的this 指向更改为禁用那一行的指向，也就是btn
+        })
+    </script>
+</body>
+
+</html>

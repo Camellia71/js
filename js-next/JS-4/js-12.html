@@ -12,10 +12,21 @@
         const obj = {
             age: 18
         }
-        function fn() {
-            console.log(this)
+        function fn(x, y) {
+            console.log(this)   //obj
+            console.log(x, y)   //1,2
         }
-        fn.apply()
+        // fn.apply(this指向,[传递的参数])
+        fn.apply(obj, [1, 2])
+
+        //使用场景：求数组最大值
+        // const max = Math.max(1, 2, 3)
+        const arr = [100, 44, 77]
+        const max = Math.max.apply(Math, arr)
+        const min = Math.min.apply(Math, arr)
+        console.log(max, min)
+        //展开运算符
+        console.log(Math.max(...arr))
     </script>
 </body>
 

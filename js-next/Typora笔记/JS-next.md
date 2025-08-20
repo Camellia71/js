@@ -1512,6 +1512,7 @@ function problematicFunction() {
         setTimeout(function () {
             console.log(this)  //window
         }, 1000)
+
         document.querySelector('button').addEventListener('click', function () {
             console.log(this)  //button
         })
@@ -1524,7 +1525,154 @@ function problematicFunction() {
         obj.sayHi()
 ```
 
+事实上箭头函数中并不存在`this`，箭头函数的`this`引用的就是最近作用域中的`this`，会向外层作用域一层一层查找，直到有`this`的定义。
 
+所以不适用构造函数，原型函数，字面量对象中函数，`dom`事件函数，
+
+> [!NOTE]
+>
+> 构造函数：用于创建对象的模板，使用`new`调用
+>
+> ```js
+> function Person(name) {
+>     // new 调用时，this 指向新创建的对象
+>     this.name = name;
+>     this.sayHello = function() {
+>         console.log(`Hello, I'm ${this.name}`);
+>     };
+> }
+> 
+> const alice = new Person('Alice');
+> alice.sayHello(); // "Hello, I'm Alice"
+> ```
+>
+> 原型函数：共享给所有实例的方法
+>
+> ```js
+> function Person(name) {
+>     this.name = name;
+> }
+> 
+> // 添加到原型的方法
+> Person.prototype.sayHello = function() {
+>     console.log(`Hello, I'm ${this.name}`);
+> };
+> 
+> const bob = new Person('Bob');
+> bob.sayHello(); // "Hello, I'm Bob"
+> ```
+>
+> 字面量对象中的函数：
+>
+> ```js
+> const person = {
+>     name: 'Charlie',
+>     sayHello: function() {
+>         console.log(`Hello, I'm ${this.name}`);
+>     },
+>     sayHi: () => {
+>         console.log(`Hi, I'm ${this.name}`); // 箭头函数，this 不同
+>     }
+> };
+> 
+> person.sayHello(); // "Hello, I'm Charlie"
+> person.sayHi();    // "Hi, I'm undefined" (箭头函数的this)
+> ```
+>
+> `DOM`事件函数：
+>
+> ```js
+> document.getElementById('myBtn').addEventListener('click', function() {
+>     console.log(this); // 指向触发事件的DOM元素
+> });
+> 
+> // 对比箭头函数
+> document.getElementById('myBtn').addEventListener('click', () => {
+>     console.log(this); // 指向定义时的上下文（通常是window）
+> });
+> ```
+
+适用需要使用上层`this`的地方。
+
+#### 2.改变指向
+
+1. `call()`方法调用函数，同时指定被调用函数中`this`的值。
+
+```js
+        const obj = {
+            uname: 'pink'
+        }
+        function fn(x, y) {
+            console.log(this)  //obj
+            console.log(x, y)  //1,2
+        }
+        // fn.call(想要的this指向,其他参数,,,)
+        //call() 方法 可以调用函数，指定this 指向
+        //返回值就是函数的返回值，因为它就是调用函数
+        fn.call(obj, 1, 2)
+```
+
+2. `apply()`调用函数，同时指定被调用函数中`this`的值
+
+```js
+        const obj = {
+            age: 18
+        }
+        function fn(x, y) {
+            console.log(this)   //obj
+            console.log(x, y)   //1,2
+        }
+        // fn.apply(this指向,[传递的参数])
+		//传递的值必须包含在数组里面
+        fn.apply(obj, [1, 2])
+```
+
+应用：求数组最大值
+
+```js
+        //使用场景：求数组最大值
+        // const max = Math.max(1, 2, 3)
+        const arr = [100, 44, 77]
+        const max = Math.max.apply(Math, arr)
+        const min = Math.min.apply(Math, arr)
+        console.log(max, min)
+        //展开运算符
+        console.log(Math.max(...arr))
+```
+
+3. `bind()`方法不会调用函数，但是能改变`this`指向
+
+```js
+        const obj = {
+            age: 18
+        }
+        function fn() {
+            console.log(this)
+        }
+
+        // bind(this指向,其他参数,,,)
+        //不会调用函数，会改变this指向，返回值是一个函数 需要接一下
+        const fun = fn.bind(obj)
+        //调用
+        fun()
+```
+
+应用：
+
+```js
+    //需求：有一个按钮，点击之后禁用，2秒钟之后开启
+    const btn = document.querySelector('button')
+    btn.addEventListener('click', function () {
+        //禁用
+        this.disabled = true
+        //2秒之后解开
+        window.setTimeout(function () {
+            //在这个普通函数里将this指向由window 改为 btn
+            this.disabled = false
+        }.bind(this), 2000)  //这一步就是将function里面的this 指向更改为禁用那一行的指向，也就是btn
+    })
+```
 
 ### 4.性能优化
 
+#### 1.防抖 `debounce`
