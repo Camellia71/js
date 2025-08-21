@@ -1676,3 +1676,151 @@ function problematicFunction() {
 ### 4.性能优化
 
 #### 1.防抖 `debounce`
+
+单位时间内频繁触发事件，只执行最后一次：（执行时间为3秒，还没执行完就再次触发，这时就会取消上次执行，重新开始，结果就是只执行最后一次）
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250820161751744.png" alt="image-20250820161751744" style="zoom:50%;" />
+
+```js
+    <div class="box"></div>
+    <script src="lodash.min.js"></script>
+    <script>
+        //利用防抖实现性能优化
+        //鼠标在盒子上移动 数字就会+1
+        const box = document.querySelector('.box')
+        let i = 1
+        function mouseMove() {
+            box.innerHTML = i++
+            //如果里面存在消耗性能较大的代码，比如DOM操作，数据处理等，可能造成卡顿
+        }
+        // box.addEventListener('mousemove', mouseMove)
+        //利用lodash库实现防抖， - 500ms后才去+1
+        //语法：_.debounce(function(),时间)
+        box.addEventListener('mousemove', _.debounce(mouseMove, 500))
+    </script>
+```
+
+解析`_.debounce`代码
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250820225929058.png" alt="image-20250820225929058" style="zoom:67%;" />
+
+```js
+        //用setTimeOut实现防抖
+        //1.声明定时器变量
+        //2.每次鼠标移动（事件触发）时都要先判断是否有定时器，如果有就先清除
+        //3.如果没有定时器就开启定时器，存入定时器变量里
+        //4.定时器里面写函数调用
+        function debounce(fn, t) {
+            //1.声明定时器变量
+            let timer
+            //2.return 返回一个匿名函数，这里是用来解决“如果直接执行函数，timer会被重置，无法实现防抖效果“的问题
+            //闭包（返回的函数）可以访问外层函数的变量（timer），确保它不会被垃圾回收。
+            return function () {
+                if (timer) clearTimeout(timer)
+                timer = setTimeout(function () {
+                    fn()  //调用fn()
+                }, t)
+            }
+        }
+        box.addEventListener('mousemove', debounce(mouseMove, 500))
+        // debounce(mouseMove,500) = function() {...}  //返回的匿名函数
+```
+
+#### 2.节流`throttle`
+
+节流是单位时间内频繁触发事件，只执行一次（已经触发就会取消本次，直到上次执行结束，才能执行本次，类似于技能冷却）
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821140746263.png" alt="image-20250821140746263" style="zoom:50%;" />
+
+```js
+    <div class="box"></div>
+    <script src="lodash.min.js"></script>
+    <script>
+        //利用节流实现性能优化
+        //鼠标在盒子上移动 每3000ms数字就会+1
+        const box = document.querySelector('.box')
+        let i = 1
+        function mouseMove() {
+            box.innerHTML = i++
+            //如果里面存在消耗性能较大的代码，比如DOM操作，数据处理等，可能造成卡顿
+        }
+        // box.addEventListener('mousemove', mouseMove)
+        //利用lodash库实现节流， - 3000ms后才去+1
+        //语法：_.throttle(function(),时间)
+        box.addEventListener('mousemove', _.throttle(mouseMove, 3000))
+    </script>
+```
+
+解析：`_.throttle`代码
+
+![image-20250821151307851](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821151307851.png)
+
+在`setTimeOut`中是不能清除定时器的，因为定时器还在运作，所以就令`timer = null`
+
+```js
+        //用setTimeOut()实现节流
+        //1.声明定时器变量
+        //2.每次事件触发都先判断是否有定时器，有的话就不开启定时器
+        //3.没有的话就开启定时器，记得存到变量里面
+        //3.1定时器里面调用执行的函数
+        //3.2定时器里面要把定时器清空
+        function throttle(fn, t) {
+            let timer = null
+            return function () {
+                if (!timer) {
+                    timer = setTimeout(function () {
+                        fn()
+                        //清空
+                        timer = null
+                    }, t)
+                }
+            }
+        }
+        box.addEventListener('mousemove', throttle(mouseMove, 3000))
+```
+
+**总结**
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821154712440.png" alt="image-20250821154712440" style="zoom:67%;" />
+
+案例：
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821160113777.png" alt="image-20250821160113777" style="zoom:67%;" />
+
+```js
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="http://pip.itcast.cn">
+                <img src="https://pip.itcast.cn/img/logo_v3.29b9ba72.png" alt="" />
+            </a>
+        </div>
+        <div class="video">
+            <video src="https://v.itheima.net/LapADhV6.mp4" controls></video>
+        </div>
+        <div class="elevator">
+            <a href="javascript:;" data-ref="video">视频介绍</a>
+            <a href="javascript:;" data-ref="intro">课程简介</a>
+            <a href="javascript:;" data-ref="outline">评论列表</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script>
+        //1.获取元素，对视频进行操作
+        const video = document.querySelector('video')
+        video.ontimeupdate = _.throttle(() => {
+            // console.log(video.currentTime)  //获取现在视频的播放时间
+            localStorage.setItem('currentTime', video.currentTime)
+            //每隔一秒就获得一次时间，然后储存到本地
+        }, 1000)
+
+        //2.打开页面事件触发，就从本地存储中获取时间，赋值给video.currentTime
+        video.onloadeddata = () => {
+            // console.log(111)
+            video.currentTime = localStorage.getItem('currentTime') || 0
+            //第一次打开 cyrrentTime里面是没有值的
+        }
+    </script>
+</body>
+```
+

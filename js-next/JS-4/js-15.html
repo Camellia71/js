@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 300px;
+            background-color: rgb(92, 92, 86);
+            color: white;
+            font-size: larger;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+    <script src="lodash.min.js"></script>
+    <script>
+        //利用节流实现性能优化
+        //鼠标在盒子上移动 每3000ms数字就会+1
+        const box = document.querySelector('.box')
+        let i = 1
+        function mouseMove() {
+            box.innerHTML = i++
+            //如果里面存在消耗性能较大的代码，比如DOM操作，数据处理等，可能造成卡顿
+        }
+        // box.addEventListener('mousemove', mouseMove)
+        //利用lodash库实现节流， - 3000ms后才去+1
+        //语法：_.throttle(function(),时间)
+        // box.addEventListener('mousemove', _.throttle(mouseMove, 3000))
+
+
+        //用setTimeOut()实现节流
+        //1.声明定时器变量
+        //2.每次事件触发都先判断是否有定时器，有的话就不开启定时器
+        //3.没有的话就开启定时器，记得存到变量里面
+        //3.1定时器里面调用执行的函数
+        //3.2定时器里面要把定时器清空
+        function throttle(fn, t) {
+            let timer = null
+            return function () {
+                if (!timer) {
+                    timer = setTimeout(function () {
+                        fn()
+                        //清空
+                        timer = null
+                    }, t)
+                }
+            }
+        }
+        box.addEventListener('mousemove', throttle(mouseMove, 3000))
+    </script>
+</body>
+
+</html>
