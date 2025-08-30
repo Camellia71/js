@@ -955,3 +955,872 @@ DOM事件回调函数，不建议使用箭头函数（尤其是有`this`出现�
 >
 > 上方代码就是指向`ldh`和`zxy` ；因为调用的时候是`ldh.sing()`
 
+#### 1.`constructor`属性
+
+每个原型对象里面都有一个`constructor`属性，（`constructor`构造函数）
+
+该属性指向该原型对象的构造函数
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250728232228240.png" alt="image-20250728232228240" style="zoom:67%;" />
+
+```js
+        function Star(name) {
+            this.name = name
+        }
+        console.log(Star.prototype.constructor === Star)  //true
+```
+
+应用：
+
+```js
+        Star.prototype = {
+            //这个时候本来的 constructor 被覆盖，所以需要重新添加
+            constructor: Star,
+            sing: function () {
+                console.log('唱歌')
+            },
+            dance: function () {
+                console.log('跳舞')
+            }
+        }
+        console.log(Star.prototype)
+```
+
+#### 2.对象原型
+
+为什么实例对象可以访问原型对象里面的属性和方法呢？
+
+——因为我们有对象原型。
+
+对象都会有一个属性`__proto__`指向构造函数的原型对象`prototype`，所以我们的实例对象可以使用构造函数原型对象`prototype`的属性和方法。
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250730213731664.png" alt="image-20250730213731664" style="zoom: 50%;" />
+
+```js
+        function Star() { }
+        const ldh = new Star()
+        //实例对象的 __proto__ 指向构造函数的原型对象 prototype
+        console.log(ldh.__proto__ === Star.prototype)  //true
+        //实例对象也有属性constructor  指向构造函数
+        console.log(ldh.__proto__.constructor === Star)  //true
+```
+
+#### 3.原型继承
+
+继承是面向对象编程的另一个特征，通过继承进一步提高代码封装的程度，JS中大多是借助原型对象实现继承的特征
+
+```js
+        //继承 继承公共的部分
+        // const Person = {
+        //     eyes: 2,
+        //     head: 1
+        // }
+        //因为现在单独给Women添加一个方法的话 Men中也会出现 
+        //这个时候就将Person改为构造函数
+        function Person() {
+            eyes: 2
+            head: 1
+        }
+        //构造函数 继承Person 
+        function Women() {
+            // eyes: 2
+            // head: 1
+        }
+
+        //Women 通过原型来继承Person  
+        // Women.prototype = Person
+        Women.prototype = new Person()
+        //指回构造函数
+        Women.prototype.constructor = Women
+        //现在单独给Women添加一个方法 但是Men中也会出现 
+        // 这个时候就从Person入手，将其改为构造函数，然后使用的时候new一个就可以了
+        Women.prototype.baby = function () {
+            console.log('baby')
+        }
+        const red = new Women()
+        console.log(red)
+        console.log(Women.prototype)
+        console.log(red.__proto__)
+```
+
+​	对于含有共同属性的构造函数，我们可以创建他们的父构造函数来存放子构造函数的共同属性和方法，使用时只需要`子构造函数.原型对象 = new 父构造函数()`，`new`完之后记得指回子构造函数。
+
+#### 4.原型链
+
+![image-20250801160254837](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801160254837.png)
+
+原型对象的继承使得不同构造函数的对象关联在一起，并且这种关联的对象是一种链状的结构；我们将原型对象的链状结构关系称为原型链。
+
+![image-20250801160815595](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801160815595.png)
+
+```js
+        function Star() { }
+        const ldh = new Star()
+
+        //ldh 这一层
+        console.log(ldh.__proto__ === Star.prototype)
+
+        //Star
+        console.log(Star.prototype.__proto__ === Object.prototype)
+        console.log(Star.prototype.constructor === Star)
+
+        //Object
+        console.log(Object.prototype.__proto__ === null)
+        console.log(Object.prototype.constructor === Object)
+```
+
+​	原型链其实就是一种查找规则，（查找规则：当访问一个对象的属性或者方法时，先查找它本身是否有该属性或方法，如果没有就查找它的原型，也就是`__proto__`指向的`prototype`原型对象，如果还没有就继续查找原型对象的原型，以此类推直到`null`为止）`__proto__`对象原型存在的意义就是为对象成员查找机制提供一个方向
+
+​	可以使用`instanceof`运算符用于检测构造函数的`prototype`属性是否出现在某个实例对象的原型链上。
+
+```js
+        //instanceof
+        console.log(ldh instanceof Star)  //true
+        console.log([1, 2, 3] instanceof Array)  //true
+```
+
+### 4.综合案例
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>面向对象封装消息提示</title>
+    <style>
+        .modal {
+            width: 300px;
+            min-height: 100px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            position: fixed;
+            z-index: 999;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            background-color: #fff;
+        }
+
+        .modal .header {
+            line-height: 40px;
+            padding: 0 10px;
+            position: relative;
+            font-size: 20px;
+        }
+
+        .modal .header i {
+            font-style: normal;
+            color: #999;
+            position: absolute;
+            right: 15px;
+            top: -2px;
+            cursor: pointer;
+        }
+
+        .modal .body {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .modal .footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+        }
+
+        .modal .footer a {
+            padding: 3px 8px;
+            background: #ccc;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 2px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .modal .footer a.submit {
+            background-color: #369;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="delete">删除</button>
+    <button id="login">登录</button>
+    <button id="add">新增</button>
+
+    <!-- <div class="modal">
+    <div class="header">温馨提示 <i>x</i></div>
+    <div class="body">您没有删除权限操作</div>
+  </div> -->
+
+
+    <script>
+        //Modal 构造函数封装
+        function Modal(title = '', message = '') {
+            //1.创建 div 盒子
+            this.ModalBox = document.createElement('div')
+            //2.添加类名
+            this.ModalBox.className = 'modal'
+            //3.写入内容
+            this.ModalBox.innerHTML = `
+            <div class="header">${title}<i>x</i></div>
+            <div class="body">${message}</div>
+            `
+            console.log(this.ModalBox)
+        }
+        new Modal('温馨提示', '您没有权限删除操作')
+        new Modal('友情提示', '您还没登陆呢')
+
+        //给构造函数原型对象挂载open 方法
+        Modal.prototype.open = function () {
+            //需要先判断是否有这个盒子Modal 有的话就移除，不然会一直创建
+            const box = document.querySelector('.modal')
+            box && box.remove()  //逻辑中断 前面为假（box不存在）就不执行了
+            //不能用箭头函数
+            //把Modal 显示到页面中
+            document.body.append(this.ModalBox)
+
+            //等盒子显示出来再绑定 × 按钮 点击事件
+            this.ModalBox.querySelector('i').addEventListener('click', () => {
+                //这里就要用this 因为this 指向实例对象 我们关闭他的父级
+                this.close()
+            })
+        }
+
+        //给构造函数原型挂载 close 方法
+        Modal.prototype.close = function () {
+            this.ModalBox.remove()
+        }
+
+        //测试 open
+        document.querySelector('#delete').addEventListener('click', () => {
+            //先调用 Modal 函数
+            const del = new Modal('温馨提示', '您没有权限删除')
+            //实例对象调用 open 方法
+            del.open()
+        })
+
+        document.querySelector('#login').addEventListener('click', () => {
+            //先调用
+            const log = new Modal('友情提示', '您还没有登录')
+            //使用 open
+            log.open()
+        })
+
+        document.querySelector('#add').addEventListener('click', () => {
+            //先调用
+            const add = new Modal('礼貌提示', '您不能新增')
+            //使用 open
+            add.open()
+        })
+    </script>
+</body>
+
+</html>
+```
+
+## js-4
+
+### 1.深浅拷贝
+
+深浅拷贝都只针对引用类型；
+
+为了解决以下问题：
+
+```js
+        const obj = {
+            uname: 'pink',
+            age: 18
+        }
+        const o = obj
+        o.age = 20
+        console.log(o)
+        console.log(obj)   //也发生变化
+        //因为直接赋值是复制栈里的地址 指向堆中的同一个空间 所以都改变
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801192008937.png" alt="image-20250801192008937" style="zoom:50%;" />
+
+#### 1.浅拷贝
+
+简单数据类型拷贝的是值，引用数据类型拷贝地址（单层对象没问题，多层对象就会出现问题，原本的对象还是被改变）
+
+> [!NOTE]
+>
+> 1. 拷贝对象：`Object.assgin()`  / `展开运算符 {...obj} 拷贝对象`
+> 2. 拷贝数组：`Array.protottype.concat()` 或者 `[...arr]`
+
+```js
+        //浅拷贝
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            family: {
+                baby: '小pink'
+            }
+        }
+        const o = { ...obj }
+        o.age = 20
+        o.family.baby = '老pink'
+        console.log(o)
+        console.log(obj)   //baby 被改变了 所以叫浅拷贝
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250801193153498.png" alt="image-20250801193153498" style="zoom:33%;" />
+
+```js
+        //另一种写法
+        const o = {}
+        Object.assign(o, obj)
+        o.age = 20
+        console.log(o)
+        console.log(obj)
+```
+
+#### 2.深拷贝
+
+深拷贝拷贝的是对象，不是地址；深拷贝的新旧内容互不影响
+
+> [!NOTE]
+>
+> 常见方法：
+>
+> 1. 通过递归实现深拷贝
+> 2. `lodash`/`cloneDeep`
+> 3. 通过`JSON.stringify`实现
+
+1. 递归
+
+一个函数在内部可以调用其本身，那就是递归函数；由于递归很容易发生栈溢出（`stark overflow`）错误，所以必须要加退出条件（`return`）
+
+​	可以利用递归函数实现`setTimeout`模拟`setinterval`效果
+
+```js
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            hobby: ['乒乓球', '足球'],
+            family: {
+                baby: '小pink'
+            }
+        }
+        const o = {}
+
+        //拷贝函数
+        function deepCopy(newObj, oldObj) {
+            for (let k in oldObj) {
+                //处理数组的问题
+                if (oldObj[k] instanceof Array) {
+                    newObj[k] = []
+                    //newObj[k]  接收[]
+                    //oldObj[k]  是['乒乓球','足球']
+                    //再调用一遍函数
+                    deepCopy(newObj[k], oldObj[k])
+                } if (oldObj[k] instanceof Object) {
+                    newObj[k] = {}
+                    //再调用一遍函数
+                    deepCopy(newObj[k], oldObj[k])
+                } else {
+                    //o.uname = newOld[k]    给新对象添加属性
+                    newObj[k] = oldObj[k]
+                }
+            }
+        }
+        deepCopy(o, obj)
+        o.age = 20
+        o.hobby[0] = '篮球'
+        o.family.baby = '老pink'
+        console.log(o)
+        console.log(obj)
+```
+
+**一定先写数组再写对象，因为数组也是一种对象，相当于在数组和对象内部在应用一遍**
+
+2. `lodash`库里的`_.cloneDeep()`
+
+`lodash`是一个`js`工具库，安装
+
+```js
+<script scr = "lodash.js"></script>
+```
+
+还可以通过`npm`安装
+
+```js
+$ npm i -g npm
+$ npm i --save lodash
+```
+
+示例：
+
+```js
+    <script src="lodash.min.js"></script>
+    <script>
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            hobby: ['乒乓球', '足球'],
+            family: {
+                baby: '小pink'
+            }
+        }
+        const o = _.cloneDeep(obj)
+        console.log(o)
+        o.family.baby = '老pink'
+        console.log(obj)
+    </script>
+```
+
+3. `JSON`实现
+
+```js
+        const obj = {
+            uname: 'pink',
+            age: 18,
+            hobby: ['乒乓球', '足球'],
+            family: {
+                baby: '小pink'
+            }
+        }
+        //把对象转化为JSON字符串，再转化为对象，这样是新创建了一个对象
+        console.log(JSON.stringify(obj))
+        const o = JSON.parse(JSON.stringify(obj))
+        console.log(o)
+```
+
+### 2.异常处理
+
+了解异常处理，便于提升代码健壮性；异常处理是指代码运行过程中可能产生的错误，然后最大程度地避免错误的发生而导致整个程序无法运行。
+
+#### 1.`throw`抛异常
+
+```js
+        function fn(x, y) {
+            if (!x || !y) {
+                //throw 会终止运行
+                throw '没有参数传递进来'
+            }
+            return x + y
+        }
+        console.log(fn())
+```
+
+![image-20250815160636000](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250815160636000.png)
+
+```js
+        function fn(x, y) {
+            if (!x || !y) {
+                throw new Error('没有参数传递进来')
+            }
+            return x + y
+        }
+        console.log(fn())
+```
+
+![image-20250815160838252](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250815160838252.png)
+
+> [!NOTE]
+>
+> 1.`throw`抛出异常信息，程序会终止执行
+>
+> 2.`throw`后面紧跟错误提示信息
+>
+> 3.`Error`对象配合`throw`使用，能够设置更详细的错误信息
+
+#### 2.`try/catch`捕获异常
+
+我们可以通过`try/catch`捕获错误信息（浏览器提供的错误信息）
+
+关键字：`try catch finally`
+
+```js
+    <p>123</p>
+    <script>
+        function fn() {
+            try {
+                //可能发送错误的代码，要写到try
+                const p = document.querySelector('.p')
+                p.style.color = 'red'
+                console.log(p)
+            } catch (err) {
+                //catch 拦截错误，提示浏览器提供的错误信息，但是不中断程序的执行
+                console.log(err.message)
+                //中断程序 需要加return
+                return
+            } finally {
+                //不管有没有错误，都会执行
+                alert('111')
+            }
+            console.log(11)  //加return 之后就不会执行了
+        }
+        fn()
+    </script>
+```
+
+> [!NOTE]
+>
+> 1.`try/catch`用于捕获错误信息
+>
+> 2.将预估可能错误的信息写在`try`里面
+>
+> 3.如果`try`代码段中出现错误后，会执行`catch`代码段，并截获到错误信息
+>
+> 4.不管有没有错误，`finally`中的代码段都会执行
+
+#### 3.`debugger`
+
+测试`bug`的，打断点
+
+```js
+function problematicFunction() {
+    let a = 1;
+    let b = 2;
+    debugger; // 执行到这里会暂停
+    return a + b;
+}
+```
+
+> [!NOTE]
+>
+> 1.只有在开发者工具打开时 `debugger`才会生效
+>
+> 2.生产环境中应该移除或禁用 `debugger`语句
+>
+> 3.现代浏览器可能会阻止页面中的频繁 `debugger`语句（防调试）
+
+![image-20250818230417176](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250818230417176.png)
+
+### 3.`this`指向
+
+#### 1.`this`指向
+
+普通函数的调用方式决定了`this`的值，即【谁调用， `this`的值指向谁】
+
+```js
+        // 'use strict'  //严格模式 开启后fn() 的this 是undefined
+		console.log(this)  //window
+
+        function fn() {
+            console.log(this)  //window
+        }
+        fn()
+
+        setTimeout(function () {
+            console.log(this)  //window
+        }, 1000)
+
+        document.querySelector('button').addEventListener('click', function () {
+            console.log(this)  //button
+        })
+
+        const obj = {
+            sayHi: function () {
+                console.log(this)  //obj
+            }
+        }
+        obj.sayHi()
+```
+
+事实上箭头函数中并不存在`this`，箭头函数的`this`引用的就是最近作用域中的`this`，会向外层作用域一层一层查找，直到有`this`的定义。
+
+所以不适用构造函数，原型函数，字面量对象中函数，`dom`事件函数，
+
+> [!NOTE]
+>
+> 构造函数：用于创建对象的模板，使用`new`调用
+>
+> ```js
+> function Person(name) {
+>     // new 调用时，this 指向新创建的对象
+>     this.name = name;
+>     this.sayHello = function() {
+>         console.log(`Hello, I'm ${this.name}`);
+>     };
+> }
+> 
+> const alice = new Person('Alice');
+> alice.sayHello(); // "Hello, I'm Alice"
+> ```
+>
+> 原型函数：共享给所有实例的方法
+>
+> ```js
+> function Person(name) {
+>     this.name = name;
+> }
+> 
+> // 添加到原型的方法
+> Person.prototype.sayHello = function() {
+>     console.log(`Hello, I'm ${this.name}`);
+> };
+> 
+> const bob = new Person('Bob');
+> bob.sayHello(); // "Hello, I'm Bob"
+> ```
+>
+> 字面量对象中的函数：
+>
+> ```js
+> const person = {
+>     name: 'Charlie',
+>     sayHello: function() {
+>         console.log(`Hello, I'm ${this.name}`);
+>     },
+>     sayHi: () => {
+>         console.log(`Hi, I'm ${this.name}`); // 箭头函数，this 不同
+>     }
+> };
+> 
+> person.sayHello(); // "Hello, I'm Charlie"
+> person.sayHi();    // "Hi, I'm undefined" (箭头函数的this)
+> ```
+>
+> `DOM`事件函数：
+>
+> ```js
+> document.getElementById('myBtn').addEventListener('click', function() {
+>     console.log(this); // 指向触发事件的DOM元素
+> });
+> 
+> // 对比箭头函数
+> document.getElementById('myBtn').addEventListener('click', () => {
+>     console.log(this); // 指向定义时的上下文（通常是window）
+> });
+> ```
+
+适用需要使用上层`this`的地方。
+
+#### 2.改变指向
+
+1. `call()`方法调用函数，同时指定被调用函数中`this`的值。
+
+```js
+        const obj = {
+            uname: 'pink'
+        }
+        function fn(x, y) {
+            console.log(this)  //obj
+            console.log(x, y)  //1,2
+        }
+        // fn.call(想要的this指向,其他参数,,,)
+        //call() 方法 可以调用函数，指定this 指向
+        //返回值就是函数的返回值，因为它就是调用函数
+        fn.call(obj, 1, 2)
+```
+
+2. `apply()`调用函数，同时指定被调用函数中`this`的值
+
+```js
+        const obj = {
+            age: 18
+        }
+        function fn(x, y) {
+            console.log(this)   //obj
+            console.log(x, y)   //1,2
+        }
+        // fn.apply(this指向,[传递的参数])
+		//传递的值必须包含在数组里面
+        fn.apply(obj, [1, 2])
+```
+
+应用：求数组最大值
+
+```js
+        //使用场景：求数组最大值
+        // const max = Math.max(1, 2, 3)
+        const arr = [100, 44, 77]
+        const max = Math.max.apply(Math, arr)
+        const min = Math.min.apply(Math, arr)
+        console.log(max, min)
+        //展开运算符
+        console.log(Math.max(...arr))
+```
+
+3. `bind()`方法不会调用函数，但是能改变`this`指向
+
+```js
+        const obj = {
+            age: 18
+        }
+        function fn() {
+            console.log(this)
+        }
+
+        // bind(this指向,其他参数,,,)
+        //不会调用函数，会改变this指向，返回值是一个函数 需要接一下
+        const fun = fn.bind(obj)
+        //调用
+        fun()
+```
+
+应用：
+
+```js
+    //需求：有一个按钮，点击之后禁用，2秒钟之后开启
+    const btn = document.querySelector('button')
+    btn.addEventListener('click', function () {
+        //禁用
+        this.disabled = true
+        //2秒之后解开
+        window.setTimeout(function () {
+            //在这个普通函数里将this指向由window 改为 btn
+            this.disabled = false
+        }.bind(this), 2000)  //这一步就是将function里面的this 指向更改为禁用那一行的指向，也就是btn
+    })
+```
+
+### 4.性能优化
+
+#### 1.防抖 `debounce`
+
+单位时间内频繁触发事件，只执行最后一次：（执行时间为3秒，还没执行完就再次触发，这时就会取消上次执行，重新开始，结果就是只执行最后一次）
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250820161751744.png" alt="image-20250820161751744" style="zoom:50%;" />
+
+```js
+    <div class="box"></div>
+    <script src="lodash.min.js"></script>
+    <script>
+        //利用防抖实现性能优化
+        //鼠标在盒子上移动 数字就会+1
+        const box = document.querySelector('.box')
+        let i = 1
+        function mouseMove() {
+            box.innerHTML = i++
+            //如果里面存在消耗性能较大的代码，比如DOM操作，数据处理等，可能造成卡顿
+        }
+        // box.addEventListener('mousemove', mouseMove)
+        //利用lodash库实现防抖， - 500ms后才去+1
+        //语法：_.debounce(function(),时间)
+        box.addEventListener('mousemove', _.debounce(mouseMove, 500))
+    </script>
+```
+
+解析`_.debounce`代码
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250820225929058.png" alt="image-20250820225929058" style="zoom:67%;" />
+
+```js
+        //用setTimeOut实现防抖
+        //1.声明定时器变量
+        //2.每次鼠标移动（事件触发）时都要先判断是否有定时器，如果有就先清除
+        //3.如果没有定时器就开启定时器，存入定时器变量里
+        //4.定时器里面写函数调用
+        function debounce(fn, t) {
+            //1.声明定时器变量
+            let timer
+            //2.return 返回一个匿名函数，这里是用来解决“如果直接执行函数，timer会被重置，无法实现防抖效果“的问题
+            //闭包（返回的函数）可以访问外层函数的变量（timer），确保它不会被垃圾回收。
+            return function () {
+                if (timer) clearTimeout(timer)
+                timer = setTimeout(function () {
+                    fn()  //调用fn()
+                }, t)
+            }
+        }
+        box.addEventListener('mousemove', debounce(mouseMove, 500))
+        // debounce(mouseMove,500) = function() {...}  //返回的匿名函数
+```
+
+#### 2.节流`throttle`
+
+节流是单位时间内频繁触发事件，只执行一次（已经触发就会取消本次，直到上次执行结束，才能执行本次，类似于技能冷却）
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821140746263.png" alt="image-20250821140746263" style="zoom:50%;" />
+
+```js
+    <div class="box"></div>
+    <script src="lodash.min.js"></script>
+    <script>
+        //利用节流实现性能优化
+        //鼠标在盒子上移动 每3000ms数字就会+1
+        const box = document.querySelector('.box')
+        let i = 1
+        function mouseMove() {
+            box.innerHTML = i++
+            //如果里面存在消耗性能较大的代码，比如DOM操作，数据处理等，可能造成卡顿
+        }
+        // box.addEventListener('mousemove', mouseMove)
+        //利用lodash库实现节流， - 3000ms后才去+1
+        //语法：_.throttle(function(),时间)
+        box.addEventListener('mousemove', _.throttle(mouseMove, 3000))
+    </script>
+```
+
+解析：`_.throttle`代码
+
+![image-20250821151307851](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821151307851.png)
+
+在`setTimeOut`中是不能清除定时器的，因为定时器还在运作，所以就令`timer = null`
+
+```js
+        //用setTimeOut()实现节流
+        //1.声明定时器变量
+        //2.每次事件触发都先判断是否有定时器，有的话就不开启定时器
+        //3.没有的话就开启定时器，记得存到变量里面
+        //3.1定时器里面调用执行的函数
+        //3.2定时器里面要把定时器清空
+        function throttle(fn, t) {
+            let timer = null
+            return function () {
+                if (!timer) {
+                    timer = setTimeout(function () {
+                        fn()
+                        //清空
+                        timer = null
+                    }, t)
+                }
+            }
+        }
+        box.addEventListener('mousemove', throttle(mouseMove, 3000))
+```
+
+**总结**
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821154712440.png" alt="image-20250821154712440" style="zoom:67%;" />
+
+案例：
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250821160113777.png" alt="image-20250821160113777" style="zoom:67%;" />
+
+```js
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="http://pip.itcast.cn">
+                <img src="https://pip.itcast.cn/img/logo_v3.29b9ba72.png" alt="" />
+            </a>
+        </div>
+        <div class="video">
+            <video src="https://v.itheima.net/LapADhV6.mp4" controls></video>
+        </div>
+        <div class="elevator">
+            <a href="javascript:;" data-ref="video">视频介绍</a>
+            <a href="javascript:;" data-ref="intro">课程简介</a>
+            <a href="javascript:;" data-ref="outline">评论列表</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script>
+        //1.获取元素，对视频进行操作
+        const video = document.querySelector('video')
+        video.ontimeupdate = _.throttle(() => {
+            // console.log(video.currentTime)  //获取现在视频的播放时间
+            localStorage.setItem('currentTime', video.currentTime)
+            //每隔一秒就获得一次时间，然后储存到本地
+        }, 1000)
+
+        //2.打开页面事件触发，就从本地存储中获取时间，赋值给video.currentTime
+        video.onloadeddata = () => {
+            // console.log(111)
+            video.currentTime = localStorage.getItem('currentTime') || 0
+            //第一次打开 cyrrentTime里面是没有值的
+        }
+    </script>
+</body>
+```
+

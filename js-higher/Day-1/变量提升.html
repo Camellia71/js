@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 变量提升
+        // var web = "111";
+        // console.log(web);
+        // var class = "222";
+
+        //var 有变量提升，预编辑会声明
+        function fn() {
+            if (false) {
+                var web = "houdunren"
+            }
+            console.log(web);   //undefined
+        }
+        fn();
+    </script>
+</body>
+
+</html>

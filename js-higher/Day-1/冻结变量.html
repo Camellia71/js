@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // "use strict"  //加上之后报错
+        const HOST = {
+            url: "http://www.houdunren.com/api",
+            port: 443
+        };
+        Object.freeze(HOST);  //冻结变量，HOST不会被改变
+        HOST.part = 80;
+        console.log(HOST)
+    </script>
+</body>
+
+</html>
