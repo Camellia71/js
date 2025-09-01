@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // "use strict";
+        // web = "33";  //报错 
+        // console.log(web);
+
+        //严格模式的作用域
+        function show() {
+            "use strict";  // 从该当前作用域向下查找 对当前作用域及他的子作用域作用
+            web = "hdcms.com";
+        }
+        function hd() {
+            site = "后盾人";
+        }
+        // show();  报错
+        hd();
+    </script>
+</body>
+
+</html>
