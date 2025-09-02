@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //  let a = 6,b = 0;
+        //  let f = a || b;
+        //  console.log(f);
+
+        // let sex = prompt("请输入必须") || "保密";
+        // console.log(sex);
+
+        function star(num) {
+            return "*".repeat(num || 5);
+        }
+        console.log(star());
+
+        //现在
+        function star(num = 5) {
+            return "*".repeat(num);
+        }
+        console.log(star(4));
+    </script>
+</body>
+
+</html>

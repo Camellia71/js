@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        document.write(`<table border ="1" width = "100%>"`);
+        let tr = 5;
+        while (tr-- !== 0) {
+            document.write(`<tr>`);
+            let td = 3;
+            while (td-- !== 0) {
+                document.write(`<td>${td}</td>`);
+            }
+            document.write(`</tr>`);
+        }
+        document.write(`</table>`);
+
+        // document.write(`<table border="1" width="100%">`);
+        // let tr = 5;
+        // while (tr-- !== 0) {
+        //     document.write(`<tr>`);
+        //     let td = 3;
+        //     while (td-- !== 0) {
+        //         document.write(`<td>${td + 1}</td>`); // 修正为 1,2,3
+        //     }
+        //     document.write(`</tr>`); // 修正为 </tr>
+        // }
+        // document.write(`</table>`);
+        function table(options = { tr: 5, td: 3 }) {
+            document.write(`<table border ="1" width = "100%>"`);
+            let tr = 5;
+            while (tr-- !== 0) {
+                document.write(`<tr>`);
+                let td = 3;
+                while (td-- !== 0) {
+                    document.write(`<td>${td}</td>`);
+                }
+                document.write(`</tr>`);
+            }
+            document.write(`</table>`);
+        }
+        table({ tr: 20, td: 10 })
+    </script>
+</body>
+
+</html>

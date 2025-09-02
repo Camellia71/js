@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let hd = [
+            { title: "第一章", lesson: "3" },
+            { title: "第二章", lesson: "5" },
+            { title: "第三章", lesson: "8" }
+        ];
+        document.write(`
+        <table border = "1" width = "100%">
+            <thead><tr><th>标题</th><th>课程数量</th></thead>
+        `)
+        for (let i in hd) {
+            document.write(`
+            <tr><td>${hd[i].title}</td><td>${hd[i].lesson}</td></tr>
+            `)
+        }
+        document.write("</table>");
+        // let houdunren = ['hdcms', 'houdunren'];
+        // for (let key in houdunren) {
+        //     console.log()
+        // }
+        for (let key in window) {
+            console.log(key);
+            // console.log(window[key]);
+        }
+
+        let houdunren = ['hdcms', 'houdunren'];
+        for (const iterator of houdunren) {
+            //处理值
+            console.log(value);
+        }
+    </script>
+</body>
+
+</html>
