@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let start = 0;
+        // do {
+        //     let n = 0;
+        //     do {
+        //         document.write("*")
+        //     } while (++n <= start);
+        //     document.write(`<br/>`);
+        // } while (++start <= 5);
+
+        function star(row = 5) {
+            let start = 0;
+            do {
+                let n = 0;
+                do {
+                    document.write("*")
+                } while (++n <= start);
+                document.write(`<br/>`);
+            } while (++start <= 5);
+        }
+        star(6);
+    </script>
+</body>
+
+</html>

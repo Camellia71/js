@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let error = 'notice';
+        switch (error) {
+            case "notice":
+            // console.log("提示消息");
+            case "waring":
+                console.log("提示或警告消息");  //提示和警告使用同一个处理方式
+                break;
+            case "error":  //不加break就会向下执行 不中断 不跳出switch
+            default:
+                console.log("错误消息");
+        }
+        // let name = "视频";
+        // switch (name) {
+        //     case "产品":
+        //         console.log('hdcms.com');
+        //         break;
+        //     case "视频":
+        //         console.log("houdunren.com");
+        //         break;
+        //     default:
+        //         console.log("houdunwang.com");
+        // }
+    </script>
+</body>
+
+</html>
