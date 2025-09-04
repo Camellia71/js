@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //方法1
+        let number = 0;
+        console.log(typeof number);
+        number = !!number;  //转化为布尔类型的假
+        console.log(number);
+        //方法2
+        console.log(Boolean(number));
+
+        let string = "houdunren";
+        console.log(!!string);
+        console.log(Boolean(string));
+
+        let arr = [];
+        console.log(!![]);
+        console.log(Boolean([]));
+
+        let object = {};
+        console.log(!!{});
+        console.log(Boolean(object));
+
+        let date = new Date();
+        console.log(!!date);
+        console.log(Boolean(date));
+    </script>
+</body>
+
+</html>

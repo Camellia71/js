@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        ul {
+            color: red;
+        }
+
+        li:nth-child(odd) {
+            background-color: green;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,10 +22,32 @@
         // let hd = new String("houdunren");
         // console.log(hd.toString());
 
-        let hd = "houdunren.com"
+        let hd = "houd\"un\tre\nn.com"
         console.log(hd);
 
+        let year = "2010";
+        let site = "后盾人";
+        console.log(`${site}成立于${year}`);
 
+        let str = "houdunren.com";
+        str += "后盾人";
+        console.log(str);
+
+        function show() {
+            return "houdunren.com";
+        }
+        let hs = `www.${5 + 9}`;
+        console.log(hs);
+
+        let lessons = [
+            { title: "媒体查询" },
+            { title: "FLEX弹性盒模型" },
+            { title: "GRID栅格系统" },
+        ]
+        function template() {
+            return `<ul>${lessons.map(item => `<li>${item.title}</li>`).join("")}</ul>`
+        }
+        document.body.innerHTML = template();
     </script>
 </body>
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let name = "后盾人"
+        // let web = "houdunren.com"
+        // console.log(`在线教程${name},网址是${web}`);
+        let lessons = [
+            { title: "后盾人", author: "camellia" },
+            { title: "后盾人11", author: "camellia11" },
+            { title: "后盾人22", author: "camellia22" },
+        ];
+        function template() {
+            return `<ul>
+            ${lessons.map(item => links`<li>作者：${item.author}，课程：${item.title}</li>`).join("")}
+            </ul>`
+        }
+        function links(strings, ...vars) {
+            // console.log(strings);
+            // console.log(vars);
+            return strings.map((str, key) => {
+                return str + (vars[key] ? vars[key].replace("后盾人", `<a href="https://www.houdunren.com">后盾人</a>`) : "");
+            }).join();
+        }
+        document.body.innerHTML += template();
+    </script>
+</body>
+
+</html>
