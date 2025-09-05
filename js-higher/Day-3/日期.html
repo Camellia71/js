@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // const date = new Date();
+        // console.log(date);
+        // console.log(typeof date);
+        // console.log(date * 1);
+
+        // const hd = Date();
+        // console.log(hd);
+        // console.log(typeof hd);
+        // console.log(hd * 1);
+
+        //时间戳
+        // const date1 = Date.now();
+        // console.log(date1);  //1757041463056  后三位是毫秒
+
+        // const start = Date.now();
+        // for (let i = 0; i < 2000; i++) {
+        //     const end = Date.now();
+        //     console.log((end - start) / 1000 + "秒");
+        // }
+
+        //计算for循环执行时间
+        // console.time("for");
+        // for (let i = 0; i < 200000; i++) { };
+        // console.timeEnd("for");
+
+        // const date = new Date("1990-9-22 3:11:11");
+        // console.log(date);
+        // console.log(date.getMonth());  //月份是从0开始的 所以8
+
+
+        // const date = new Date(1990,2,22,13,22,19);
+        // console.log(date);  //Thu Mar 22 1990 13:22:19 GMT+0800 (中国标准时间)
+
+        const param = [1990, 2, 22, 13, 22, 19];
+        const date = new Date(...param);
+        console.log(date);  //Thu Mar 22 1990 13:22:19 GMT+0800 (中国标准时间)
+    </script>
+</body>
+
+</html>

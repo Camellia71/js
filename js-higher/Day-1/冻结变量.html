@@ -17,6 +17,9 @@
         Object.freeze(HOST);  //冻结变量，HOST不会被改变
         HOST.part = 80;
         console.log(HOST)
+
+        Object.seal();  //不能新增或删除
+        Object.preventExtensions();  //禁止扩展
     </script>
 </body>
 
