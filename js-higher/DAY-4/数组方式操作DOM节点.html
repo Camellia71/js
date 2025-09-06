@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>houdunren.com</div>
+    <div>hdcms.com</div>
+    <script>
+        const div = document.querySelectorAll("div");
+        // console.log(div);
+        // Array.from(div).map(function (item) {
+        //     console.log(item);
+        // });
+
+        Array.prototype.map.call(div, function (item) {
+            console.log(item);
+        });
+
+        console.log([...div]);
+
+        [...div].map(function (item) {
+            item.addEventListener('click', function () {
+                this.classList.toggle("hide");
+            })
+        })
+    </script>
+</body>
+
+</html>

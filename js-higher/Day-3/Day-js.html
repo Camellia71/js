@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 基本用法
+            const now = dayjs();
+            console.log(now.format('YYYY-MM-DD')); // 2023-10-01
+
+            // 解析日期
+            const date = dayjs('2023-10-01');
+            const date2 = dayjs('10/01/2023', 'MM/DD/YYYY');
+
+            // 从 Date 对象创建
+            const jsDate = new Date();
+            const dayjsDate = dayjs(jsDate);
+    </script>
+</body>
+</html>

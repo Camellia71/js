@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let array = [1, 2, 3];
+        console.log(array.length);
+
+        let hd = ["hdcms"];
+        hd[3] = 'houdunren';
+        console.log(hd.length);
+        console.log(hd);  //['hdcms', empty × 2, 'houdunren']
+
+        // let cms = new Array(1,23,34,4);
+        let cms = new Array(6)
+        console.log(cms.length);
+        console.table(cms);
+        console.log(cms[2]);  //undefined
+
+
+        let arr = Array.of(6);
+        console.log(arr.length);
+        console.table(arr); 
+    </script>
+</body>
+
+</html>
