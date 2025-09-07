@@ -19,6 +19,8 @@
         arr = [...arr, ...hd];
         console.log(arr);
 
+
+        // ​使用​剩余参数（Rest Parameters）​​ 和 ​​数组的 reduce方法​​ 来计算任意数量参数的和
         function sum(...args) {
             // console.log(args);
             return args.reduce((s, v) => {

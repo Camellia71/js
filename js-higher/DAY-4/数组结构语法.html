@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let arr = ["houdunren", 2110];
+        // let name = arr[0];
+        // let year = arr[1];
+        // let [name, year] = arr;
+        // console.log(name);
+
+        // function get() {
+        //     return ["后盾人",2010];
+        // }
+        // let [name,year] = get();
+        // console.log(name);
+
+        // "use strict";
+        // let [name, year] = ["houdunren", 2110];
+        // console.log(name);
+
+        console.log(..."hdcms");  //拆解字符串，将字符串拆解为单个字符
+        // const [...arr] = "hdcms";
+        //等价于
+        const arr = [..."hdcms"]; // 更常见的写法
+        // const [...arr] = ['h', 'd', 'c', 'm', 's']
+        console.log(arr);
+
+        let [, year] = ["后盾人", 2010]
+        console.log(year);
+
+        let [name, ...args] = ["后盾人", "Houdunren.com", 2010];
+        console.log(args);
+        let a = ['cms',...args];
+        console.log(a);
+    </script>
+</body>
+
+</html>
