@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function move(array, from, to) {
+            if (from < 0 || to >= array.length) {
+                console.error("参数错误");
+                return;
+            } 
+            const newArray = [...array];
+            let item = newArray.splice(from, 1);
+            // console.log(item);
+            newArray.splice(to, 1, ...item);
+            return newArray;
+        }
+        let arr = [1, 2, 3, 4];
+        console.table(move(arr, 1, 3));
+    </script>
+</body>
+
+</html>

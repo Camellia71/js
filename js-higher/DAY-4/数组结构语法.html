@@ -32,13 +32,21 @@
         // const [...arr] = ['h', 'd', 'c', 'm', 's']
         console.log(arr);
 
-        let [, year] = ["后盾人", 2010]
+        // let [, year] = ["后盾人", 2010]
+        // console.log(year);
+
+        // let [name, ...args] = ["后盾人", "Houdunren.com", 2010];
+        // console.log(args);
+        // let a = ['cms', ...args];
+        // console.log(a);
+
+        let [name, year = 2010] = ["houdunren"];
         console.log(year);
 
-        let [name, ...args] = ["后盾人", "Houdunren.com", 2010];
-        console.log(args);
-        let a = ['cms',...args];
-        console.log(a);
+        function show([name, year]) {
+            console.log(name, year);
+        }
+        show(["houdunren", 2010])
     </script>
 </body>
 
