@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" name="title">
+    <span></span>
+    <script>
+        const user = [
+            { name: "李四", js: 89 },
+            { name: "张三", js: 99 },
+            { name: "马六", js: 55 }
+        ];
+
+        //every 所有都满足
+        let res = user.every(function (item) {
+            return item.js >= 60;
+        });
+        console.log(res ? "全部同学都及格" : "有同学没及格");
+
+        // let arr = ["hdcms", "houdunren"];
+        // let status = arr.every(function (value, index, arr) {
+        //     console.log(value);
+        //     return true;
+        //     return false;
+        // });
+        // console.log(status);
+
+
+        //some 部分满足
+        let keywords = ['php', 'js'];
+        let title = document.querySelector('[name = "title"]');
+        title.addEventListener('keyup', function () {
+            const res = keywords.some(keyword => {  //使用箭头函数是为了
+                // return this.value.indexOf(keyword) !== -1;
+                //!== -1​​：若找到关键词返回 true，否则返回 false
+                //推荐使用 includes
+                return this.value.includes(keyword);
+            });
+            document.querySelector('span').innerHTML = res ? "" : '必须包含' + keywords.join(",") + "关键词";
+            // if (res === false) {
+            //     document.querySelector('span').innerHTML = '必须包含' + keywords.join(",") + "关键词";
+            // } else {
+            //     document.querySelector('span').innerHTML = "";
+            // }
+        });
+
+
+        // let arr = ["hdcms", "houdunren"];
+        // let regs = arr.some(function (value, index, arr) {
+        //     console.log(value);
+        //     // return false;  //打印全部
+        //     return true;  //只打印一个
+        // })
+        // console.log(regs);
+    </script>
+</body>
+
+</html>
