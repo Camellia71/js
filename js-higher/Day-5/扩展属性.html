@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //私有属性受保护，for-in 
+        let symbol = Symbol('这是一个Symbol类型');
+        let hd = {
+            name: '后盾人',
+            [symbol]: 'houdunren.com',
+        }
+        // for (const key in hd) {
+        //     console.log(key);  //name
+        // }
+        // for (const key of Object.keys(hd)) {
+        //     console.log(key);  //name
+        // }
+        // //下面方法只打印Symbol属性
+        // for (const key of Object.getOwnPropertySymbols(hd)) {
+        //     console.log(key);  //Symbol(这是一个Symbol类型)
+        // }
+        // //下面方法都打印
+        // for (const key of Reflect.ownKeys(hd)) {
+        //     console.log(key);
+        // }
+
+        let site = Symbol('这是一个Symbol');
+        class User {
+            constructor(name) {
+                this.name = name;
+                this[site] = "后盾人";
+            }
+            getName() {
+                return `${[this[site]]} ${this.name}`;
+            }
+        }
+        let lisi = new User("李四");
+        console.log(lisi.getName());  //后盾人 李四
+        for (const key in lisi) {
+            console.log(key);  //name  
+        }
+    </script>
+</body>
+
+</html>
