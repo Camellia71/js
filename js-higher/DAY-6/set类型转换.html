@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //set > Array
+        let set = new Set(["hdcms", "houdunren"]);
+        console.log(Array.from(set));
+        console.log([...set]);
+
+        let hd = new Set("123456789");
+        console.log(hd);
+        let arr = [...hd].filter(function (item) {
+            return item > 5;
+        });
+        console.log(new Set(arr));
+
+        //去掉重复的，因为set 不会有重复的
+        let array = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+        array = [...new Set(array)];
+        console.log(array);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div></div>
+    <div></div>
+    <script>
+        //WeakSet 保存引用类型，相当于set2.0
+        
+        // let set = new WeakSet(['hdcms','houdunren']);  //报错
+
+        //正确
+        // let set = new WeakSet();
+        // set.add(['hdcms', 'houdunren']);
+
+
+        let nodes = new WeakSet();
+        let divs = document.querySelectorAll("div");
+        document.querySelectorAll("div").forEach(function (item) {
+            nodes.add(item);
+        });
+        //重复执行也只有两个，不会增加，与 set 相同 
+        // document.querySelectorAll("div").forEach(function (item) {
+        //     nodes.add(item);
+        // });
+        // document.querySelectorAll("div").forEach(function (item) {
+        //     nodes.add(item);
+        // });
+
+        //移除
+        nodes.delete(divs[0]);  //移除第一个
+
+        //判断
+        console.log(nodes.has(divs[0])); //false
+
+        console.log(nodes);
+    </script>
+</body>
+
+</html>
