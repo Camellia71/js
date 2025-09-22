@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>hdcms</div>
+    <div>houdunren</div>
+</body>
+<script>
+    // WearMap 弱引用类型
+    // let map = new WeakMap();
+    // // map.set([], "houdunren.com");
+    // let divs = document.querySelectorAll('div');
+    // divs.forEach(item => map.set(item, item.innerHTML));
+    // console.log(map);
+
+    let arr = [];
+    let map = new WeakMap();
+
+    //新增
+    map.set(arr, "hdcms.com");
+
+    //删除
+    map.delete(arr);
+
+    //判断是否含有
+    console.log(map.has(arr));
+
+    //keys,values,entires，for-of,forEach 不能使用（不存在）
+
+    //map 可以使用
+    let hd = new Map([["name", "houdunren"]]);
+    console.log(hd.keys);
+</script>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //对象中嵌套对象取值 键名使用较为麻烦
+
+        // let obj = {
+        //     name: "hdcms",
+        //     //键都是字符串类型
+        //     1: "hdcms.com",
+        //     "1": "houdunren"
+        // };
+        // // console.log(obj.name);
+        // console.log(obj[1]);  //houdunren
+        // let hd = {
+        //     obj: "后盾人", //只是字符串，与上方obj无关
+        //     //如果想用上方obj对象的话 需要加[]
+        //     [obj]: "后盾人1"  //[object Object]: '后盾人1'
+        // };
+        // console.log(hd);
+        // // 取值
+        // // console.log(hd["[object Object]"]);  //后盾人1
+        // console.log(hd[obj.toString()]);
+
+
+        //新增的 map 类型
+        let map = new Map();
+        //添加
+        // map.set("键","值")
+        map.set("name", "后盾人");
+        map.set(function () { }, 'hdcms');
+        map.set({}, "houdunren");
+        map.set(1, "111");
+        console.log(map);  //Map(2) {'name' => '后盾人', ƒ => 'hdcms'}
+
+        let mapp = new Map([['hdcms', '开源系统'], ['houdunren', '在线教程']]);
+        mapp.set("name", "sina").set("uname", "jick");
+        console.log(mapp);  //{'hdcms' => '开源系统', 'houdunren' => '在线教程'}
+
+    </script>
+</body>
+
+</html>

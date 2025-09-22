@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj = {
+            name: '后盾人',
+        };
+        let map = new Map();
+
+        //添加
+        map.set(obj, "houdunren.com");
+        map.set("name", "hdcms.com");
+
+        //读取值
+        console.log(map.get(obj));
+        // console.log(map.get({
+        //     name: '后盾人',   //undefined
+        // }));
+
+        //删除
+        console.log(map.delete(obj));  //true
+        console.log(map.delete("abc"));  //false
+
+        //清除
+        // console.log(map.clear());  //没有返回值
+
+        //判断是否存在
+        console.log(map.has("name"));  //true
+    </script>
+</body>
+
+</html>
