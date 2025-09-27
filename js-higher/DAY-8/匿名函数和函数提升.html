@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //匿名函数
+        let hd = function () {
+            console.log('后盾人');
+        };
+        hd();  //匿名函数没有函数提升，如果把 hd() 放在上方会报错
+
+        show();  //可以执行，函数提升
+        function show() {
+            console.log('houdunren.com');
+        }
+        console.log(hd instanceof Object);  //true
+
+        function sum(...args) {
+            return args.reduce((a, b) => {
+                return a + b;
+            })
+        }
+        console.log(sum(1, 2, 3, 4, 5));
+    </script>
+</body>
+
+</html>

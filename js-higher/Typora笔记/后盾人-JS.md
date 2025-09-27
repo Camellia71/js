@@ -751,4 +751,552 @@ const quarter = Math.floor((date.month - 1) / 3) + 1;
 const weekNumber = date.weekNumber;
 ```
 
-## DAY-4 
+## DAY-4 数组相关方法
+
+### 1.数组增删改查找
+
+#### 1.数组创建
+
+​	数组属于引用数据类型
+
+```js
+const arr = [ ];
+const arr = new Array();
+let arr  = Array.of();
+```
+
+以上三种方法都可以用于数组的创建，常用第一种；
+
+#### 2.数组添加元素
+
+1. `push()` 在数组末尾添加元素
+
+```js
+let fruits = ['apple', 'banana'];
+fruits.push('kiwi', 'mango'); // 添加元素
+// ['apple', 'banana', 'orange', 'kiwi', 'mango']
+```
+
+2. `unshift() ` 在数组开头添加元素
+
+```js
+let numbers = [2, 3, 4];
+numbers.unshift(-1, 0); // 添加多个元素
+// [-1, 0, 1, 2, 3, 4]
+```
+
+3. `splice()` 在指定位置添加元素
+
+```js
+let colors = ['red', 'blue', 'green'];
+colors.splice(1, 0, 'yellow'); // 在索引1的位置添加'yellow'
+// ['red', 'yellow', 'blue', 'green']
+
+colors.splice(2, 0, 'purple', 'pink'); // 在索引2的位置添加多个元素
+// ['red', 'yellow', 'purple', 'pink', 'blue', 'green']
+```
+
+4. `concat()` 合并数组（不改变原数组）
+
+```js
+let arr1 = [1, 2];
+let arr2 = [3, 4];
+let newArr = arr1.concat(arr2); // 返回新数组
+// [1, 2, 3, 4]
+```
+
+5. 展开运算符
+
+```js
+let arr = [1, 2];
+arr = [...arr, 3]; // 末尾添加
+// [1, 2, 3]
+
+arr = [0, ...arr]; // 开头添加
+// [0, 1, 2, 3]
+
+let newElements = [4, 5];
+arr = [...arr, ...newElements]; // 合并数组
+// [0, 1, 2, 3, 4, 5]
+```
+
+6. 可以通过索引赋值（不推荐）
+
+```js
+let arr = [1, 2];
+arr[arr.length] = 3;  //等同于 push
+///[1,2,3]
+```
+
+> [!CAUTION]
+>
+> 1. `unshift()`的性能较低，因为它需要移动数组中的所有元素
+>
+> 2. 大规模数据操作时，`push()`通常比 `concat()`更快
+
+#### 3.数组删除元素
+
+1. `pop()` 删除并返回数组的第一个元素
+
+```js
+let fruits = ['apple', 'banana', 'orange'];
+let last = fruits.pop(); // 删除最后一个元素
+console.log(fruits); // ['apple', 'banana']
+console.log(last);   // 'orange'
+```
+
+2. `shift()`  删除并返回数组的第一个元素
+
+```js
+let numbers = [1, 2, 3, 4];
+let first = numbers.shift(); // 删除第一个元素
+console.log(numbers); // [2, 3, 4]
+console.log(first);   // 1
+```
+
+3. `splice()`  删除指定位置的元素
+
+```js
+let colors = ['red', 'green', 'blue', 'yellow'];
+// 从索引1开始删除1个元素
+let removed = colors.splice(1, 1); 
+console.log(colors);  // ['red', 'blue', 'yellow']
+console.log(removed); // ['green']
+
+// 从索引2开始删除2个元素
+colors.splice(2, 2);
+console.log(colors);  // ['red', 'blue']
+```
+
+4. `filter()`  创建新数组，过滤掉符合条件的元素（不改变原数组）
+
+```js
+let numbers = [1, 2, 3, 4, 5];
+// 删除所有偶数
+let oddNumbers = numbers.filter(num => num % 2 !== 0);
+console.log(oddNumbers); // [1, 3, 5]
+console.log(numbers);     // [1, 2, 3, 4, 5] (原数组不变)
+```
+
+5. `delete()`  操作符（不推荐） 返回值是布尔值
+
+```js
+let arr = [1, 2, 3, 4];
+delete arr[2]; // 删除索引2的元素
+console.log(arr); // [1, 2, empty, 4]
+console.log(arr.length); // 4 (长度不变)
+```
+
+6. `slice()与concat()结合`  （不改变原数组）
+
+```js
+let arr = [1, 2, 3, 4, 5];
+// 删除索引2的元素
+let newArr = arr.slice(0, 2).concat(arr.slice(3));
+console.log(newArr); // [1, 2, 4, 5]
+console.log(arr);    // [1, 2, 3, 4, 5] (原数组不变)
+```
+
+> [!CAUTION]
+>
+> 1. `shift()`和 `unshift()`操作数组开头元素时性能较低，因为需要移动所有元素
+>
+> 2. `splice()`在删除中间元素时也会导致后续元素移动
+>
+> 3. `filter()`会创建新数组，内存消耗较大但不会移动元素
+
+#### 4.数组修改元素
+
+1. 直接通过索引修改
+
+```js
+let fruits = ['apple', 'banana', 'orange'];
+fruits[1] = 'grape'; // 修改索引1的元素
+console.log(fruits); // ['apple', 'grape', 'orange']
+```
+
+2. `splice()` 替换指定位置的元素
+
+```js
+let colors = ['red', 'green', 'blue'];
+// 从索引1开始删除1个元素，并插入'yellow'
+colors.splice(1, 1, 'yellow'); 
+console.log(colors); // ['red', 'yellow', 'blue']
+
+// 替换多个元素
+colors.splice(0, 2, 'black', 'white');
+console.log(colors); // ['black', 'white', 'blue']
+```
+
+3. `map()` 创建新数组并修改元素（不改变原数组）
+
+```js
+let numbers = [1, 2, 3];
+let doubled = numbers.map(num => num * 2);
+console.log(doubled); // [2, 4, 6]
+console.log(numbers); // [1, 2, 3] (原数组不变)
+```
+
+4. `fill()`  填充/替换原数组
+
+```js
+let arr = [1, 2, 3, 4, 5];
+// 将所有元素替换为0
+arr.fill(0);
+console.log(arr); // [0, 0, 0, 0, 0]
+
+// 从索引2到4(不包括)替换为8
+arr.fill(8, 2, 4);
+console.log(arr); // [0, 0, 8, 8, 0]
+```
+
+5. 使用展开运算符修改特定元素
+
+```js
+let students = ['Alice', 'Bob', 'Charlie'];
+// 修改索引1的元素
+students = [...students.slice(0, 1), 'David', ...students.slice(2)];
+console.log(students); // ['Alice', 'David', 'Charlie']
+```
+
+6. `slice()`  从数组中提取指定范围的元素，不会修改原数组
+
+```js
+array.slice([begin[, end]])；
+
+const fruits = ['apple', 'banana', 'orange', 'grape', 'kiwi'];
+
+// 提取从索引1开始到结束的所有元素
+console.log(fruits.slice(1)); // ['banana', 'orange', 'grape', 'kiwi']
+
+// 提取从索引1到3（不包括3）的元素
+console.log(fruits.slice(1, 3)); // ['banana', 'orange']
+
+// 不传参数，复制整个数组
+console.log(fruits.slice()); // ['apple', 'banana', 'orange', 'grape', 'kiwi']
+```
+
+7. `forEach()`  遍历并修改元素（会改变原数组）
+
+```js
+let prices = [10, 20, 30];
+prices.forEach((price, index, array) => {
+  array[index] = price * 1.1; // 涨价10%
+});
+console.log(prices); // [11, 22, 33]
+```
+
+> [!CAUTION]
+>
+> 1. `map()`会创建新数组，内存消耗较大但不会影响原数组
+> 2. `splice()`在修改中间元素时会导致后续元素移动
+> 3. `fill()`是修改原数组最快的方法之一
+
+#### 5.数组查找元素
+
+1. `indexOf()`  查找元素索引（严格相等）
+
+```js
+const fruits = ['apple', 'banana', 'orange', 'grape'];
+
+console.log(fruits.indexOf('banana')); // 1
+console.log(fruits.indexOf('pear'));   // -1 (未找到)
+```
+
+2. `landIndexOf()`  从后向前查找
+
+```js
+const numbers = [1, 2, 3, 4, 2, 5];
+
+console.log(numbers.lastIndexOf(2)); // 4
+console.log(numbers.lastIndexOf(6)); // -1
+```
+
+3. `includes() ` 检查是否包含
+
+```js
+const colors = ['red', 'green', 'blue'];
+
+console.log(colors.includes('green')); // true
+console.log(colors.includes('yellow')); // false
+```
+
+4. `find()`  查找第一个符合条件的元素
+
+```js
+const users = [
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' },
+  { id: 3, name: 'Charlie' }
+];
+
+const user = users.find(u => u.id === 2);
+console.log(user); // { id: 2, name: 'Bob' }
+```
+
+5. `findIndex()`  查找第一个符合条件的元素索引
+
+```js
+const ages = [18, 22, 25, 30];
+
+const index = ages.findIndex(age => age > 25);
+console.log(index); // 3
+```
+
+6. `filter()`  查找所有符合条件的元素，返回新数组
+
+```js
+const products = [
+  { name: 'Laptop', price: 999 },
+  { name: 'Phone', price: 699 },
+  { name: 'Tablet', price: 499 }
+];
+
+const expensive = products.filter(p => p.price > 500);
+console.log(expensive); 
+// [{ name: 'Laptop', price: 999 }, { name: 'Phone', price: 699 }]
+```
+
+7. `some()`  检查是否有元素符合条件
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+const hasEven = numbers.some(n => n % 2 === 0);
+console.log(hasEven); // true
+```
+
+8. `every()`  检查所有元素是否符合条件
+
+```js
+const scores = [85, 90, 78, 92];
+
+const allPassed = scores.every(score => score >= 60);
+        
+```
+
+> [!CAUTION]
+>
+> 1. **​查找简单值​**​：使用 `indexOf()`或 `includes()`
+> 2. **查找对象**：使用 `find()`或 `findIndex()`
+> 3. **查找多个匹配项**：使用 `filter()`
+> 4. **检查条件**：使用 `some()`或 `every()`
+> 5. **性能考虑**：`find()`和 `some()`在找到匹配项后会立即停止遍历
+
+### 2.其他
+
+1. `join()`  数组转化字符串
+
+```js
+const fruits = ['Apple', 'Banana', 'Orange'];
+console.log(fruits.join(' | ')); // "Apple | Banana | Orange"
+```
+
+2. `Array.from()`  从类对象数组创建数组
+
+```js
+const str = 'hello';
+const arr = Array.from(str);
+console.log(arr); // ['h', 'e', 'l', 'l', 'o']
+```
+
+3. `Array.of()`  创建具有可变数量参数的新数组
+
+```js
+const nums = Array.of(1, 2, 3);
+console.log(nums); // [1, 2, 3]
+```
+
+4. `sort()`  数组排序
+
+```js
+const numbers = [3, 1, 4, 2];
+numbers.sort((a, b) => a - b); // 升序
+console.log(numbers); // [1, 2, 3, 4]
+```
+
+5. `reverse()`  反转数组排序
+
+```js
+const letters = ['a', 'b', 'c'];
+letters.reverse();
+console.log(letters); // ['c', 'b', 'a']
+```
+
+6. `concat()`  合并多个数组
+
+```js
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+const combined = arr1.concat(arr2);
+console.log(combined); // [1, 2, 3, 4]
+```
+
+7. `flat()`  数组扁平化：创建一个新数组，其中所有子数组元素递归地连接到指定深度
+
+```js
+//基本语法
+array.flat([depth])；
+
+const nested = [1, [2, [3, [4]]]];  //跨过两个层次
+console.log(nested.flat(2)); // [1, 2, 3, [4]]
+
+//无限深度扁平化
+const deeplyNested = [1, [2, [3, [4, [5]]]]];
+console.log(deeplyNested.flat(Infinity)); // [1, 2, 3, 4, 5]
+```
+
+可以用来移除空项：
+
+```js
+const arrWithHoles = [1, 2, , 4, 5];
+console.log(arrWithHoles.flat()); // [1, 2, 4, 5]
+```
+
+8. `faltMap()` 映射后扁平化：首先使用映射函数映射每个元素，然后将结果压缩成一个新数组。
+
+   **相当于 `map()`后跟深度为1的 `flat()`**
+
+```js
+//基本语法
+array.flatMap(callback(currentValue[, index[, array]])[, thisArg])；
+//currentValue：当前元素
+//thisArg(可选): 执行回调时使用的 this值
+const phrases = ["hello world", "good morning"];
+const words = phrases.flatMap(phrase => phrase.split(' '));
+console.log(words); // ["hello", "world", "good", "morning"]
+```
+
+9. `copyWithin()`  复制数组元素
+
+```js
+const arr = [1, 2, 3, 4, 5];
+arr.copyWithin(0, 3);
+console.log(arr); // [4, 5, 3, 4, 5]
+```
+
+10. `fill()`  填充数组元素
+
+```js
+const arr = new Array(3).fill(0);
+console.log(arr); // [0, 0, 0]
+```
+
+11. `entries()/keys()/values()` 获取迭代器
+
+```js
+const arr = ['a', 'b', 'c'];
+
+// 获取索引-值对的迭代器
+for (const [index, element] of arr.entries()) {
+  console.log(index, element);
+}
+
+// 获取键（索引）迭代器
+for (const key of arr.keys()) {
+  console.log(key);
+}
+
+// 获取值迭代器
+for (const value of arr.values()) {
+  console.log(value);
+}
+```
+
+12. `at()`  获取指定位置的元素
+
+```js
+const arr = [5, 12, 8, 130, 44];
+console.log(arr.at(2)); // 8
+console.log(arr.at(-2)); // 130（支持负索引）
+```
+
+13. `Array.isArray()`  检查是否为数组
+
+```js
+console.log(Array.isArray([1, 2, 3])); // true
+console.log(Array.isArray({})); // false
+```
+
+14. `toLocaleString()`  本地化字符串表示，常用数字格式化（例子），日期格式化；不会修改原数组
+
+```js
+//基本语法
+array.toLocaleString([locales[, options]])；
+//locales:指定语言环境的字符串或字符串数组
+//options:配置对象，控制格式化行为
+
+const prices = [1000, 2000, 3000];
+//德国欧元模式
+console.log(prices.toLocaleString('de-DE', { 
+  style: 'currency', 
+  currency: 'EUR' 
+}));
+// "1.000,00 €,2.000,00 €,3.000,00 €"
+```
+
+新增：
+
+15. `with()`  非破坏性修改数组元素，即原数组不变
+
+```js
+const arr = [1, 2, 3, 4, 5];
+console.log(arr.with(2, 6)); // [1, 2, 6, 4, 5]
+console.log(arr); // [1, 2, 3, 4, 5]（原数组不变）
+```
+
+16. `toReversed()/toSorted()/toSpliced()`  非破坏性数组操作
+
+```js
+const original = [3, 1, 2];
+
+// 非破坏性排序
+const sorted = original.toSorted();
+console.log(sorted); // [1, 2, 3]
+console.log(original); // [3, 1, 2]
+
+// 非破坏性反转
+const reversed = original.toReversed();
+console.log(reversed); // [2, 1, 3]
+```
+
+17. `reduce()`  归约数组：将数组中的所有元素通过指定的回调函数归约为单个值
+
+```js
+//基本语法：
+array.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue]);
+//accumulator：累积器，累积回调函数的返回值
+//initialValue]：作为第一次调用回调函数的初始值
+
+const numbers = [1, 2, 3, 4];
+const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+console.log(sum); // 10
+
+//数组去重
+const duplicates = [1, 2, 2, 3, 4, 4, 5];
+const unique = duplicates.reduce((acc, curr) => {
+  if (!acc.includes(curr)) {
+    acc.push(curr);
+  }
+  return acc;
+}, []);
+
+console.log(unique); // [1, 2, 3, 4, 5]
+```
+
+18. `reduceRight()`  从右向左归约数组
+
+```js
+const flattened = [[0, 1], [2, 3], [4, 5]]
+  .reduceRight((acc, curr) => acc.concat(curr), []);
+console.log(flattened); // [4, 5, 2, 3, 0, 1]
+```
+
+19. `toString()`  转为字符串
+
+```js
+const arr = [1, 2, 'a', '1a'];
+console.log(arr.toString()); // "1,2,a,1a"
+```
+
+## DAY-5 
