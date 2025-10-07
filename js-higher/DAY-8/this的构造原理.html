@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //apply call bind
+
+    function User(name) {
+        this.name = name;
+        return { a: "houdunren.com" };
+    };
+    let lisi = new User();
+    console.log(lisi);
+
+    let hdcms = { url: 'hdcms.com' };
+    User.call(hdcms, '开源系统');
+    console.log(hdcms);
+</script>
+
+</html>
