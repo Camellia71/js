@@ -931,6 +931,9 @@ console.log(colors); // ['black', 'white', 'blue']
 3. `map()` 创建新数组并修改元素（不改变原数组）
 
 ```js
+const newArray = array.map(callback(currentValue[, index[, array]])[, thisArg])；
+//第二个参数可以指定 执行回调时使用的 this值
+
 let numbers = [1, 2, 3];
 let doubled = numbers.map(num => num * 2);
 console.log(doubled); // [2, 4, 6]
@@ -1299,4 +1302,801 @@ const arr = [1, 2, 'a', '1a'];
 console.log(arr.toString()); // "1,2,a,1a"
 ```
 
-## DAY-5 
+## DAY-5  `Symbol`
+
+### 1.简介
+
+Symbol 是 ES6 引入的一种**原始数据类型**，表示**唯一的、不可变的值**，通常用作对象属性的标识符
+
+#### 1.声明
+
+```js
+        let hd = Symbol("后盾人在线教程");
+        let edu = Symbol("houdunren.com");
+        console.log(hd == edu);  //false
+```
+
+```js
+        //另一种方式  有全局声明特性
+        let cms = Symbol.for("hdcms");  //会记录hdcms
+        let ed = Symbol.for("hdcms");
+        //首先会查是否之前定义过，所以其实和第一次定义的是一样的
+        console.log(cms == ed);  //true
+```
+
+```js
+        let houdunren = Symbol("houdunren");
+        console.log(Symbol.keyFor(houdunren));  //undefined
+        let cms = Symbol.for("hdcms");
+        console.log(Symbol.keyFor(cms));  //hdcms
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20251010195922318.png" alt="image-20251010195922318" style="zoom:67%;" />
+
+#### 2.添加
+
+```js
+        //不能往里加东西
+        hd.name = "后盾人";
+        console.log(hd.name);  //undefined
+```
+
+#### 3.对象属性使用
+
+```js
+const user = {
+  name: 'Alice',
+  [Symbol('id')]: 12345  // Symbol 作为属性键
+};
+
+// 获取 Symbol 属性
+console.log(user[Symbol('id')]); // undefined（因为每次创建的 Symbol 都不同）
+```
+
+### 2.优势
+
+#### 1.避免属性冲突
+
+```js
+// 第三方库可能添加的属性
+const LIB_MARKER = Symbol('library_marker');
+
+function thirdPartyLib(obj) {
+  obj[LIB_MARKER] = true;
+  // ...其他操作
+}
+
+// 你的代码
+const myObj = { /* ... */ };
+thirdPartyLib(myObj);
+// 无需担心属性名冲突，因为每次创建的Symbol都不同
+```
+
+#### 2.实现真正的私有属性
+
+```js
+const _privateData = Symbol('privateData');
+
+class PrivateExample {
+  constructor(data) {
+    this[_privateData] = data;
+  }
+  
+  getData() {
+    return this[_privateData];
+  }
+}
+
+const instance = new PrivateExample('secret');
+console.log(instance._privateData); // undefined
+console.log(instance.getData()); // "secret"
+```
+
+#### 3.内置Symbol定制对象行为
+
+```js
+class CustomIterable {
+  *[Symbol.iterator]() {
+    yield 1;
+    yield 2;
+    yield 3;
+  }
+}
+
+console.log([...new CustomIterable()]); // [1, 2, 3]
+```
+
+#### 4.元编程能力
+
+​	元编程(Metaprogramming)是指编写能够操作其他程序（或其自身）作为数据的程序的技术
+
+```js
+const obj = {
+  [Symbol.toPrimitive](hint) {
+    return hint === 'string' ? 'string value' : 42;
+  }
+};
+
+console.log(String(obj)); // "string value"
+console.log(Number(obj)); // 42
+```
+
+#### 5.防止属性被意外枚举
+
+```js
+const obj = {
+  regularProp: 'visible',
+  [Symbol('hidden')]: 'invisible'
+};
+
+console.log(Object.keys(obj)); // ["regularProp"]
+console.log(Object.getOwnPropertySymbols(obj)); // [Symbol(hidden)]
+```
+
+#### 6.协议化接口定义
+
+```js
+// 定义可观察对象协议
+const OBSERVABLE = Symbol('observable');
+
+function makeObservable(target) {
+  target[OBSERVABLE] = true;
+  return target;
+}
+```
+
+#### 7.内置`Symbol`
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20251010201054089.png" alt="image-20251010201054089" style="zoom:67%;" />
+
+```js
+// 自定义 toString 行为
+class MyClass {
+  get [Symbol.toStringTag]() {
+    return 'MyCustomClass';
+  }
+}
+
+console.log(Object.prototype.toString.call(new MyClass())); 
+// "[object MyCustomClass]"
+```
+
+### 3.应用场景
+
+#### 1.避免命名冲突
+
+```js
+// 不同模块使用相同属性名
+const MODULE_A = Symbol('feature');
+const MODULE_B = Symbol('feature');
+
+// 不会冲突
+libraryA[MODULE_A] = ...;
+libraryB[MODULE_B] = ...;
+```
+
+#### 2.`React/Vue`中的特殊属性
+
+```js
+// React 元素类型标识
+typeof React.createElement('div') 
+// "object" (但包含 $$typeof: Symbol.for('react.element'))
+```
+
+#### 3.自定义迭代行为
+
+```js
+const fibonacci = {
+  *[Symbol.iterator]() {
+    let [prev, curr] = [0, 1];
+    while (true) {
+      yield curr;
+      [prev, curr] = [curr, prev + curr];
+    }
+  }
+};
+
+for (const n of fibonacci) {
+  if (n > 1000) break;
+  console.log(n); // 1, 1, 2, 3, 5, 8...
+}
+```
+
+#### 4.实现私有路由标志
+
+```js
+// 路由权限控制
+const PRIVATE_ROUTE = Symbol('private');
+
+const routes = [
+  { path: '/public', component: PublicPage },
+  { path: '/admin', component: AdminPage, [PRIVATE_ROUTE]: true }
+];
+
+function checkAccess(route) {
+  return !route[PRIVATE_ROUTE] || user.isAdmin();
+}
+```
+
+### 4.使用注意事项
+
+#### 1.类型转换
+
+```js
+const sym = Symbol('test');
+console.log(sym + ''); // TypeError: Cannot convert a Symbol value to a string
+console.log(Number(sym)); // TypeError
+```
+
+#### 2.对象属性访问
+
+```js
+const obj = { [Symbol('key')]: 'value' };
+
+// 以下方法不会返回 Symbol 属性
+Object.keys(obj); // []
+Object.getOwnPropertyNames(obj); // []
+
+// 需要使用专门的方法
+Object.getOwnPropertySymbols(obj); // [Symbol(key)]
+Reflect.ownKeys(obj); // [Symbol(key)]
+```
+
+#### 3.`JSON`序列化
+
+```js
+const obj = { [Symbol('key')]: 'value' };
+JSON.stringify(obj); // "{}" (Symbol 属性会被忽略)
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20251010201536717.png" alt="image-20251010201536717" style="zoom: 67%;" />
+
+> [!CAUTION]
+>
+> Symbol 是 JavaScript 中强大的元编程工具，特别适合：
+>
+> 1. 创建唯一标识符避免命名冲突
+> 2. 定义协议化接口和特殊行为
+> 3. 实现伪私有属性
+> 4. 定制对象的内置行为
+>
+> 在现代 JavaScript 开发中，Symbol 广泛应用于：
+>
+> 1. 框架/库的内部标记（如 React 的 $$typeof）
+> 2. 自定义迭代协议
+> 3. 元编程和对象行为定制
+> 4. 特殊属性标记（如 Vue 的 observable）
+
+## DAY-6 `set与WeakSet`
+
+### 1.`set`
+
+#### 1.简介
+
+Set 是一种存储**唯一值**的集合，具有以下特点：
+
+成员值唯一（使用严格相等 === 比较），插入顺序即遍历顺序，可迭代（可使用 for...of 遍历）；
+
+```js
+const set = new Set();
+```
+
+#### 2.基本操作
+
+```js
+// 添加元素
+set.add(1).add(2).add(3).add(2); // 重复添加无效
+
+// 基本方法
+console.log(set.size);       // 3
+console.log(set.has(2));     // true
+set.delete(2);               // 删除元素
+set.clear();                // 清空集合
+```
+
+#### 3.应用场景
+
+1. 数组去重
+
+```js
+const arr = [1, 2, 2, 3, 4, 4];
+const unique = [...new Set(arr)]; // [1, 2, 3, 4]
+```
+
+2. 集合运算
+
+```js
+// 并集
+const union = new Set([...setA, ...setB]);
+
+// 交集
+const intersection = new Set([...setA].filter(x => setB.has(x)));
+
+// 差集
+const difference = new Set([...setA].filter(x => !setB.has(x)));
+```
+
+#### 4.性能特性
+
+查找操作（has）的时间复杂度为 O(1)，比数组.includes() 方法更快，内存占用高于普通数组；
+
+#### 5.自定义相等性
+
+```js
+// 通过扩展实现值对象去重
+class CustomSet {
+  constructor() {
+    this.set = new Set();
+    this.cache = new Map();
+  }
+  
+  add(obj) {
+    const key = JSON.stringify(obj);
+    if (!this.cache.has(key)) {
+      this.cache.set(key, obj);
+      this.set.add(obj);
+    }
+    return this;
+  }
+}
+```
+
+#### 6.与数组转换优化
+
+```js
+// 高效去重并排序
+const uniqueSorted = arr => [...new Set(arr)].sort();
+```
+
+#### 7.实现多重集合
+
+```js
+class Multiset {
+  constructor() {
+    this.map = new Map();
+  }
+  
+  add(value) {
+    this.map.set(value, (this.map.get(value) || 0) + 1);
+  }
+  
+  count(value) {
+    return this.map.get(value) || 0;
+  }
+}
+```
+
+### 2.`WeakSet`
+
+#### 1.简介
+
+`WeakSet` 是一种特殊的 `Set`：
+
+​	只能存储对象引用（不能是原始值）,弱引用持有（不影响垃圾回收）,不可迭代（没有 size、keys() 等方法）,没有 clear() 方法
+
+#### 2.基本操作
+
+```js
+const weakSet = new WeakSet();
+const obj1 = {};
+const obj2 = {};
+
+weakSet.add(obj1).add(obj2);
+console.log(weakSet.has(obj1)); // true
+weakSet.delete(obj1);
+```
+
+#### 3.内存管理
+
+```js
+let obj = { data: 'test' };
+const set = new Set();
+const weakSet = new WeakSet();
+
+set.add(obj);
+weakSet.add(obj);
+
+// 删除引用
+obj = null;
+
+// set 仍保留对象，weakSet 已释放
+console.log(set.size); // 1
+// weakSet 中的引用已被自动清除
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20251010205527697.png" alt="image-20251010205527697" style="zoom:67%;" />
+
+#### 4.`DOM`元素标记
+
+```js
+// 跟踪已处理的DOM元素
+const processedElements = new WeakSet();
+
+function processElement(el) {
+  if (processedElements.has(el)) return;
+  
+  // 处理逻辑...
+  processedElements.add(el);
+}
+```
+
+#### 5.对象关联数据
+
+```js
+// 为对象添加临时标记
+const markedObjects = new WeakSet();
+
+function markObject(obj) {
+  markedObjects.add(obj);
+}
+
+function isMarked(obj) {
+  return markedObjects.has(obj);
+}
+```
+
+#### 6.防止内存泄漏
+
+```js
+// 为对象添加临时标记
+const markedObjects = new WeakSet();
+
+function markObject(obj) {
+  markedObjects.add(obj);
+}
+
+function isMarked(obj) {
+  return markedObjects.has(obj);
+}
+```
+
+### 3.注意事项
+
+#### 1.`Set` 的`NAN` 处理
+
+```js
+const set = new Set();
+set.add(NaN);
+set.add(NaN); // 只会保留一个NaN
+console.log(set.size); // 1
+```
+
+#### 2.`WeakSet` 的限制
+
+```js
+// 以下操作会报错
+const weakSet = new WeakSet();
+weakSet.add(1);        // TypeError: Invalid value used in weak set
+weakSet.add('string'); // TypeError
+console.log(weakSet.size); // undefined
+```
+
+#### 3. 类型转换问题
+
+```js
+const set = new Set();
+set.add('1');
+set.add(1); // 这两个是不同的值
+console.log(set.size); // 2
+```
+
+### 4.`ES`新特性
+
+#### 1.`Set` 方法扩展
+
+```js
+// 遍历方法
+const set = new Set([1, 2, 3]);
+set.forEach(value => console.log(value));
+
+// 转换为数组
+Array.from(set);
+[...set];
+```
+
+#### 2.新的集合类型
+
+```js
+// ES6 还引入了 Map 和 WeakMap
+// 用于键值对存储，与 Set/WeakSet 形成完整集合体系
+```
+
+> [!CAUTION]
+>
+> **Set** 和 **WeakSet** 是 JavaScript 中互补的集合类型：
+>
+> 1. 当需要存储值并保持独立集合时，使用 `Set`
+>
+> 2. 当需要临时关联对象且不想影响垃圾回收时，使用 `WeakSet`
+
+## DAY-7 `map`与`WeakMap`
+
+### 1.Map 映射
+
+#### 1.简介
+
+Map 是一种**键值对集合**，与普通对象相比具有以下优势：
+
+键可以是任意类型（对象、函数、原始值等）；保持键值对的插入顺序；提供更直观的 size 属性；性能更优（频繁增删键值对的场景）
+
+```js
+const map = new Map();
+```
+
+#### 2.基本操作
+
+```js
+// 添加键值对
+map.set('name', 'Alice');
+map.set(42, 'answer');
+map.set({ id: 1 }, 'object key');
+
+// 基本方法
+console.log(map.size);         // 3
+console.log(map.get('name'));  // "Alice"
+console.log(map.has(42));      // true
+map.delete(42);                // 删除键
+map.clear();                  // 清空Map
+```
+
+#### 3.迭代方法
+
+```js
+// 遍历键值对
+for (const [key, value] of map) {
+  console.log(key, value);
+}
+
+// 单独遍历键或值
+map.keys();    // 返回键的迭代器
+map.values();  // 返回值的迭代器
+map.entries(); // 返回键值对迭代器（默认）
+
+// forEach 方法
+map.forEach((value, key) => {
+  console.log(key, value);
+});
+```
+
+#### <img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20251010213110913.png" alt="image-20251010213110913" style="zoom:67%;" />
+
+#### 4.实现 LRU 缓存
+
+```js
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();
+  }
+
+  get(key) {
+    if (!this.cache.has(key)) return -1;
+    
+    const value = this.cache.get(key);
+    this.cache.delete(key);
+    this.cache.set(key, value);
+    return value;
+  }
+
+  put(key, value) {
+    if (this.cache.has(key)) {
+      this.cache.delete(key);
+    } else if (this.cache.size >= this.capacity) {
+      this.cache.delete(this.cache.keys().next().value);
+    }
+    this.cache.set(key, value);
+  }
+}
+```
+
+#### 5.多键映射
+
+```js
+const multiKeyMap = new Map();
+
+function setCompositeKey(key1, key2, value) {
+  const compositeKey = `${key1}|${key2}`;
+  multiKeyMap.set(compositeKey, value);
+}
+
+function getCompositeKey(key1, key2) {
+  const compositeKey = `${key1}|${key2}`;
+  return multiKeyMap.get(compositeKey);
+}
+```
+
+#### 6.频率统计
+
+```js
+function countFrequency(arr) {
+  return arr.reduce((map, item) => {
+    map.set(item, (map.get(item) || 0) + 1);
+    return map;
+  }, new Map());
+}
+```
+
+### 2.WeakMap 弱映射
+
+#### 1.简介
+
+`WeakMap`是一种特殊的 `Map`：
+
+键必须是对象（不能是原始值）;键是弱引用（不影响垃圾回收）;不可迭代（没有 size、keys() 等方法）;没有 clear() 方法
+
+#### 2.基本操作
+
+```js
+const weakMap = new WeakMap();
+const obj1 = {};
+const obj2 = { id: 2 };
+
+weakMap.set(obj1, 'private data');
+weakMap.set(obj2, { secret: 123 });
+
+console.log(weakMap.get(obj1)); // "private data"
+weakMap.delete(obj1);
+```
+
+#### 3.内存管理示例
+
+```js
+let obj = { data: 'test' };
+const map = new Map();
+const weakMap = new WeakMap();
+
+map.set(obj, 'value');
+weakMap.set(obj, 'meta');
+
+// 删除引用
+obj = null;
+
+// map 仍保留对象，weakMap 已释放
+console.log(map.size); // 1
+// weakMap 中的引用已被自动清除
+```
+
+<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20251010214014971.png" alt="image-20251010214014971" style="zoom:67%;" />
+
+#### 4.私有成员实现
+
+```js
+const privateData = new WeakMap();
+
+class Person {
+  constructor(name) {
+    privateData.set(this, { name });
+  }
+
+  getName() {
+    return privateData.get(this).name;
+  }
+}
+
+const person = new Person('Alice');
+console.log(person.name);      // undefined
+console.log(person.getName()); // "Alice"
+```
+
+#### 5.`DOM`元素元数据
+
+```js
+const privateData = new WeakMap();
+
+class Person {
+  constructor(name) {
+    privateData.set(this, { name });
+  }
+
+  getName() {
+    return privateData.get(this).name;
+  }
+}
+
+const person = new Person('Alice');
+console.log(person.name);      // undefined
+console.log(person.getName()); // "Alice"
+```
+
+#### 6.缓存计算结果
+
+```js
+const cache = new WeakMap();
+
+function computeExpensiveValue(obj) {
+  if (cache.has(obj)) {
+    return cache.get(obj);
+  }
+  
+  const result = /* 复杂计算 */;
+  cache.set(obj, result);
+  return result;
+}
+```
+
+#### 7.内存占用
+
+```js
+function testMemory() {
+  const data = Array.from({ length: 10000 }, (_, i) => ({ id: i }));
+  
+  const strongMap = new Map(data.map(x => [x, x.id]));
+  const weakMap = new WeakMap(data.map(x => [x, x.id]));
+  
+  // 移除引用
+  data.length = 0;
+  
+  // strongMap 仍持有所有对象
+  // weakMap 中的对象可被回收
+}
+```
+
+### 3.注意事项
+
+#### 1.`NAN` 作为键
+
+```js
+const map = new Map();
+map.set(NaN, 'Not a Number');
+map.set(NaN, 'Still NaN');
+console.log(map.size); // 1 (NaN被视为相同键)
+```
+
+#### 2.WeakMap 的限制
+
+```js
+// 以下操作会报错
+const weakMap = new WeakMap();
+weakMap.set('key', 'value'); // TypeError: Invalid value used as weak map key
+console.log(weakMap.size);    // undefined
+```
+
+#### 3.对象键的引用
+
+```js
+const map = new Map();
+const obj = { id: 1 };
+
+map.set(obj, 'value');
+console.log(map.get({ id: 1 })); // undefined (不同引用)
+```
+
+### 4.`ES` 新特性
+
+#### 1.Map 方法扩展
+
+```js
+// ES2015+
+const map = new Map([['a', 1], ['b', 2]]);
+
+// 转换为数组
+Array.from(map);
+[...map.entries()];
+
+// 合并Map
+const merged = new Map([...map1, ...map2]);
+```
+
+#### 2.新的集合方法
+
+```js
+// 新提案可能包含
+map.emplace(key, {
+  insert: () => newValue,
+  update: old => old + 1
+});
+```
+
+> [!CAUTION]
+>
+> **Map** 和 **WeakMap** 是 JavaScript 中互补的键值集合：
+>
+> 1. 当需要通用键值存储时，使用 `Map`
+> 2. 当需要对象关联数据且不想影响垃圾回收时，使用 `WeakMap`
+>
+> 黄金法则： 
+>
+> 1. **Map​**​ 用于需要长期持有的键值数据
+> 2. **WeakMap** 用于对象生命周期相关的临时数据
+
+## DAY-8 函数
