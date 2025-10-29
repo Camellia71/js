@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div desc="houdunren">在线学习</div>
+    <div desc="hdcms">开源产品</div>
+  </body>
+  <script>
+    let divs = document.querySelectorAll("div");
+    divs.forEach(function (item) {
+      let desc = item.getAttribute("desc"); //为了缩短运行时间，在这里抽取出对象中的desc；
+      item.addEventListener("click", function () {
+        // console.log(item.getAttribute("desc"));
+        console.log(item);
+        console.log(desc);
+      });
+      item = null; //防止内存泄露，就在这里令item = null;这样在点击事件中就无法打印item
+    });
+  </script>
+</html>
