@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // let arr = ["后盾人", "houdunren.com"];
+// let [a, b, c = "hdcms"] = arr;
+// console.log(a, b, c);
+
+// let user = { uname: "后盾人", url: "houdunren.com", title: "开源系统" };
+// let { uname, url, title = "hdcms" } = user;
+// console.log(uname, url, title);
+
+//DOM Node
+function creatElement(options = {}) {
+  let { width = 200, height = 100, backgroundColor = "red" } = options;
+  //   console.log(wide, height, backgroundColor);
+  const div = document.createElement("div");
+  div.style.width = width + "px";
+  div.style.height = height + "px";
+  div.style.backgroundColor = backgroundColor;
+  document.body.appendChild(div);
+}
+creatElement({ width: 300 });
+</script>
+</html>
