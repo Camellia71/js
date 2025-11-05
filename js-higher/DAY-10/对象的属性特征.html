@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    "use strict";
+    const user = {
+      uname: "向军",
+      age: 18,
+    };
+    console.log(
+      JSON.stringify(Object.getOwnPropertyDescriptor(user, "uname"), null, 2)
+    ); //在html文件中
+
+    Object.defineProperty(user, "uname", {
+      value: "后盾人",
+      writable: false, //可修改
+      enumerable: true, //可遍历
+      configurable: true, //可删除
+    });
+    console.log(user.name);
+    user.name = "向军";
+    console.log(user.name);
+    Object.keys(user);
+    // user.lesson = "js";
+    // console.log(user);
+    // delete user.lesson;
+    // console.log(user);
+
+    // let arr = ["后盾人", "hdcms"];
+    // console.log(arr);
+    // for (const [key, value] of Object.entries(arr)) {
+    //   console.log(key, value);
+    // }
+  </script>
+</html>

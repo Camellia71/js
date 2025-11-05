@@ -36,7 +36,13 @@ let obj = {
 //考虑数组
 function copy(obj) {
   let res = obj instanceof Array ? [] : {};
+  for (const [k, v] of Object.entries(obj)) {
+    res[k] = typeof v == "object" ? copy(v) : v;
+  }
+  return res;
 }
 let hd = copy(obj);
-console.log(JSON.stringify(obj, null, 2));
+// hd.user.uname = "向军";
+hd.arr.push("abc");
+console.log(JSON.stringify(obj, null, 2)); //不被改变，说明深拷贝成功
 console.log(JSON.stringify(hd, null, 2));
