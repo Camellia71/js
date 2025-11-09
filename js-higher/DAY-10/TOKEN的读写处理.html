@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    "use strict";
+    //token 令牌
+    let Request = {
+      set token(content) {
+        localStorage.setItem("token", content);
+      },
+      get token() {
+        let token = localStorage.setItem("token", content);
+        if (!token) {
+          alert("请登录");
+        }
+        return token;
+      },
+    };
+    Request.token = "351646426582509135nfiow";
+    console.log(Request.token);
+  </script>
+</html>
