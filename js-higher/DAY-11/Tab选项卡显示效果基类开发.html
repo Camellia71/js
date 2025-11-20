@@ -1,0 +1,347 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Microsoft YaHei", sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .card {
+        width: 280px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+
+      .labels {
+        display: flex;
+        height: 40px;
+      }
+
+      .label-left {
+        flex: 1;
+        background-color: #ff6b35;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .label-right {
+        flex: 1;
+        background-color: #8e8e93;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .content {
+        height: 180px;
+        background-color: #ffd166;
+        display: flex;
+        align-items: flex-end;
+        padding: 20px;
+        position: relative;
+      }
+
+      .size-info {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .footer {
+        padding: 10px 20px;
+        background-color: #f8f8f8;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+    
+      <div class="card1">
+        <div class="labels">
+          <div class="label-left">后盾人</div>
+          <div class="label-right">hdcms</div>
+        </div>
+        <div class="content">
+          <div class="size-info">1</div>
+        </div>
+        <div class="footer">信息展示区域</div>
+      </div>
+
+ 
+      <div class="card2">
+        <div class="labels">
+          <div class="label-left">后盾人</div>
+          <div class="label-right">hdcms</div>
+        </div>
+        <div class="content">
+          <div class="size-info">2</div>
+        </div>
+        <div class="footer">信息展示区域</div>
+      </div>
+    </div>
+  </body>
+  <script>
+    function extend(sub, sup) {
+      sub.prototype = Object.create(sup.prototype);
+      sub.prototype.constructor = sub;
+    }
+    function Animation() {}
+    Animation.prototype.show = function () {
+      this.style.display = "block";
+    };
+    Animation.prototype.hide = function () {
+      this.style.display = "none";
+    };
+    Animation.prototype.background = function (color) {
+      this.style.backgroundColor = color;
+    };
+    function Tab(el) {
+      this.tab = document.querySelector(el);
+      this.links = this.tab.querySelectorAll(".label-left,.label-right");
+      this.sections = this.tab.querySelectorAll(".content");
+      //   console.log(links);
+    }
+    extend(Tab, Animation);
+    Tab.prototype.run = function () {
+      this.bindEvent();
+      this.reset();
+      this.action(0);
+    };
+    Tab.prototype.bindEvent = function () {
+      this.links.forEach((el, i) => {
+        el.addEventListener("click", () => {
+          //   console.log("333");
+          this.reset();
+          this.action(i);
+        });
+      });
+    };
+    Tab.prototype.action = function (i) {
+      //   console.log(i);
+      this.background.call(this.links[i], "#e67e22");
+      this.show.call(this.sections[i]);
+    };
+    Tab.prototype.reset = function () {
+      this.links.forEach((el, i) => {
+        this.background.call(this.links[i], "#95a5a6");
+        this.hide.call(this.sections[i]);
+      });
+    };
+    new Tab(".card1").run();
+    // new Tab(".card2").run();
+  </script>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>双卡片标签页展示</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Microsoft YaHei", sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .card {
+        width: 280px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+
+      .labels {
+        display: flex;
+        height: 40px;
+        cursor: pointer;
+      }
+
+      .label-left,
+      .label-right {
+        flex: 1;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      .label-left {
+        background-color: #ff6b35;
+      }
+
+      .label-right {
+        background-color: #8e8e93;
+      }
+
+      .label-left.active,
+      .label-right.active {
+        background-color: #e67e22;
+      }
+
+      .content {
+        height: 180px;
+        background-color: #ffd166;
+        display: flex;
+        align-items: flex-end;
+        padding: 20px;
+        position: relative;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: flex;
+      }
+
+      .size-info {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .footer {
+        padding: 10px 20px;
+        background-color: #f8f8f8;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 第一个卡片 -->
+      <div class="card card1">
+        <div class="labels">
+          <div class="label-left active" data-tab="tab1-1">后盾人</div>
+          <div class="label-right" data-tab="tab1-2">hdcms</div>
+        </div>
+        <div class="tab-content active" id="tab1-1">
+          <div class="size-info">1.0 GB</div>
+        </div>
+        <div class="tab-content" id="tab1-2">
+          <div class="size-info">1.5 GB</div>
+        </div>
+        <div class="footer">信息展示区域</div>
+      </div>
+
+      <!-- 第二个卡片 -->
+      <div class="card card2">
+        <div class="labels">
+          <div class="label-left active" data-tab="tab2-1">后盾人</div>
+          <div class="label-right" data-tab="tab2-2">hdcms</div>
+        </div>
+        <div class="tab-content active" id="tab2-1">
+          <div class="size-info">2.0 GB</div>
+        </div>
+        <div class="tab-content" id="tab2-2">
+          <div class="size-info">2.5 GB</div>
+        </div>
+        <div class="footer">信息展示区域</div>
+      </div>
+    </div>
+
+    <script>
+      // 简单的标签页切换功能
+      document.querySelectorAll(".labels").forEach((labelGroup) => {
+        const labels = labelGroup.querySelectorAll(".label-left, .label-right");
+        const card = labelGroup.closest(".card");
+
+        labels.forEach((label) => {
+          label.addEventListener("click", function () {
+            // 移除所有标签的active类
+            labels.forEach((l) => l.classList.remove("active"));
+
+            // 给当前点击的标签添加active类
+            this.classList.add("active");
+
+            // 隐藏所有内容
+            card.querySelectorAll(".tab-content").forEach((content) => {
+              content.classList.remove("active");
+            });
+
+            // 显示对应内容
+            const tabId = this.getAttribute("data-tab");
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) {
+              targetContent.classList.add("active");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
