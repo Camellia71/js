@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多面板动画控制系统</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .slide {
+        margin: 20px;
+      }
+      dt {
+        width: 200px;
+        height: 50px;
+        background-color: rgb(37, 223, 152);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      dt:hover {
+        background-color: rgb(25, 180, 120);
+      }
+      dd > div {
+        width: 200px;
+        height: 100px;
+        background-color: rgb(225, 196, 64);
+        transition: height 0.3s ease;
+        overflow: hidden;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide s1">
+      <dt>后盾人 - 面板1</dt>
+      <dd>
+        <div>houdunren.com</div>
+      </dd>
+      <dt>后盾人 - 面板2</dt>
+      <dd>
+        <div>hdcms.com</div>
+      </dd>
+      <dt>后盾人 - 面板3</dt>
+      <dd>
+        <div>hdcms.com</div>
+      </dd>
+    </div>
+
+    <script>
+      // 基础动画类
+      class Animation {
+        constructor(el) {
+          this.el = el;
+          this.isShow = true;
+          // 延迟获取高度，确保DOM渲染完成
+          setTimeout(() => {
+            this.defaultHeight = this.height;
+          }, 0);
+        }
+
+        hide(callback) {
+          this.isShow = false;
+          let currentHeight = this.height;
+
+          const animate = () => {
+            currentHeight -= 3;
+            this.height = currentHeight;
+
+            if (currentHeight > 0) {
+              requestAnimationFrame(animate);
+            } else {
+              this.height = 0;
+              callback && callback();
+            }
+          };
+          animate();
+        }
+
+        show(callback) {
+          this.isShow = true;
+          let currentHeight = this.height;
+
+          const animate = () => {
+            currentHeight += 3;
+            this.height = currentHeight;
+
+            if (currentHeight < this.defaultHeight) {
+              requestAnimationFrame(animate);
+            } else {
+              this.height = this.defaultHeight;
+              callback && callback();
+            }
+          };
+          animate();
+        }
+
+        get height() {
+          return parseFloat(window.getComputedStyle(this.el).height);
+        }
+
+        set height(height) {
+          this.el.style.height = height + "px";
+        }
+      }
+
+      // 面板类，继承Animation
+      class Panel extends Animation {
+        static activeCount = 0; // 正在执行的动画数量
+
+        static hideAll(items, callback) {
+          if (Panel.activeCount > 0) return;
+
+          let completedCount = 0;
+          const totalItems = items.length;
+
+          if (totalItems === 0) {
+            callback && callback();
+            return;
+          }
+
+          items.forEach((item) => {
+            Panel.activeCount++;
+            item.hide(() => {
+              Panel.activeCount--;
+              completedCount++;
+              if (completedCount === totalItems) {
+                callback && callback();
+              }
+            });
+          });
+        }
+
+        static filter(items, excludeIndex) {
+          return items.filter((item, index) => index !== excludeIndex);
+        }
+      }
+
+      // 幻灯片控制类
+      class Slide {
+        constructor(selector) {
+          this.el = document.querySelector(selector);
+          this.links = this.el.querySelectorAll("dt");
+          this.panels = [...this.el.querySelectorAll("dd")].map(
+            (dd) => new Panel(dd.querySelector("div"))
+          );
+          this.bindEvents();
+        }
+
+        bindEvents() {
+          this.links.forEach((link, index) => {
+            link.addEventListener("click", () => {
+              this.activatePanel(index);
+            });
+          });
+        }
+
+        activatePanel(panelIndex) {
+          // 隐藏其他所有面板，然后显示点击的面板
+          const otherPanels = Panel.filter(this.panels, panelIndex);
+
+          Panel.hideAll(otherPanels, () => {
+            this.panels[panelIndex].show();
+          });
+        }
+      }
+
+      // 初始化幻灯片系统
+      document.addEventListener("DOMContentLoaded", function () {
+        const slideSystem = new Slide(".s1");
+        console.log("🎯 多面板动画系统初始化完成");
+        console.log("📊 面板数量:", slideSystem.panels.length);
+      });
+    </script>
+  </body>
+</html>

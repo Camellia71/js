@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="1.1.js"></script> -->
+  </head>
+  <body></body>
+  <script>
+    //AMD require.js   CMD sea.js
+    //COMMON.JS  NODE.JS
+    // UMD
+    let module = (function () {
+      const moduleList = {};
+      function define(uname, modules, action) {
+        // console.log("后盾人");
+        modules.map((m, i) => {
+          modules[i] = moduleList[m];
+        });
+        moduleList[uname] = action.apply(null, modules);
+        // console.log(moduleList);
+      }
+      return { define };
+    })();
+    module.define("hd", [], function () {
+      return {
+        first(arr) {
+          return arr[0];
+        },
+        max(arr, key) {
+          return arr.sort((a, b) => b[key] - a[key])[0];
+        },
+      };
+    });
+    module.define("lesson", ["hd"], function (hd) {
+      let data = [
+        { uname: "js", price: 199 },
+        { uname: "mysql", price: 78 },
+      ];
+      //   console.log(hd);
+      console.log(hd.max(data, "price"));
+    });
+    module.define("a", [], function () {
+      //模块在初始化对的时候返回模块的内容，后续其他在依赖的时候共用一个内容
+      return {
+        site: "后盾人",
+        url: "houdunren.com",
+      };
+    });
+    module.define("b", ["a"], function (a) {
+      //   console.log('a');
+      a.site = "hdcms";
+    });
+    module.define("c", ["a"], function (a) {
+      console.log(a); //hdcms，因为共用了
+    });
+  </script>
+</html>

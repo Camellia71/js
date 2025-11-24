@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .slide {
+        margin: 20px;
+      }
+      dt {
+        width: 200px;
+        height: 50px;
+        background-color: rgb(37, 223, 152);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
+      }
+      dd > div {
+        width: 200px;
+        height: 100px;
+        background-color: rgb(225, 196, 64);
+        transition: height 0.3s ease;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide s1">
+      <dt>后盾人</dt>
+      <dd>
+        <div>houdunren.com</div>
+      </dd>
+      <dt>后盾人</dt>
+      <dd>
+        <div>hdcms.com</div>
+      </dd>
+      <dt>后盾人</dt>
+      <dd>
+        <div>hdcms.com</div>
+      </dd>
+    </div>
+  </body>
+  <script>
+    class Animation {
+      constructor(el) {
+        this.el = el;
+        this.isShow = true;
+        // 修正1：延迟获取高度，确保DOM渲染完成
+        setTimeout(() => {
+          this.defaultHeight = this.height;
+        }, 0);
+      }
+
+      hide(callback) {
+        this.isShow = false;
+        let currentHeight = this.height;
+        // 修正2：使用requestAnimationFrame替代setInterval
+        const animate = () => {
+          currentHeight -= 2; // 调整速度
+          this.height = currentHeight;
+
+          if (currentHeight > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            this.height = 0;
+            callback && callback();
+          }
+        };
+        animate();
+      }
+
+      show(callback) {
+        this.isShow = true;
+        let currentHeight = this.height;
+        const animate = () => {
+          currentHeight += 2; // 调整速度
+          this.height = currentHeight;
+
+          if (currentHeight < this.defaultHeight) {
+            requestAnimationFrame(animate);
+          } else {
+            this.height = this.defaultHeight;
+            callback && callback();
+          }
+        };
+        animate();
+      }
+
+      get height() {
+        return parseFloat(window.getComputedStyle(this.el).height);
+      }
+
+      set height(height) {
+        this.el.style.height = height + "px";
+      }
+    }
+
+    class Slide {
+      constructor(el) {
+        this.el = document.querySelector(el);
+        this.links = this.el.querySelectorAll("dt");
+        this.panels = [...this.el.querySelectorAll("dd")].map(
+          (item) => new Panel(item)
+        );
+        // console.log(this.panels);
+        this.bind();
+      }
+      bind() {
+        this.links.forEach((item, i) => {
+          item.addEventListener("click", () => {
+            // console.log("后盾人");
+            this.action(i);
+          });
+        });
+      }
+      action(i) {
+        // console.log(111);
+        Panel.hideAll(Panel.filter(this.panels, i), () => {
+          this.panels[i].show();
+        });
+      }
+    }
+    class Panel extends Animation {
+      static num = 0;
+      static hideAll(items, callback) {
+        if (Panel.num > 0) return;
+        item.forEach((items) => {
+          Panel.num++;
+          item.hide(() => {
+            Panel.num--;
+          });
+        });
+        callback && callback;
+      }
+      static filter(items, i) {
+        return items.filter((item, index) => index != i);
+      }
+    }
+
+    // 修正3：选择正确的目标元素（dd内的div）
+    let targetElement = document.querySelector(".s1 dd div");
+    let hd = new Animation(targetElement);
+
+    // 添加点击事件测试
+    document.querySelector(".s1 dt").addEventListener("click", function () {
+      if (hd.isShow) {
+        hd.hide(() => {
+          console.log("隐藏完了");
+        });
+      } else {
+        hd.show(() => {
+          console.log("显示完了");
+        });
+      }
+    });
+  </script>
+</html>
