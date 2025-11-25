@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script type="module">
+    //系统在处理模块业务时会先加载所有模块,但是是后解析的，会在下方打印完之后才解析（模块与模块之间可能存在依赖）;模块默认运行在严格模式下
+    // console.log(document.querySelector("button"));
+    //不加模块是找不到button的，因为还未开始创建；放到body下面就能找到了
+    import {} from "./hd.js";
+  </script>
+  <body>
+    <button>后盾人</button>
+  </body>
+</html>

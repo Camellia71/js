@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script type="module">
+    let site = "hdcms";
+    import { site as s } from "./modules/m9.js"; //别名用as设置
+    console.log(s);
+    //默认导出
+    import u from "./modules/m9.js"; //不用加{}直接用一个变量名接住就行
+    console.log(u);
+    //混合导出
+    import u, { site as s } from "./modules/m9.js";
+    console.log(u, s);
+  </script>
+</html>
