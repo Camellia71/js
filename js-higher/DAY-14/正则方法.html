@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="email" />
+    <main>后盾人不断分享视频，后盾人网址是 houdunren.com</main>
+  </body>
+  <script>
+    //test exec
+    // const mail = document.querySelector(`[name="email"]`);
+    // mail.addEventListener("keyup", (e) => {
+    //   let value = e.target.value;
+    //   let flag = /^[\w-]+@(\w+\.)+(com|org|cn)$/i.test(value);
+    //   console.log(flag);
+    // });
+    let reg = /后盾人/g;
+    const main = document.querySelector("body main");
+    let count = 0;
+    while ((res = reg.exec(main.innerHTML))) {
+      count++;
+    }
+    console.log(count);
+    // console.log(main.innerHTML.match(reg));
+    // console.log(reg.exec(main.innerHTML));
+    // console.log(reg.lastIndex);
+    // console.log(reg.exec(main.innerHTML));
+    // console.log(reg.lastIndex);
+    // console.log(reg.exec(main.innerHTML));
+    // console.log(reg.lastIndex);
+  </script>
+</html>
