@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main>
+      <a href="https://www.houdunren.com/1.jpg">1.jpg</a>
+      <a href="https://oss.houdunren.com/2.jpg">2.jpg</a>
+      <a href="https://cdn.houdunren.com/1.jpg">3.jpg</a>
+      <a href="https://houdunren.com/2.jpg">后盾人</a>
+    </main>
+  </body>
+  <script>
+    const main = document.querySelector("main");
+    const reg = /https:\/\/([a-z]+)?(?<!oss)\..+?(?=\/)/gi; //其实就是限制某一个匹配内容前面不是“。。。”
+    main.innerHTML = main.innerHTML.replace(reg, (v) => {
+      //   console.log(v);
+      return "https://oss.houdunren.com";
+    });
+  </script>
+</html>
