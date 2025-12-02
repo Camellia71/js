@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 200px;
+        height: 200px;
+        background-color: aqua;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+  </body>
+  <script>
+    function interval(callback, delay = 100) {
+      let id = setInterval(() => {
+        callback(id);
+      }, delay); // delay 作为 setInterval 的第二个参数
+    }
+    interval((timeId) => {
+      const div = document.querySelector("div");
+      let left = parseInt(window.getComputedStyle(div).left);
+      //   console.log(left);
+      div.style.left = left + 10 + "px";
+      if (left >= 200) {
+        clearInterval(timeId);
+        interval((timeId) => {
+          let width = parseInt(window.getComputedStyle(div).width);
+          div.style.width = width - 10 + "px";
+          if (width <= 20) {
+            clearInterval(timeId);
+          }
+        }, 100);
+      }
+    });
+    console.log("houdunren.com");
+    // interval(function (id) {
+    //   console.log(id);
+    // }, 1000);
+  </script>
+</html>
