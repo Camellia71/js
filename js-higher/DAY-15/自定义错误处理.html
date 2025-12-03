@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script src="module/ajax2.js"></script>
+  <script>
+    ajax(`http://localhost:8888/php/user.php?name=lisi`)
+      .then((value) => {
+        console.log(value);
+      })
+      .catch((error) => {
+        // console.log(error.message);
+        if (error instanceof ParamError) {
+          console.log(error.message);
+        }
+        if (error instanceof HttpError) {
+          alert(error.message);
+        }
+      });
+  </script>
+</html>

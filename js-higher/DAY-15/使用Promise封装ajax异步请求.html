@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script src="module/ajax1.js"></script>
+  <script>
+    let url = `https://localhost:8888/php`;
+    ajax(`${url}/user.php?name=后盾人`).then(
+      (value) => {
+        console.log(value);
+      },
+      (reason) => {
+        console.log(reason + "abc");
+      }
+    );
+    // function request() {
+    //   new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //       resolve("成功");
+    //     }, 2000);
+    //   });
+    // }
+    // request().then((value) => console.log(value));
+  </script>
+</html>
