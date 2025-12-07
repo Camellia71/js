@@ -43,30 +43,44 @@ class HD {
     //做外层判断：Promise.then在使用过程中可以不传用不到的参数，直接传null也可以
     if (typeof onFulfilled != "function") {
       //但是因为Promise中的then可以是链式的
-      onFulfilled = () => {};
+      onFulfilled = () => {
+        return this.value;
+      };
     }
     if (typeof onRejected != "function") {
-      onRejected = () => {};
+      onRejected = () => {
+        return this.value;
+      };
     }
-    return new HD((resolve, reject) => {
+    let promise = new HD((resolve, reject) => {
       if (this.status == HD.PENDING) {
         this.callbacks.push({
           onFulfilled: (value) => {
+            this.parse(onFulfilled(value), resolve, reject);
             //将所有的错误使用统一的捕获并处理
-            try {
-              let result = onFulfilled(value);
-              resolve(result);
-            } catch (error) {
-              reject(error);
-            }
+            // try {
+            //   let result = onFulfilled(value);
+            //   if (result instanceof HD) {
+            //     result.then(resolve, reject);
+            //   } else {
+            //     resolve(result);
+            //   }
+            // } catch (error) {
+            //   reject(error);
+            // }
           },
           onRejected: (value) => {
-            try {
-              let result = onRejected(value);
-              resolve(result);
-            } catch (error) {
-              reject(error);
-            }
+            this.parse(onRejected(value), resolve, reject);
+            // try {
+            //   let result = onRejected(value);
+            //   if (result instanceof HD) {
+            //     result.then(resolve, reject);
+            //   } else {
+            //     resolve(result);
+            //   }
+            // } catch (error) {
+            //   reject(error);
+            // }
           },
         });
       }
@@ -74,29 +88,55 @@ class HD {
       if (this.status == HD.FULFILLED) {
         //使用定时器是为了将其放入任务队列中，因为元笨的代码是同步代码，执行顺序与Promise相反
         setTimeout(() => {
-          try {
-            //使用try-catch可以捕获then中的错误
-            let result = onFulfilled(this.value);
-            resolve(result);
-          } catch (error) {
-            reject(error);
-          }
+          this.parse(onFulfilled(this.value), resolve, reject);
+          //   try {
+          //     //使用try-catch可以捕获then中的错误
+          //     let result = onFulfilled(this.value);
+          //     if (result instanceof HD) {
+          //       result.then(resolve, reject);
+          //       //   result.then(
+          //       //     (value) => {
+          //       //       resolve(value);
+          //       //     },
+          //       //     (reason) => {
+          //       //       reject(reason);
+          //       //     }
+          //       //   );
+          //     } else {
+          //       resolve(result);
+          //     }
+          //   } catch (error) {
+          //     reject(error);
+          //   }
         });
       }
       if (this.status == HD.REJECTED) {
         setTimeout(() => {
-          try {
-            let result = onRejected(this.value);
-            resolve(result);
-          } catch (error) {
-            onRejected(error);
-          }
+          this.parse(onRejected(this.value), resolve, reject);
+          //   try {
+          //     let result = onRejected(this.value);
+          //     if (result instanceof HD) {
+          //       result.then(resolve, reject);
+          //     } else {
+          //       resolve(result);
+          //     }
+          //   } catch (error) {
+          //     reject(error);
+          //   }
         });
       }
     });
+    return promise;
+  }
+  parse(result, resolve, reject) {
+    try {
+      if (result instanceof HD) {
+        result.then(resolve, reject);
+      } else {
+        resolve(result);
+      }
+    } catch (error) {
+      reject(error);
+    }
   }
 }
-// new Promise((resolve, reject) => {
-// resolve("解决");
-// rejects("拒绝");
-// });
