@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            transition: background-color 1s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <h1>houdunren</h1> -->
+</body>
+<script>
+    function Color(elem) {
+        this.elem = elem;
+        this.colors = ['#104362', "#232465", '#310938', "#438193"];
+        this.run = function () {
+            setInterval(function () {
+                // console.log(this);
+                let i = Math.floor(Math.random() * this.colors.length);
+                // console.log(i);
+                this.elem.style.backgroundColor = this.colors[i];
+            }.bind(this), 1000)
+        };
+    };
+    let obj = new Color(document.body);
+    obj.run();
+</script>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            padding: 200px;
+            width: 200px;
+        }
+
+        li {
+            border: solid 1px green;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>houdunren.com</li>
+        <li>hdcms.com</li>
+        <li>houdunwang.com</li>
+    </ul>
+</body>
+<script>
+    class Todo {
+        constructor() {
+            this.items = document.querySelectorAll("ul>li");
+            // console.log(this.items);
+            this.lists = new WeakSet();
+            this.items.forEach(item => this.lists.add(item));
+            console.log(this.lists);
+        }
+        run() {
+            this.addEvent();
+        }
+        addEvent() {
+            this.items.forEach(item => {
+                let a = item.querySelector("a");
+                a.addEventListener('click', function () {
+                    const parentElement = event.target.parentElement;
+                    if (this.lists.has(parentElement)) {
+                        parentElement.classList.add("remove");
+                        this.list.delete(parentElement);
+                    } else {
+                        parentElement.classList.remove("remove");
+                        alert("todo 已经删除")
+                    }
+                });
+            });
+        }
+    }
+</script>
+
+
+</html>

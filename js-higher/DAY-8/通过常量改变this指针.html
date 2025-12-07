@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let lesson = {
+            site: "后盾人",
+            lists: ["js", "css", "mysql"],
+            show: function () {
+                // console.log(this.site);
+                // const self = this;
+                return this.lists.map(function (value) {
+                    // console.log(this);  //window
+                    // console.log(self.lists);
+                    return `${this.site}-${value}`;
+                }, this);  //map 的第二个参数就是指定回调时的this值
+            }
+        }
+        console.log(lesson.show());
+    </script>
+</body>
+
+</html>

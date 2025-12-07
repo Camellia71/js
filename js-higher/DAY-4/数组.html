@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // const array = new Array("hdcms","houdunren",1,2,3,4,5);
+        // console.log(array.join("|"));
+        // console.log(array);
+
+        let array = [1, 2, 3, 4];
+        console.log(array);
+        console.log(typeof array);  //object
+
+        //传址
+        let hd = array;
+        hd[1] = "houdenren.com";
+        console.log(hd);
+        console.log(array);
+        //打印表格
+        console.table(hd);
+    </script>
+</body>
+
+</html>

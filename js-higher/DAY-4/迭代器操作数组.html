@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //迭代器
+        // arr.keys();  返回键
+        // arr.values();  返回值
+        // arr.entries();  返回键值对（数组）
+        let arr = ["hdcms", "houdunren"];
+        // let keys = arr.keys();
+        // console.log(keys.next());
+        // console.log(keys.next());  //{value: 1, done: false}
+        // console.log(keys.next());  //{value: undefined, done: true}
+
+        // let { value, done } = keys.next();
+        // console.log(value, done);
+
+        // let values = arr.values();
+        // while (({ value, done } = values.next()) && done === false) {
+        //     console.log(value);
+        // }
+
+        //其实 for-of 就是专门用来操作迭代对象的
+        for (const value of arr.values()) {
+            console.log(value);
+        }
+
+        //
+        let entries = arr.entries();
+        console.log(entries.next());  //返回键值对
+        // let {done,value} = entries.next();
+        // console.log(done,value);
+        let { done, value: [a, b] } = entries.next();
+        console.log(a, b);
+        for (const [key, value] of arr.entries()) {
+            console.log(value);  //houdunren
+        }
+    </script>
+</body>
+
+</html>

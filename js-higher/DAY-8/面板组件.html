@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        dt {
+            margin: 2px;
+            height: 50px;
+            width: 400px;
+            background-color: orange;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        dd {
+            margin: 2px;
+            height: 200px;
+            width: 400px;
+            background-color: blueviolet;
+            text-align: center;
+            line-height: 200px;
+            font-size: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <dt>后盾人</dt>
+    <dd>1</dd>
+    <dt>hdcms</dt>
+    <dd hidden="hidden">2</dd>
+</body>
+<script>
+    function panel(i) {
+        let dds = document.querySelectorAll('dd');
+        dds.forEach(dd => dd.setAttribute("hidden", "hidden"));
+        dds[i].removeAttribute("hidden");
+    }
+    document.querySelectorAll('dt').forEach((dt, i) => {
+        // console.log(dt);
+        dt.addEventListener('click', () => panel.call(null, i));
+    });
+</script>
+
+</html>

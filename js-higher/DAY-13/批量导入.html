@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script type="module">
+    // import { site, show, User } from "./modules/m7.js";
+    import * as api from "./modules/m7.js"; //批量导入
+    console.log(api);
+    // Module {Symbol(Symbol.toStringTag): 'Module'}
+    // User : (...)
+    // show:  (...)
+    // site :  (...)
+    console.log(api.site);
+    console.log(api.show());
+    console.log(api.User.render());
+  </script>
+</html>

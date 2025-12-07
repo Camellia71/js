@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let arr = [1, 2, 3, 4, 5];
+        // let res = arr.find(function (item) {
+        //     // console.log(item);  //遍历元素
+        //     return item === 20;  //undefined
+        // })
+        // console.log(res);
+
+        let lessons = [{ name: "js" }, { name: "css" }, { name: "mysql" }];
+        let status = lessons.find(function (item) {
+            return item.name == "css";
+        })
+        console.log(status);  //返回值
+
+        let statusindex = lessons.findIndex(function (item) {
+            return item.name == "js";
+        })
+        console.log(statusindex);  //0 返回索引号
+    </script>
+</body>
+
+</html>

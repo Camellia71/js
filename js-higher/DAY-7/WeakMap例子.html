@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        div {
+            display: inline-flex;
+            width: 320px;
+            height: 350px;
+            border-radius: 8px;
+            margin: 0 20px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* 左侧课程列表样式 */
+        div:first-child {
+            border: 2px solid #FF9800;
+            /* 橙色边框 */
+        }
+
+        ul {
+            width: 100%;
+            height: 100%;
+            list-style: none;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        ul li {
+            width: 100%;
+            height: 60px;
+            border: 2px solid #FF9800;
+            /* 橙色边框 */
+            border-radius: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        ul li:hover {
+            background-color: #FFF3E0;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+        }
+
+        ul li[select] {
+            background-color: #FFF8E1;
+            border-color: #F57C00;
+        }
+
+        span {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+
+        a {
+            background-color: #F44336;
+            /* 红色按钮 */
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        a:hover {
+            background-color: #D32F2F;
+            transform: scale(1.1);
+        }
+
+        ul li[select] a {
+            background-color: #F44336;
+            content: "-";
+        }
+
+        /* 右侧已选课程区域样式 */
+        div:last-child {
+            background-color: #F5F5F5;
+            /* 灰色背景 */
+            border: 1px solid #ddd;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #count {
+            display: block;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #lists {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #lists span {
+            display: block;
+            padding: 12px 15px;
+            background-color: #4CAF50;
+            /* 绿色背景 */
+            color: white;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #lists span:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 滚动条样式 */
+        ul::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ul::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        ul::-webkit-scrollbar-thumb {
+            background: #FF9800;
+            border-radius: 3px;
+        }
+
+        ul::-webkit-scrollbar-thumb:hover {
+            background: #F57C00;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <ul>
+            <li><span>向军编程</span><a href="javascript:;">+</a></li>
+            <li><span>houdunren</span><a href="javascript:;">+</a></li>
+            <li><span>后盾人</span><a href="javascript:;">+</a></li>
+        </ul>
+    </div>
+    <div>
+        <strong id="count">共选了2门课</strong>
+        <p id="lists"></p>
+    </div>
+    <script>
+        class Lesson {
+            constructor() {
+                this.lis = document.querySelectorAll('ul>li');
+                this.countElem = document.getElementById('count');
+                this.listElem = document.getElementById('lists');
+                // console.log(this.lis);
+                this.map = new WeakMap();
+            }
+            run() {
+                this.lis.forEach(li => {
+                    li.querySelector('a').addEventListener('click', event => {
+                        // console.log(li);
+                        const a = event.target;
+                        const state = li.getAttribute("select");
+                        if (state) {
+                            li.removeAttribute('select');
+                            this.map.delete(li);
+                            a.innerHTML = "+";
+                            a.style.backgroundColor = 'green';
+                        } else {
+                            this.map.set(li);
+                            li.setAttribute("select", true);
+                            a.innerHTML = "-";
+                            a.style.backgroundColor = "red";
+                        }
+                        // console.log(this.map);
+                        this.render();
+                    })
+                });
+            }
+            count() {
+                return [...this.lis].reduce((count, li) => {
+                    return (count += this.map.has(li) ? 1 : 0);
+                }, 0);
+            }
+            lists() {
+                let lis = [...this.lis].filter(li => {
+                    return this.map.has(li);
+                }).map(li => {
+                    return `<span>${li.querySelector("span").innerHTML}</span>`
+                }).join("");
+                // console.log(lis);
+                return lis;
+            }
+            render() {
+                this.countElem.innerHTML = `共选了${this.count()}门课`;
+                this.listElem.innerHTML = this.lists();
+            }
+        }
+        new Lesson().run();
+    </script>
+</body>
+
+</html>

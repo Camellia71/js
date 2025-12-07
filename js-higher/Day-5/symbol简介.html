@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //产生唯一的数据
+        //把 Symbol 当作特殊的字符串使用 ，不能往里加东西
+        let hd = Symbol("后盾人在线教程");
+        let edu = Symbol("houdunren.com");
+        console.log(hd == edu);  //false
+        //不能往里加东西
+        hd.name = "后盾人";
+        console.log(hd.name);  //undefined
+
+        console.log(hd);
+        console.log(hd.description);  //后盾人在线教程
+
+        //另一种方式  有全局声明特性
+        let cms = Symbol.for("hdcms");  //会记录hdcms
+        let ed = Symbol.for("hdcms");
+        //首先会查是否之前定义过，所以其实和第一次定义的是一样的
+        console.log(cms == ed);  //true
+        let houdunren = Symbol("houdunren");
+        console.log(Symbol.keyFor(houdunren));  //undefined
+        console.log(Symbol.keyFor(cms));  //hdcms
+    </script>
+</body>
+
+</html>

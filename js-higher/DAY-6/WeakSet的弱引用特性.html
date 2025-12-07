@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //WeakSet 弱引用特性，即后续垃圾回收时，weakSet 中对应的引用会自动被移除
+        let hd = { name: '后盾人' };
+        let edu = hd;
+
+        //自动清理无效引用
+        
+        let set = new WeakSet();
+        set.add(hd);
+        edu = null;
+        hd = null;
+        console.log(set);
+        //WeakSet 的keys,values,for-of,size都不能用，
+    </script>
+</body>
+
+</html>

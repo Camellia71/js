@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>houdunren</button>
+  </body>
+  <script type="module">
+    // import { site, url } from "./module/m14.js";
+    // console.log(site, url);
+    //想让模块在特定条件下加载，比如点击事件，if判断等
+    document.querySelector("button").addEventListener("click", function () {
+      import("./modules/m14.js").then(({ site, url }) => {
+        //({展开语法})
+        console.log(site, url);
+      });
+    });
+  </script>
+</html>

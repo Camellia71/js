@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //0-1  0<= x <=1 随机数
+        console.log(Math.random());
+        //0-5
+        //Math.floor(Math.random()*(Max+1));  这样就是取到0~5
+        console.log(Math.floor(Math.random() * (5 + 1)));
+
+        //2~5
+        //min + Math.floor(Math.random() * (Max -Min +1))
+        console.log(2 + (Math.floor(Math.random() * 4)));
+
+        //随机点名
+        const student = ["章一", "王二", "李三", "刘四", "徐五", "马六"];
+        // const index = Math.floor(Math.random() * student.length);
+        // console.log(student[index]);
+
+        //李三~马六  
+        const index2 = 2 + Math.floor(Math.random() * (student.length - 3 + 1));  //直接减索引号就可以
+        console.log(student[index2]);
+
+        function arrayRandomValue(array, start = 1, end) {
+            end = end ? end : array.length;
+            start--;  //将start变成索引号
+            const index = start + Math.floor(Math.random() * (end - start));
+            return array[index];
+        }
+        console.log(arrayRandomValue(student, 3, 4));
+    </script>
+</body>
+
+</html>

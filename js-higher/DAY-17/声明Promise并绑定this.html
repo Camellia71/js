@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="声明Promise并绑定this.js"></script>
+  </head>
+  <body></body>
+  <script>
+    let p = new HD((resolve, reject) => {
+      setTimeout(() => {
+        resolve("解决");
+      }, 1000);
+      //   reject("rejected");
+    }).then(
+      (value) => {
+        console.log("成功");
+      },
+      (reason) => {
+        console.log("错误");
+      }
+    );
+    console.log("后盾人");
+  </script>
+</html>

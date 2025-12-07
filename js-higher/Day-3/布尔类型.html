@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // const boolean = new Boolean(true);
+        // console.log(typeof boolean);
+        // console.log(boolean.valueOf());
+        // if (boolean.valueOf()) {
+        //     console.log("houdunren.com");
+        // }
+
+        // let hd = true;
+        // console.log(typeof hd);
+        // if (hd) {
+        //     console.log("houdunren");
+        // }
+
+        let number = 0;
+        let number1 = 88;
+        // if (number) console.log("number");
+        console.log(number == false);  //这里是将false转化成为0（数值类型）后进行比较
+        console.log(number1 == true);  //这里是将true转化为1（数值）进行比较
+
+        let hd = "1";
+        console.log(true == hd);
+
+        let array = [];
+        console.log(Number(array));
+        //比较和转换是两个事情，比较时array==false，转换时array是true
+        console.log(array == false);  //只有一个数字的时候成立
+        console.log(Boolean(array));  //true
+
+        console.log(Boolean({}));  //true  引用数据类型都是true
+    </script>
+</body>
+
+</html>

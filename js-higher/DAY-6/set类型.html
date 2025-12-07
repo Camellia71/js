@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let set = new Set([1, 2, 3, 4, 5]);  //直接添加
+        // set.add(1);
+        // set.add(1);
+        //不能添加同类型，这样只显示一个
+        //但是数据类型不一样是可以的
+        // set.add("1");  //{1,"1"}
+        console.log(set);
+
+        //对象里面属性都会转化为字符串，所以就会覆盖掉
+        let obj = {
+            1: 'name',
+            "1": 'uname',
+        }
+        console.log(obj);  //{1: 'uname'}
+
+        let hd1 = {
+            obj: '后盾人',
+        };
+        console.log(hd1);
+        let hd2 = {
+            [obj]: "houdunren",
+        }
+        console.log(hd2);  //{[object Object]: 'houdunren'}
+        //其实相当于取了 console.log(hd2.toString());
+
+        //想取"houdunren"的话
+        let hd3 = {
+            [obj]: "houdunren",
+        };
+        console.log(hd3["[object Object]"]);  //houdunren
+        console.log(hd3[obj.toString()]);  //houdunren
+    </script>
+</body>
+
+</html>

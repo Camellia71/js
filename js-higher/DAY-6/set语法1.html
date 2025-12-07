@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let set = new Set(['hdcms', 'houdunren']);
+
+        //个数
+        // console.log(set.size);  //2
+
+        //元素是否存在
+        console.log(set.has("hdcms.com"));  //false
+
+        //删除
+        set.delete("hdcms");
+        console.log(set);
+        //返回值是布尔类型  => 是否删除
+
+        //清空
+        set.clear();
+        //返回值是 undefined 因为一定会清空
+
+        // let set = new Set([..."hdcms"]);
+        // console.log(set);   //Set(5) {'h', 'd', 'c', 'm', 's'}
+    </script>
+</body>
+
+</html>

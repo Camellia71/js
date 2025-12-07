@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    function load(src, resolve) {
+      let script = document.createElement("script");
+      script.src = src;
+      script.onload = resolve;
+      document.body.appendChild(script);
+    }
+    load("module/hd.js", () => {
+      //houdunren.js需要依赖hd.js,所以。加上嵌套关系
+      load("module/houdunren.js", () => {
+        houdunren();
+      });
+      hd();
+    });
+    console.log("3333");
+  </script>
+</html>

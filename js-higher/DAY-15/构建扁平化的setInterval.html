@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        color: white;
+        position: absolute;
+        /* display: none; */
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+  </body>
+  <script>
+    function interval(delay = 1000, callback) {
+      return new Promise((resolve) => {
+        let id = setInterval(() => {
+          //   console.log(1);
+          callback(id, resolve);
+        }, delay);
+      });
+    }
+    interval(100, (id, resolve) => {
+      //   console.log(12);
+      //   clearInterval(id);
+      //   resolve();
+      const div = document.querySelector("div");
+      let left = parseInt(window.getComputedStyle(div).left);
+      div.style.left = left + 10 + "px";
+      if (left >= 200) {
+        clearInterval(id);
+        resolve(div);
+      }
+    })
+      .then((div) => {
+        //   console.log(div);
+        return interval(100, (id, resolve) => {
+          let width = parseInt(window.getComputedStyle(div).width);
+          div.style.width = width - 10 + "px";
+          if (width <= 20) {
+            clearInterval(id);
+            resolve(div);
+          }
+        });
+      })
+      .then((div) => {
+        div.style.backgroundColor = "green";
+      });
+  </script>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let array = ["hdcms", "houdunren"];
+
+        // 1.
+        // let hd = ["shop"];
+        // array = [...array,...hd];
+        // 或
+        // array.push(...hd);
+        // 看下返回值
+        // let length  =array.push(...hd);
+        // console.log(length);  //3
+
+        // 2.
+        // array[array.length] = "cms";
+
+        // 3.对象方法
+        // array.push("shop", "php", "js", "node.js");  //追加
+
+        // console.table(array);
+
+        function rangeArray(begin, end) {
+            const array = [];
+            for (let i = begin; i <= end; i++) {
+                array.push(i);
+            }
+            return array;
+        }
+        console.table(rangeArray(1, 5));
+    </script>
+</body>
+
+</html>

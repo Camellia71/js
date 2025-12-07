@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button message="后盾人" class="red">后盾人</button>
+    <button message="hsdcms">hdcms</button>
+  </body>
+  <script>
+    // let arr = [1, 2, 3, 4];
+    // let res = arr.filter((item) => {
+    //   return item >= 2;
+    // });
+    // console.log(res);
+
+    // console.dir(Array); //原型当中有 filter 方法，即Array.prototype.filter
+    let btns = document.querySelectorAll("button");
+    // console.log(btns.filter); //undefined
+    // 所以想借用array的方法
+    btns = Array.prototype.filter.call(btns, (item) => {
+      //   console.log(item);
+      return item.hasAttribute("class");
+    });
+    console.log(btns);
+  </script>
+</html>

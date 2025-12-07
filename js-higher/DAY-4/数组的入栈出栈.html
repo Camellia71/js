@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let array = ["hdcms", "houdunren"];
+        let vars = array.pop();  //弹出houdunren
+        let length = array.unshift("后盾人");   //前面添加
+        let varrs = array.shift();  //前面删除
+        console.log(vars, length,varrs);  //houdunren 2 后盾人
+        // console.table(array);
+
+
+        //填充
+        console.log([1, 2, 3, 4].fill('后盾人'));
+        console.log([1, 2, 3, 4].fill("护盾人", 1, 3)); //("内容"，从哪里开始，到第几个)；
+        let arr = [1, 2, 3];
+        arr.unshift("hdcms", "shop");  //添加多个
+        console.table(arr);
+    </script>
+</body>
+
+</html>

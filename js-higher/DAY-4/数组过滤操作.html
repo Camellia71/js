@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //filter  过滤操作
+
+        // let arr = ['hdcms', 'houdunren.com'];
+        // let newArray = arr.filter(function (value, index, arr) {
+        //     // return true;
+        //     return false;  //[]
+        // });
+        // console.log(newArray);
+
+        let lessons = [
+            { title: "媒体查询，响应式布局", category: "css" },
+            { title: "FLEX 弹性盒模型", category: "css" },
+            { title: "MYSQL多表查询随意操作", category: "mysql" }
+        ];
+        const cssLessons = lessons.filter(function (lesson) {
+            return lesson["category"] == "css"
+        });
+        console.table(cssLessons);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //函数是引用类型，对象
+        //声明
+        let func = new Function('title', "console.log(title)");
+        func();
+
+        //
+        function hd(title) {
+            console.log(title);
+        }
+        hd('houdunren');
+
+        let cms = function (title) {
+            console.log(title);
+        };
+        cms("后盾人");
+
+        // let user = {
+        //     name: null,
+        //     setUsername: function (name) {
+        //         this.name = name;
+        //     },
+        //     getUsername: function () {
+        //         return this.name;
+        //     }
+        // }
+
+        //推荐下方简写的形式
+        let user = {
+            name: null,
+            setUsername(name) {
+                this.name = name;
+            },
+            getUsername() {
+                return this.name;
+            }
+        }
+        user.setUsername('后盾人');
+        console.log(user.getUsername());
+    </script>
+</body>
+
+</html>

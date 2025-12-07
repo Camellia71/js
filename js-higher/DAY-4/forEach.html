@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .disable {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>hdcms</li>
+        <li>houdunren</li>
+    </ul>
+    <script>
+        let lis = document.querySelectorAll("li");
+        // console.log(lis);
+        // console.log(Array.from(lis));
+        // console.log([...lis]);
+        //   forEach可以直接遍历 DOM 元素
+        lis.forEach(function (item) {
+            item.addEventListener('click', function () {
+                this.classList.toggle('disable');
+            })
+        })
+
+
+        // let lessons = [
+        //     { title: "媒体查询，响应式布局", category: "css" },
+        //     { title: "FLEX 弹性盒模型", category: "css" },
+        //     { title: "MYSQL多表查询随意操作", category: "mysql" }
+        // ];
+        // lessons.forEach(function (item, index, lessons) {
+        //     // console.log(index);
+        //     // console.log(this);
+        //     item.title = item.title.substr(0, 2);  //截断
+        // });
+        // console.table(lessons);
+    </script>
+</body>
+
+</html>

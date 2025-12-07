@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let num = new Number(99);
+        console.log(num.valueOf() + 1);
+
+        let number = 99;
+        console.log(typeof number);
+
+        let hd = number.toString();
+        console.log(typeof hd);
+
+        //判断是否是整数
+        let number1 = 99;
+        console.log(Number.isInteger(number)); //true
+
+        //取小数点后几位
+        let number2 = 99.965
+        console.log(number2.toFixed(2));  //99.97
+    </script>
+</body>
+
+</html>

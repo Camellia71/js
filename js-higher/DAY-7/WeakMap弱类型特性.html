@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+
+    //弱引用类型
+
+    let hd = { name: "houdunren" };
+    // cms = hd;
+    // hd = null;
+    // cms = null;
+    //那么 { name: "houdunren" } 就会被在内存中删掉了
+
+    let map = new WeakMap();
+    map.set(hd, "houdunren.com");
+    hd = null;
+    console.log(map);  //hd=null 之后map也会直接在内存中清除
+
+    setTimeout(function () {
+        console.log(map);
+    }, 10000);
+</script>
+
+</html>

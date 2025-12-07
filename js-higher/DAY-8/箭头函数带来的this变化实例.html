@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>houdunren.com</button>
+    <button>hdcms.com</button>
+</body>
+<script>
+    //把“后盾人”和“button.innerHTML”连起来打印
+    
+    let Dom = {
+        site: "后盾人",
+        // handleEvent: function (event) {
+        //     console.log(this.site + event.target.innerHTML);
+        // },
+        bind: function () {
+            let buttons = document.querySelectorAll("button");
+            // console.log(buttons.length);
+            buttons.forEach((elem) => {
+                elem.addEventListener('click', event => {
+                    // console.log(this);
+                    console.log(this.site + event.target.innerHTML);
+                });
+            });
+            // console.log(button);
+
+            // button.addEventListener('click', this);
+
+            // button.addEventListener('click', event => {  //箭头函数指向Dom
+            //     // console.log(this);
+            //     console.log(this.site + event.target.innerHTML);
+            // })
+
+            //onclick
+            // button.onclick = function () {
+            //     console.log(this);
+            // }
+        }
+    }
+    Dom.bind();
+    // let lesson = {
+    //     site: "后盾人",
+    //     lists: ["js", "css", "mysql"],
+    //     show: function () {
+    //         return this.lists.map(value => `${this.site}-${value}`);
+    //     }  //箭头函数中的 this 指向上下文中出现的对象，在这里指向lesson
+    // }
+    // console.log(lesson.show());
+</script>
+
+</html>

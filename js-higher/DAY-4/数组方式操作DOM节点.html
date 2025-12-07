@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>houdunren.com</div>
+    <div>hdcms.com</div>
+    <script>
+        const div = document.querySelectorAll("div");
+        // console.log(div);
+
+        //​​将 div当作数组或类数组对象遍历，并对每个元素执行回调函数
+        Array.from(div).map(function (item) {
+            console.log(item);
+        });
+
+        Array.prototype.map.call(div, function (item) {
+            console.log(item);
+        });
+
+        // Array.prototype.map​​：数组的 map方法，通常用于遍历数组并返回新数组。
+        // ​​.call(div, ...)​​：通过 call将 map方法借用到 div上，让非数组对象也能使用数组方法。
+        // 回调函数​​：对每个元素执行 console.log(item)，但 ​​没有返回值
+
+        console.log([...div]);
+
+        [...div].map(function (item) {
+            item.addEventListener('click', function () {
+                this.classList.toggle("hide");
+            })
+        })
+    </script>
+</body>
+
+</html>
